@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tallies>
+    <mesh id="1" type="regular">
+        <dimension>17 17</dimension>
+        <lower_left>-10.71 -10.71</lower_left>
+        <upper_right>10.71 10.71</upper_right>
+    </mesh>
+    <tally id="10173">
+        <filter bins="10002 20000 20005 20008 20009 20010 20012 30012 90000" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>total</nuclides>
+        <scores>flux</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10059">
+        <filter bins="10002 20008" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>C0 B10 B11 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58 Cu63 Cu65 Mn55 Mg24 Mg25 Mg26 Cr50 Cr52 Cr53 Cr54 Zn64 Zn66 Zn67 Zn68 Zn70 Ti46 Ti47 Ti48 Ti49 Ti50 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Al27</nuclides>
+        <scores>total</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10060">
+        <filter bins="10002 20008" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>C0 B10 B11 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58 Cu63 Cu65 Mn55 Mg24 Mg25 Mg26 Cr50 Cr52 Cr53 Cr54 Zn64 Zn66 Zn67 Zn68 Zn70 Ti46 Ti47 Ti48 Ti49 Ti50 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Al27</nuclides>
+        <scores>scatter-1 nu-scatter-1 nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10168">
+        <filter bins="10002 20000 20005 20008 20009 20010 20012 30012 90000" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>total</nuclides>
+        <scores>flux</scores>
+        <estimator>tracklength</estimator>
+    </tally>
+    <tally id="10064">
+        <filter bins="10002 20008" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>C0 B10 B11 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58 Cu63 Cu65 Mn55 Mg24 Mg25 Mg26 Cr50 Cr52 Cr53 Cr54 Zn64 Zn66 Zn67 Zn68 Zn70 Ti46 Ti47 Ti48 Ti49 Ti50 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Al27</nuclides>
+        <scores>nu-fission fission</scores>
+        <estimator>tracklength</estimator>
+    </tally>
+    <tally id="10073">
+        <filter bins="10002 20008" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>C0 B10 B11 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58 Cu63 Cu65 Mn55 Mg24 Mg25 Mg26 Cr50 Cr52 Cr53 Cr54 Zn64 Zn66 Zn67 Zn68 Zn70 Ti46 Ti47 Ti48 Ti49 Ti50 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Al27</nuclides>
+        <scores>nu-scatter-0</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10077">
+        <filter bins="10002 20008" type="material" />
+        <filter bins="0.0 20000000.0" type="energy" />
+        <nuclides>C0 B10 B11 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58 Cu63 Cu65 Mn55 Mg24 Mg25 Mg26 Cr50 Cr52 Cr53 Cr54 Zn64 Zn66 Zn67 Zn68 Zn70 Ti46 Ti47 Ti48 Ti49 Ti50 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Al27</nuclides>
+        <scores>nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10018">
+        <filter bins="20000" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>H1 H2 N14 N15 O16 O17 Ar36 Ar38 Ar40 C0 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86</nuclides>
+        <scores>total</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10074">
+        <filter bins="20000 20008" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>H1 H2 N14 N15 O16 O17 Ar36 Ar38 Ar40 C0 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58 Cu63 Cu65 Mn55 Mg24 Mg25 Mg26 Cr50 Cr52 Cr53 Cr54 Zn64 Zn66 Zn67 Zn68 Zn70 Ti46 Ti47 Ti48 Ti49 Ti50 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Al27</nuclides>
+        <scores>scatter-1 nu-scatter-1 nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10068">
+        <filter bins="20000 20008" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>H1 H2 N14 N15 O16 O17 Ar36 Ar38 Ar40 C0 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58 Cu63 Cu65 Mn55 Mg24 Mg25 Mg26 Cr50 Cr52 Cr53 Cr54 Zn64 Zn66 Zn67 Zn68 Zn70 Ti46 Ti47 Ti48 Ti49 Ti50 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Al27</nuclides>
+        <scores>nu-fission fission</scores>
+        <estimator>tracklength</estimator>
+    </tally>
+    <tally id="10029">
+        <filter bins="20000" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>H1 H2 N14 N15 O16 O17 Ar36 Ar38 Ar40 C0 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86</nuclides>
+        <scores>nu-scatter-0</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10033">
+        <filter bins="20000" type="material" />
+        <filter bins="0.0 20000000.0" type="energy" />
+        <nuclides>H1 H2 N14 N15 O16 O17 Ar36 Ar38 Ar40 C0 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86</nuclides>
+        <scores>nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10037">
+        <filter bins="20005" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>H1 H2 Li6 Li7 Be9 B10 B11 C0 N14 N15 O16 O17 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 Zr90 Zr91 Zr92 Zr94 Zr96</nuclides>
+        <scores>total</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10054">
+        <filter bins="20005" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>H1 H2 Li6 Li7 Be9 B10 B11 C0 N14 N15 O16 O17 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 Zr90 Zr91 Zr92 Zr94 Zr96</nuclides>
+        <scores>scatter-1 nu-scatter-1 nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10046">
+        <filter bins="20005" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>H1 H2 Li6 Li7 Be9 B10 B11 C0 N14 N15 O16 O17 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 Zr90 Zr91 Zr92 Zr94 Zr96</nuclides>
+        <scores>nu-fission fission</scores>
+        <estimator>tracklength</estimator>
+    </tally>
+    <tally id="10048">
+        <filter bins="20005" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>H1 H2 Li6 Li7 Be9 B10 B11 C0 N14 N15 O16 O17 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 Zr90 Zr91 Zr92 Zr94 Zr96</nuclides>
+        <scores>nu-scatter-0</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10052">
+        <filter bins="20005" type="material" />
+        <filter bins="0.0 20000000.0" type="energy" />
+        <nuclides>H1 H2 Li6 Li7 Be9 B10 B11 C0 N14 N15 O16 O17 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 Zr90 Zr91 Zr92 Zr94 Zr96</nuclides>
+        <scores>nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10076">
+        <filter bins="20008" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58 Cu63 Cu65 Mn55 Mg24 Mg25 Mg26 Cr50 Cr52 Cr53 Cr54 Zn64 Zn66 Zn67 Zn68 Zn70 Ti46 Ti47 Ti48 Ti49 Ti50 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Al27</nuclides>
+        <scores>nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10079">
+        <filter bins="20009" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>C0 Mn55 P31 S32 S33 S34 S36 Cu63 Cu65 Ni58 Ni60 Ni61 Ni62 Ni64 Cr50 Cr52 Cr53 Cr54 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 V50 V51 Nb93 Ti46 Ti47 Ti48 Ti49 Ti50 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58</nuclides>
+        <scores>total</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10096">
+        <filter bins="20009" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>C0 Mn55 P31 S32 S33 S34 S36 Cu63 Cu65 Ni58 Ni60 Ni61 Ni62 Ni64 Cr50 Cr52 Cr53 Cr54 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 V50 V51 Nb93 Ti46 Ti47 Ti48 Ti49 Ti50 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58</nuclides>
+        <scores>scatter-1 nu-scatter-1 nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10088">
+        <filter bins="20009" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>C0 Mn55 P31 S32 S33 S34 S36 Cu63 Cu65 Ni58 Ni60 Ni61 Ni62 Ni64 Cr50 Cr52 Cr53 Cr54 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 V50 V51 Nb93 Ti46 Ti47 Ti48 Ti49 Ti50 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58</nuclides>
+        <scores>nu-fission fission</scores>
+        <estimator>tracklength</estimator>
+    </tally>
+    <tally id="10090">
+        <filter bins="20009" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>C0 Mn55 P31 S32 S33 S34 S36 Cu63 Cu65 Ni58 Ni60 Ni61 Ni62 Ni64 Cr50 Cr52 Cr53 Cr54 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 V50 V51 Nb93 Ti46 Ti47 Ti48 Ti49 Ti50 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58</nuclides>
+        <scores>nu-scatter-0</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10094">
+        <filter bins="20009" type="material" />
+        <filter bins="0.0 20000000.0" type="energy" />
+        <nuclides>C0 Mn55 P31 S32 S33 S34 S36 Cu63 Cu65 Ni58 Ni60 Ni61 Ni62 Ni64 Cr50 Cr52 Cr53 Cr54 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 V50 V51 Nb93 Ti46 Ti47 Ti48 Ti49 Ti50 Si28 Si29 Si30 Fe54 Fe56 Fe57 Fe58</nuclides>
+        <scores>nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10098">
+        <filter bins="20010" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Si28 Si29 Si30 Al27 Fe54 Fe56 Fe57 Fe58 Mg24 Mg25 Mg26 S32 S33 S34 S36 K39 K40 K41 Na23 Mn55 V50 V51 Cr50 Cr52 Cr53 Cr54 Ti46 Ti47 Ti48 Ti49 Ti50 O16 O17 H1 H2</nuclides>
+        <scores>total</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10115">
+        <filter bins="20010" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Si28 Si29 Si30 Al27 Fe54 Fe56 Fe57 Fe58 Mg24 Mg25 Mg26 S32 S33 S34 S36 K39 K40 K41 Na23 Mn55 V50 V51 Cr50 Cr52 Cr53 Cr54 Ti46 Ti47 Ti48 Ti49 Ti50 O16 O17 H1 H2</nuclides>
+        <scores>scatter-1 nu-scatter-1 nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10107">
+        <filter bins="20010" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Si28 Si29 Si30 Al27 Fe54 Fe56 Fe57 Fe58 Mg24 Mg25 Mg26 S32 S33 S34 S36 K39 K40 K41 Na23 Mn55 V50 V51 Cr50 Cr52 Cr53 Cr54 Ti46 Ti47 Ti48 Ti49 Ti50 O16 O17 H1 H2</nuclides>
+        <scores>nu-fission fission</scores>
+        <estimator>tracklength</estimator>
+    </tally>
+    <tally id="10109">
+        <filter bins="20010" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Si28 Si29 Si30 Al27 Fe54 Fe56 Fe57 Fe58 Mg24 Mg25 Mg26 S32 S33 S34 S36 K39 K40 K41 Na23 Mn55 V50 V51 Cr50 Cr52 Cr53 Cr54 Ti46 Ti47 Ti48 Ti49 Ti50 O16 O17 H1 H2</nuclides>
+        <scores>nu-scatter-0</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10113">
+        <filter bins="20010" type="material" />
+        <filter bins="0.0 20000000.0" type="energy" />
+        <nuclides>Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Si28 Si29 Si30 Al27 Fe54 Fe56 Fe57 Fe58 Mg24 Mg25 Mg26 S32 S33 S34 S36 K39 K40 K41 Na23 Mn55 V50 V51 Cr50 Cr52 Cr53 Cr54 Ti46 Ti47 Ti48 Ti49 Ti50 O16 O17 H1 H2</nuclides>
+        <scores>nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10139">
+        <filter bins="20012 30012" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>Li6 Li7 Be9 B10 B11 F19 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 S32 S33 S34 S36 Cl35 Cl37 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Br79 Br81 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Zr90 Zr91 Zr92 Zr94 Zr96 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 I127 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 H1 H2 C0 N14 N15 O16 O17 Ar36 Ar38 Ar40 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86</nuclides>
+        <scores>total</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10158">
+        <filter bins="20012 30012" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>Li6 Li7 Be9 B10 B11 F19 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 S32 S33 S34 S36 Cl35 Cl37 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Br79 Br81 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Zr90 Zr91 Zr92 Zr94 Zr96 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 I127 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 H1 H2 C0 N14 N15 O16 O17 Ar36 Ar38 Ar40 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86</nuclides>
+        <scores>scatter-1 nu-scatter-1 nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10148">
+        <filter bins="20012 30012" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>Li6 Li7 Be9 B10 B11 F19 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 S32 S33 S34 S36 Cl35 Cl37 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Br79 Br81 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Zr90 Zr91 Zr92 Zr94 Zr96 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 I127 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 H1 H2 C0 N14 N15 O16 O17 Ar36 Ar38 Ar40 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86</nuclides>
+        <scores>nu-fission fission</scores>
+        <estimator>tracklength</estimator>
+    </tally>
+    <tally id="10153">
+        <filter bins="20012 30012" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>Li6 Li7 Be9 B10 B11 F19 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 S32 S33 S34 S36 Cl35 Cl37 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Br79 Br81 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Zr90 Zr91 Zr92 Zr94 Zr96 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 I127 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 H1 H2 C0 N14 N15 O16 O17 Ar36 Ar38 Ar40 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86</nuclides>
+        <scores>nu-scatter-0</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10157">
+        <filter bins="20012 30012" type="material" />
+        <filter bins="0.0 20000000.0" type="energy" />
+        <nuclides>Li6 Li7 Be9 B10 B11 F19 Na23 Mg24 Mg25 Mg26 Al27 Si28 Si29 Si30 P31 S32 S33 S34 S36 Cl35 Cl37 K39 K40 K41 Ca40 Ca42 Ca43 Ca44 Ca46 Ca48 Sc45 Ti46 Ti47 Ti48 Ti49 Ti50 V50 V51 Cr50 Cr52 Cr53 Cr54 Mn55 Fe54 Fe56 Fe57 Fe58 Co59 Ni58 Ni60 Ni61 Ni62 Ni64 Cu63 Cu65 Zn64 Zn66 Zn67 Zn68 Zn70 Ga69 Ga71 Ge70 Ge72 Ge73 Ge74 Ge76 As75 Se74 Se76 Se77 Se78 Se80 Se82 Br79 Br81 Rb85 Rb87 Sr84 Sr86 Sr87 Sr88 Y89 Zr90 Zr91 Zr92 Zr94 Zr96 Nb93 Mo92 Mo94 Mo95 Mo96 Mo97 Mo98 Mo100 Ru96 Ru98 Ru99 Ru100 Ru101 Ru102 Ru104 Rh103 Pd102 Pd104 Pd105 Pd106 Pd108 Pd110 Ag107 Ag109 Cd106 Cd108 Cd110 Cd111 Cd112 Cd113 Cd114 Cd116 In113 In115 Sn112 Sn114 Sn115 Sn116 Sn117 Sn118 Sn119 Sn120 Sn122 Sn124 Sb121 Sb123 Te120 Te122 Te123 Te124 Te125 Te126 Te128 Te130 I127 Cs133 Ba130 Ba132 Ba134 Ba135 Ba136 Ba137 Ba138 La138 La139 Ce136 Ce138 Ce140 Ce142 Pr141 Nd142 Nd143 Nd144 Nd145 Nd146 Nd148 Nd150 Sm144 Sm147 Sm148 Sm149 Sm150 Sm152 Sm154 Eu151 Eu153 Gd152 Gd154 Gd155 Gd156 Gd157 Gd158 Gd160 Tb159 Dy156 Dy158 Dy160 Dy161 Dy162 Dy163 Dy164 Ho165 Er162 Er164 Er166 Er167 Er168 Er170 Tm169 Lu175 Lu176 Hf174 Hf176 Hf177 Hf178 Hf179 Hf180 Ta180 Ta181 W180 W182 W183 W184 W186 Re185 Re187 Ir191 Ir193 Au197 Hg196 Hg198 Hg199 Hg200 Hg201 Hg202 Hg204 Tl203 Tl205 Pb204 Pb206 Pb207 Pb208 Bi209 Th232 U234 U235 U238 H1 H2 C0 N14 N15 O16 O17 Ar36 Ar38 Ar40 He3 He4 Kr78 Kr80 Kr82 Kr83 Kr84 Kr86</nuclides>
+        <scores>nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10160">
+        <filter bins="90000" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>O17 O16 C0 B11 U234 U235 U238 Fe56 Fe57 Fe54 U236 B10 Fe58</nuclides>
+        <scores>total</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10177">
+        <filter bins="90000" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>O17 O16 C0 B11 U234 U235 U238 Fe56 Fe57 Fe54 U236 B10 Fe58</nuclides>
+        <scores>scatter-1 nu-scatter-1 nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10169">
+        <filter bins="90000" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <nuclides>O17 O16 C0 B11 U234 U235 U238 Fe56 Fe57 Fe54 U236 B10 Fe58</nuclides>
+        <scores>nu-fission fission</scores>
+        <estimator>tracklength</estimator>
+    </tally>
+    <tally id="10171">
+        <filter bins="90000" type="material" />
+        <filter bins="0.0 0.625 20000000.0" type="energy" />
+        <filter bins="0.0 0.625 20000000.0" type="energyout" />
+        <nuclides>O17 O16 C0 B11 U234 U235 U238 Fe56 Fe57 Fe54 U236 B10 Fe58</nuclides>
+        <scores>nu-scatter-0</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10175">
+        <filter bins="90000" type="material" />
+        <filter bins="0.0 20000000.0" type="energy" />
+        <nuclides>O17 O16 C0 B11 U234 U235 U238 Fe56 Fe57 Fe54 U236 B10 Fe58</nuclides>
+        <scores>nu-fission</scores>
+        <estimator>analog</estimator>
+    </tally>
+    <tally id="10178" name="mesh tally">
+        <filter bins="1" type="mesh" />
+        <scores>fission nu-fission</scores>
+    </tally>
+</tallies>
