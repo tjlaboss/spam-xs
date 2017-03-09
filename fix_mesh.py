@@ -5,6 +5,11 @@
 import openmc
 from openmc import mgxs
 import numpy as np
+import pylab
+
+# Settings
+EXPORT = False
+PLOT = True
 
 
 # Extract the geometry from an existing summary
@@ -31,6 +36,7 @@ mg_lib.domain_type = "material"
 mesh = openmc.Mesh(mesh_id=1)
 # Use the core lattice as a template
 core_lat = summ.get_lattice_by_id(100)
+xdist = -core_lat.pitch[0]*core_lat.lower_left[0]
 
 mesh.lower_left = core_lat.lower_left
 mesh.upper_right = [0, 0, 0]
@@ -55,28 +61,67 @@ tally.scores = ["fission", "nu-fission"]
 tallies_file = openmc.Tallies()
 mg_lib.add_to_tallies_file(tallies_file, merge=True)
 
+
+
+
+def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = 0, x1 = xdist, n = 17):
+	"""Plotting a single energy group as a function of space
+	
+	Inputs:
+		nuc:        str; name of nuclide
+		xs_lib:     instance of mgxs.MGXS
+		xs_df:      instance of pandas dataframe
+		g:          int; group number
+		groups:     instance of mgxs.EnergyGroups()
+	
+	Outputs:
+		???
+	"""
+	
+	xlist = pylab.linspace(x0, x1, n)
+	#nuc_xs = xs_lib.get_xs(order_groups = "decreasing", xs_type = "macro", groups = g)
+	
+	# FIXME: This returns an empty array
+	nuc_df = xs_df[xs_df['nuclide'] == nuc]['mean']
+	print(nuc_df)
+	nuc_matrix = nuc_df.as_matrix()
+	print(nuc_matrix)
+	
+
+
+
+
 if __name__ == "__main__":
 	# Add tally to collection
 	tallies_file.append(tally)
 	# Filter
 	mesh_filter = openmc.Filter(mesh)
 	
-	tallies_file.export_to_xml("test_model/tallies.xml")
+	if EXPORT:
+		tallies_file.export_to_xml("test_model/tallies.xml")
 	
 	# Examine the data after the run
 	sp = openmc.StatePoint('test_model/statepoint.50.h5')
 	mg_lib.load_from_statepoint(sp)
-	# print(mg_lib.get_mgxs(mesh, "fission"))
 	print(mg_lib.all_mgxs.keys())
-
-	#fission_mgxs = mg_lib.get_mgxs(mesh, "fission")
+	
+	"""
+	I think the main problem is that fission_mgxs should be
+	on a mesh, not on a material.
+	
+	I'm not sure how to plot the fission cross section for a group
+	as a function of radial position without this.
+	"""
 	fission_mgxs = mg_lib.get_mgxs(fuel, "fission")
-	print(type(fission_mgxs))
+	# fission_mgxs = mg_lib.get_mgxs(mesh, "fission")
 	# fission_mgxs = mg_lib.all_mgxs[mesh.id]["fission"]
 	fission_df = fission_mgxs.get_pandas_dataframe()
-	#print(type(fission_df))
-	print(fission_df)
+	
 	fission_mgxs.print_xs()
+	
+	if PLOT:
+		# Plot stuff
+		plot_mgxs("U235", fission_mgxs, fission_df, 0, two_groups)
 	
 
 
