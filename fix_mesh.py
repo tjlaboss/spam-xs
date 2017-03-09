@@ -79,13 +79,23 @@ def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = 0, x1 = xdist, n = 17):
 	"""
 	
 	xlist = pylab.linspace(x0, x1, n)
-	#nuc_xs = xs_lib.get_xs(order_groups = "decreasing", xs_type = "macro", groups = g)
+	xs_scale = "macro"
+	#nuc_xs = xs_lib.get_xs(order_groups = "decreasing", xs_type = xs_scale, groups = g)
 	
 	# FIXME: This returns an empty array
 	nuc_df = xs_df[xs_df['nuclide'] == nuc]['mean']
 	print(nuc_df)
 	nuc_matrix = nuc_df.as_matrix()
 	print(nuc_matrix)
+	
+	# plotting stuff for later
+	ylist = xlist #debug
+	pylab.plot(xlist, ylist, drawstyle = "steps")
+	title_string = "{0} {1}scopic Cross Section".format(nuc, xs_scale.title())
+	pylab.xlabel("Radial distance (cm)")
+	pylab.ylabel("$\Sigma$ (cm$^{-1}$)")
+	pylab.title(title_string, {"fontsize":14})
+	#pylab.show()
 	
 
 
