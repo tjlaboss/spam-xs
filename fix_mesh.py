@@ -2,11 +2,14 @@
 #
 # Learning how to use a mesh tally
 
+#FIXME: The method "Summary.get_material_by_id()" has been removed
+#FIXME: The method "Summary.get_lattice_by_id()" has been removed
+
+
 import openmc
 from openmc import mgxs
 import numpy as np
 import pylab
-import copy
 
 # Settings
 EXPORT = True
@@ -15,24 +18,25 @@ PLOT = True
 
 # Extract the geometry from an existing summary
 summ = openmc.Summary("summary.h5")
-geom = summ.openmc_geometry
-mats = geom.get_all_materials()
-fuel = summ.get_material_by_id(90000)
+print(summ.__dict__.keys())
+geom = summ.geometry
+mats = geom.get_all_materials().values()
+#print(type(summ.materials))
+#fuel = summ.get_material_by_id(90000)
+fuel = summ.materials[-1]
 
 # 2-group approximation
 two_groups = mgxs.EnergyGroups()
 two_groups.group_edges = np.array([0., 0.625, 20.0e6])
-
-
-
-
 mesh_lib = mgxs.Library(geom)
 mesh_lib.energy_groups = two_groups
 
 # For purposes of this demonstration, let's just look at the capture
 # and the transport cross sections
 mesh_lib.mgxs_types = ['fission', 'nu-fission', 'transport']
-mesh_lib.by_nuclide = False
+mesh_lib.by_nuclide = True
+#mesh_lib.nuclides = ["U235", "U238"]
+# TODO: select all the nuclides from `mats`
 mesh_lib.domain_type = "mesh"
 
 
@@ -40,16 +44,14 @@ mesh_lib.domain_type = "mesh"
 # Instantiate a tally Mesh
 mesh = openmc.Mesh(mesh_id=1)
 # Use the core lattice as a template
-core_lat = summ.get_lattice_by_id(100)
+#core_lat = summ.get_lattice_by_id(100)
+core_lat = geom.get_all_lattices()[100]
 xdist = -core_lat.pitch[0]*core_lat.lower_left[0]
 
 mesh.lower_left = core_lat.lower_left
 mesh.upper_right = [0, 0, 0]
 mesh.type = 'regular'
 mesh.dimension = [17, 17, 17]
-
-#mesh2 = copy.deepcopy(mesh)
-#mesh2.id = 2
 
 mesh_lib.domains = [mesh,]
 mesh_lib.build_library()
