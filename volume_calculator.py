@@ -7,7 +7,7 @@ from math import sqrt
 # Global variables
 # Extract the geometry from an existing summary
 summary = openmc.Summary("summary.h5")
-geometry = summary.openmc_geometry
+geometry = summary.geometry
 
 
 def fuel_cell_by_material(summ):
