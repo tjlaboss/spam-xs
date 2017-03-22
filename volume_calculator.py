@@ -2,7 +2,7 @@
 
 
 import openmc
-from math import sqrt
+from math import sqrt, pi
 
 # Global variables
 # Extract the geometry from an existing summary
@@ -13,10 +13,12 @@ geometry = summary.geometry
 def fuel_cell_by_material(summ):
 	"""Calculate the volume of each material a fuel lattice cell
 	
-	:param summ: instance of openmc.Summary for the TREAT model
+	Inputs:
+		:param summ: instance of openmc.Summary for the TREAT model
 	
-	:return: fuel_vol, gap_vol, clad_vol, outer_vol
-	Volumes in cm^3 for
+	Outputs:
+		:return: fuel_vol, gap_vol, clad_vol, outer_vol
+				 Volumes in cm^3 for the materials indicated
 	"""
 	# The main core lattice which the cells appear in
 	core_lat = summ.get_lattice_by_id(100)
@@ -128,6 +130,31 @@ def fuel_cell_by_material(summ):
 	
 	return fuel_area*z, gap_area*z, clad_area*z, outer_area*z
 
+
+def control_cell_by_material(summ):
+	"""Calculate the volume of each material a control lattice cell
+	The control cells are the same as the fuel cells, but with 5 concentric
+	rings on the inside.
+	
+	Where it gets complicated is the axial zoning of the control cells,
+	but fortunately, the math is easy there.
+	
+	Inputs:
+		:param summ: instance of openmc.Summary for the TREAT model
+	
+	Outputs:
+		:return: fuel_vol, gap_vol, clad_vol, outer_vol
+				 Volumes in cm^3 for the materials indicated
+	"""
+	fuel_vol, gap_vol, clad_vol, outer_vol = fuel_cell_by_material(summ)
+	
+	# Do stuff for each of the rings...
+	#
+	# Read their radii, find their areas, and subtract from
+	# the fuel cell volumes
+	return fuel_vol, gap_vol, clad_vol, outer_vol
+	
+		
 
 # TODO: Add getter for reflector cell and control cell
 
