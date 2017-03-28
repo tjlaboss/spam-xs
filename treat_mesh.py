@@ -4,7 +4,7 @@
 # for TREAT's specific geometry
 
 import openmc
-import volume_calculator
+import area_calculator
 
 class Treat_Mesh(openmc.Mesh):
 	"""A structured Cartesian mesh in one, two, or three dimensions

@@ -2,14 +2,12 @@
 #
 # Learning how to use a mesh tally
 
-#FIXME: The method "Summary.get_material_by_id()" has been removed
-#FIXME: The method "Summary.get_lattice_by_id()" has been removed
-
 
 import openmc
 from openmc import mgxs
 import numpy as np
 import pylab
+from treat_mesh import Treat_Mesh
 
 # Settings
 EXPORT = True
@@ -18,12 +16,9 @@ PLOT = True
 
 # Extract the geometry from an existing summary
 summ = openmc.Summary("summary.h5")
-print(summ.__dict__.keys())
 geom = summ.geometry
-mats = geom.get_all_materials().values()
-#print(type(summ.materials))
-#fuel = summ.get_material_by_id(90000)
-fuel = summ.materials[-1]
+mats = geom.get_all_materials()
+fuel = mats[90000]
 
 # 2-group approximation
 two_groups = mgxs.EnergyGroups()
@@ -42,7 +37,7 @@ mesh_lib.domain_type = "mesh"
 
 # Define a mesh
 # Instantiate a tally Mesh
-mesh = openmc.Mesh(mesh_id=1)
+mesh = Treat_Mesh(mesh_id=1)
 # Use the core lattice as a template
 #core_lat = summ.get_lattice_by_id(100)
 core_lat = geom.get_all_lattices()[100]
@@ -65,7 +60,7 @@ material_lib = mgxs.Library(geom)
 material_lib.energy_groups = two_groups
 material_lib.mgxs_types = ['fission', 'nu-fission', 'transport']
 material_lib.domain_type = "material"
-material_lib.domains = mats
+material_lib.domains = mats.values()
 material_lib.by_nuclide = True
 material_lib.build_library()
 
@@ -153,7 +148,7 @@ if __name__ == "__main__":
 	# fission_mgxs = mg_lib.get_mgxs(mesh, "fission")
 	# fission_mgxs = mg_lib.all_mgxs[mesh.id]["fission"]
 	fission_df = fission_mgxs.get_pandas_dataframe()
-	print(fission_df.head(17), fission_df.tail(17))
+	#print(fission_df.head(17), fission_df.tail(17))
 	#fission_mgxs.print_xs()
 	
 	if PLOT:
