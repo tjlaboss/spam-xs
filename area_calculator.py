@@ -204,11 +204,30 @@ def reflector_cell_by_material(geom):
 		clad_list[i] = surfs[clad_base + i]
 	clad = dict(zip(key_list, clad_list))
 	
+	# Graphite reflector area: Calculate the middle area and subtract the corners
+	# Sides (for middle)
+	right = refl["e"].x0
+	left = refl["w"].x0
+	top = refl["n"].y0
+	bottom = refl["s"].y0
+	refl_middle_area = (right - left)*(top - bottom)
+	# Corner
+	m = refl["nw"].coefficients['D']*rt
+	c = sqrt(top**2 + left**2)
+	h = c - m
+	refl_corner_area = h**2
+	
+	# Area of the gap between the graphite and the cladding
+	
+	
+	
 		
 
 if __name__ == "__main__":
 	# Test
-	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(geometry)
+	#fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(geometry)
+	reflector_cell_by_material(geometry)
+	
 	
 
 
