@@ -6,11 +6,10 @@ from math import sqrt, pi
 
 # Global variables
 # Extract the geometry from an existing summary
-summary = openmc.Summary("summary.h5")
-geometry = summary.geometry
+geometry = openmc.Summary("summary.h5").geometry
 
 
-def fuel_cell_by_material(summ, geom):
+def fuel_cell_by_material(geom):
 	"""Calculate the volume of each material a fuel lattice cell
 	
 	Inputs:
@@ -136,7 +135,7 @@ def fuel_cell_by_material(summ, geom):
 	return fuel_area, gap_area, clad_area, outer_area
 
 
-def control_cell_by_material(summ):
+def control_cell_by_material(geom):
 	"""Calculate the volume of each material a control lattice cell
 	The control cells are the same as the fuel cells, but with 5 concentric
 	rings on the inside.
@@ -174,12 +173,9 @@ def reflector_cell_by_material(geom):
 	
 		
 
-# TODO: Add getter for reflector cell and control cell
-
-
 if __name__ == "__main__":
 	# Test
-	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(summary, geometry)
+	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(geometry)
 	
 
 
