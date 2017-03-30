@@ -186,6 +186,24 @@ def reflector_cell_by_material(geom):
 	"""
 	surfs, key_list, n, xpitch, ypitch = __setup(geom)
 	
+	refl_base = 90061
+	refl_list = [None, ]*n
+	for i in range(n):
+		refl_list[i] = surfs[refl_base + i]
+	refl = dict(zip(key_list, refl_list))
+	
+	gap_base = 90041
+	gap_list = [None, ]*n
+	for i in range(n):
+		gap_list[i] = surfs[gap_base + i]
+	gap = dict(zip(key_list, gap_list))
+	
+	clad_base = 90051
+	clad_list = [None, ]*n
+	for i in range(n):
+		clad_list[i] = surfs[clad_base + i]
+	clad = dict(zip(key_list, clad_list))
+	
 		
 
 if __name__ == "__main__":
