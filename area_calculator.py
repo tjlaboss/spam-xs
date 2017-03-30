@@ -37,11 +37,13 @@ def __setup(geom):
 	return surfs, key_list, n, xpitch, ypitch
 
 
-def fuel_cell_by_material(geom):
+def fuel_cell_by_material(geom, display = False):
 	"""Calculate the area of each material a fuel lattice cell
 	
 	Inputs:
 		:param geom: instance of openmc.Geometry for the TREAT model
+		:param display: Boolean; whether to print the areas for each region
+						[Default: False]
 	
 	Outputs:
 		:return: fuel_area, gap_area, clad_area, outer_area
@@ -135,20 +137,21 @@ def fuel_cell_by_material(geom):
 	clad_area = (clad_middle_area - 4*clad_corner_area) - (fuel_area + gap_area)
 	outer_area = cell_area - (fuel_area + gap_area + clad_area)
 	
-	print("Fuel area:          {0:.4} cm^2".format(fuel_area))
-	print("Gap area:           {0:.4} cm^2".format(gap_area))
-	print("Clad area:          {0:.4} cm^2".format(clad_area))
-	print("Outer cooling area: {0:.4} cm^2".format(outer_area))
-	
-	# Check
-	print()
-	print("CELL AREA:", cell_area)
-	print("Difference", cell_area - fuel_area - gap_area - clad_area - outer_area)
+	if display:
+		print("\tFuel area:          {0:.4} cm^2".format(fuel_area))
+		print("\tGap area:           {0:.4} cm^2".format(gap_area))
+		print("\tClad area:          {0:.4} cm^2".format(clad_area))
+		print("\tOuter cooling area: {0:.4} cm^2".format(outer_area))
+		
+		# Check
+		print()
+		print("\tCELL AREA:", cell_area)
+		print("\tDifference", cell_area - fuel_area - gap_area - clad_area - outer_area)
 	
 	return fuel_area, gap_area, clad_area, outer_area
 
 
-def control_cell_by_material(geom):
+def control_cell_by_material(geom, display = False):
 	"""Calculate the area of each material a control lattice cell.
 	The control cells are the same as the fuel cells, but with 5 concentric
 	rings on the inside.
@@ -158,13 +161,15 @@ def control_cell_by_material(geom):
 	
 	Inputs:
 		:param geom: instance of openmc.Geometry for the TREAT model
+		:param display: Boolean; whether to print the areas for each region
+						[Default: False]
 	
 	Outputs:
 		:return: fuel_area, gap_area, clad_area, outer_area
 				 Areas in cm^2 for the regions indicated
 	"""
 	
-	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(geom)
+	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(geom, False)
 	surfs = geom.get_all_surfaces()
 	
 	# Get each of the radii from the relevant rings
@@ -174,7 +179,7 @@ def control_cell_by_material(geom):
 	crd_radius = surfs[50005].r
 	crd_area = pi*crd_radius**2
 	
-	areas = [None,]*n
+	areas = [None, ]*n
 	areas[0] = crd_area
 	for i in range(n):
 		# Note that these are in reverse: from largest to smallest,
@@ -186,22 +191,36 @@ def control_cell_by_material(geom):
 	# And finally, account for the loss of fuel area due to the control rod channel
 	fuel_area -= sum(areas)
 	
-	# Check
-	surfs, key_list, n, xpitch, ypitch = __setup(geom)
-	cell_area = xpitch*ypitch
-	print()
-	print("CELL AREA:", cell_area)
-	print("Difference", cell_area - fuel_area - gap_area - clad_area - outer_area - sum((crd_area, crd_clad_area, crd_gap_area, channel_clad_area, channel_gap_area)))
+	if display:
+		print("\tControl rod area:   {0:.4} cm^2".format(crd_area))
+		print("\tCrd clad area:      {0:.4} cm^2".format(crd_clad_area))
+		print("\tInner gas gap area: {0:.4} cm^2".format(crd_gap_area))
+		print("\tChannel clad area:  {0:.4} cm^2".format(channel_clad_area))
+		print("\tChannel gap area:   {0:.4} cm^2".format(channel_gap_area))
+		print("\tFuel area:          {0:.4} cm^2".format(fuel_area))
+		print("\tGap area:           {0:.4} cm^2".format(gap_area))
+		print("\tClad area:          {0:.4} cm^2".format(clad_area))
+		print("\tOuter cooling area: {0:.4} cm^2".format(outer_area))
+		
+		# Check
+		xpitch, ypitch = __setup(geom)[-2:]
+		cell_area = xpitch*ypitch
+		print()
+		print("\tCELL AREA:", cell_area)
+		print("\tDifference", cell_area - fuel_area - gap_area - clad_area - outer_area - \
+		      crd_area - crd_clad_area - crd_gap_area - channel_clad_area - channel_gap_area)
 	
-	return crd_area, crd_clad_area, crd_gap_area, channel_clad_area, channel_gap_area,\
+	return crd_area, crd_clad_area, crd_gap_area, channel_clad_area, channel_gap_area, \
 	       fuel_area, gap_area, clad_area, outer_area
 
 
-def reflector_cell_by_material(geom):
+def reflector_cell_by_material(geom, display = False):
 	"""Calculate the area of each material a graphite reflector lattice cell
 
 	Inputs:
 		:param geom: instance of openmc.Geometry for the TREAT model
+		:param display: Boolean; whether to print the areas for each region
+						[Default: False]
 
 	Outputs:
 		:return: refl_area, gap_area, clad_area, outer_area
@@ -277,30 +296,27 @@ def reflector_cell_by_material(geom):
 	clad_area = (clad_middle_area - 4*clad_corner_area) - (refl_area + gap_area)
 	outer_area = cell_area - (refl_area + gap_area + clad_area)
 	
-	print("Reflector area:     {0:.4} cm^2".format(refl_area))
-	print("Gap area:           {0:.4} cm^2".format(gap_area))
-	print("Clad area:          {0:.4} cm^2".format(clad_area))
-	print("Outer cooling area: {0:.4} cm^2".format(outer_area))
-	
-	# Check
-	print()
-	print("CELL AREA:", cell_area)
-	print("Difference", cell_area - refl_area - gap_area - clad_area - outer_area)
+	if display:
+		print("\tReflector area:     {0:.4} cm^2".format(refl_area))
+		print("\tGap area:           {0:.4} cm^2".format(gap_area))
+		print("\tClad area:          {0:.4} cm^2".format(clad_area))
+		print("\tOuter cooling area: {0:.4} cm^2".format(outer_area))
+		
+		# Check
+		print()
+		print("\tCELL AREA:", cell_area)
+		print("\tDifference", cell_area - refl_area - gap_area - clad_area - outer_area)
 	
 	return refl_area, gap_area, clad_area, outer_area
 
 
-
-
 if __name__ == "__main__":
 	# Test
-	'''
-	print("---Fuel Cell:---")
-	fuel_cell_by_material(geometry)
-	print("\n")
-	print("---Reflector Cell:---")
-	reflector_cell_by_material(geometry)
-	'''
-	
-	control_cell_by_material(geometry)
-	
+	print("Fuel Cell:")
+	fuel_cell_by_material(geometry, True)
+	print("\nControl Rod Cell:")
+	control_cell_by_material(geometry, True)
+	print("\nReflector Cell:")
+	reflector_cell_by_material(geometry, True)
+
+
