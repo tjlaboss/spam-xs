@@ -10,15 +10,14 @@ geometry = openmc.Summary("summary.h5").geometry
 
 
 def fuel_cell_by_material(geom):
-	"""Calculate the volume of each material a fuel lattice cell
+	"""Calculate the area of each material a fuel lattice cell
 	
 	Inputs:
-		:param summ: instance of openmc.Summary for the TREAT model
 		:param geom: instance of openmc.Geometry for the TREAT model
 	
 	Outputs:
-		:return: fuel_vol, gap_vol, clad_vol, outer_vol
-				 Volumes in cm^3 for the materials indicated
+		:return: fuel_area, gap_area, clad_area, outer_area
+				 areas in cm^3 for the materials indicated
 	"""
 	# The main core lattice which the cells appear in
 	core_lat = geom.get_all_lattices()[100]
@@ -136,7 +135,7 @@ def fuel_cell_by_material(geom):
 
 
 def control_cell_by_material(geom):
-	"""Calculate the volume of each material a control lattice cell
+	"""Calculate the area of each material a control lattice cell.
 	The control cells are the same as the fuel cells, but with 5 concentric
 	rings on the inside.
 	
@@ -144,27 +143,26 @@ def control_cell_by_material(geom):
 	but fortunately, the math is easy there.
 	
 	Inputs:
-		:param summ: instance of openmc.Summary for the TREAT model
+		:param geom: instance of openmc.Geometry for the TREAT model
 	
 	Outputs:
-		:return: fuel_vol, gap_vol, clad_vol, outer_vol
-				 Volumes in cm^3 for the materials indicated
+		:return: fuel_area, gap_area, clad_area, outer_area
+				 areas in cm^3 for the materials indicated
 	"""
-	fuel_vol, gap_vol, clad_vol, outer_vol = fuel_cell_by_material(summ)
+	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(summ)
 	#TODO: Write this
 	
 	# Do stuff for each of the rings...
 	#
 	# Read their radii, find their areas, and subtract from
-	# the fuel cell volumes
-	return fuel_vol, gap_vol, clad_vol, outer_vol
+	# the fuel cell areas
+	return fuel_area, gap_area, clad_area, outer_area
 	
 	
 def reflector_cell_by_material(geom):
-	"""Calculate the volume of each material a graphite reflector lattice cell
+	"""Calculate the area of each material a graphite reflector lattice cell
 
 	Inputs:
-		:param summ: instance of openmc.Summary for the TREAT model
 		:param geom: instance of openmc.Geometry for the TREAT model
 
 	Outputs:
