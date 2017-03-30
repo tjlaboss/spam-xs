@@ -1,4 +1,4 @@
-# Volume calculator for TREAT lattice cells
+# Area calculator for 2D TREAT lattice cells
 
 
 import openmc
@@ -10,18 +10,19 @@ summary = openmc.Summary("summary.h5")
 geometry = summary.geometry
 
 
-def fuel_cell_by_material(summ):
+def fuel_cell_by_material(summ, geom):
 	"""Calculate the volume of each material a fuel lattice cell
 	
 	Inputs:
 		:param summ: instance of openmc.Summary for the TREAT model
+		:param geom: instance of openmc.Geometry for the TREAT model
 	
 	Outputs:
 		:return: fuel_vol, gap_vol, clad_vol, outer_vol
 				 Volumes in cm^3 for the materials indicated
 	"""
 	# The main core lattice which the cells appear in
-	core_lat = summ.get_lattice_by_id(100)
+	core_lat = geom.get_all_lattices()[100]
 	[xpitch, ypitch, z] = core_lat.pitch
 	# TODO: Ascertain whether `z` is the desired height.
 	
@@ -31,6 +32,10 @@ def fuel_cell_by_material(summ):
 	# Create dictionaries for each region
 	key_list = ("e", "s", "w", "n", "se", "sw", "nw", "ne")
 	n = len(key_list)
+	
+	surfs = geometry.get_all_surfaces()
+	print(surfs)
+	raise SystemExit
 	
 	fuel_base = 90001
 	fuel_list = [None,]*n
@@ -128,7 +133,7 @@ def fuel_cell_by_material(summ):
 	print("CELL AREA:", cell_area)
 	print("Difference", cell_area - fuel_area - gap_area - clad_area - outer_area)
 	
-	return fuel_area*z, gap_area*z, clad_area*z, outer_area*z
+	return fuel_area, gap_area, clad_area, outer_area
 
 
 def control_cell_by_material(summ):
@@ -161,7 +166,7 @@ def control_cell_by_material(summ):
 
 if __name__ == "__main__":
 	# Test
-	fuel_vol, gap_vol, clad_vol, outer_vol = fuel_cell_by_material(summary)
+	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(summary, geometry)
 	
 
 
