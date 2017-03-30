@@ -45,7 +45,7 @@ def fuel_cell_by_material(geom):
 	
 	Outputs:
 		:return: fuel_area, gap_area, clad_area, outer_area
-				 Areas in cm^2 for the materials indicated
+				 Areas in cm^2 for the regions indicated
 	"""
 	surfs, key_list, n, xpitch, ypitch = __setup(geom)
 	
@@ -135,9 +135,9 @@ def fuel_cell_by_material(geom):
 	clad_area = (clad_middle_area - 4*clad_corner_area) - (fuel_area + gap_area)
 	outer_area = cell_area - (fuel_area + gap_area + clad_area)
 	
-	print("Fuel area: {0:.4} cm^2".format(fuel_area))
-	print("Gap area: {0:.4} cm^2".format(gap_area))
-	print("Clad area: {0:.4} cm^2".format(clad_area))
+	print("Fuel area:          {0:.4} cm^2".format(fuel_area))
+	print("Gap area:           {0:.4} cm^2".format(gap_area))
+	print("Clad area:          {0:.4} cm^2".format(clad_area))
 	print("Outer cooling area: {0:.4} cm^2".format(outer_area))
 	
 	# Check
@@ -161,16 +161,40 @@ def control_cell_by_material(geom):
 	
 	Outputs:
 		:return: fuel_area, gap_area, clad_area, outer_area
-				 Areas in cm^2 for the materials indicated
+				 Areas in cm^2 for the regions indicated
 	"""
-	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(summ)
-	# TODO: Write this
 	
-	# Do stuff for each of the rings...
-	#
-	# Read their radii, find their areas, and subtract from
-	# the fuel cell areas
-	return fuel_area, gap_area, clad_area, outer_area
+	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(geom)
+	surfs = geom.get_all_surfaces()
+	
+	# Get each of the radii from the relevant rings
+	control_base = 50001
+	n = 5
+	# Control rod
+	crd_radius = surfs[50005].r
+	crd_area = pi*crd_radius**2
+	
+	areas = [None,]*n
+	areas[0] = crd_area
+	for i in range(n):
+		# Note that these are in reverse: from largest to smallest,
+		# due to the way they are ordered in geometry.xml
+		j = n - 1 - i
+		r = surfs[control_base + j].r
+		areas[i] = pi*r**2 - sum(areas[0:i])
+	crd_area, crd_clad_area, crd_gap_area, channel_clad_area, channel_gap_area = areas
+	# And finally, account for the loss of fuel area due to the control rod channel
+	fuel_area -= sum(areas)
+	
+	# Check
+	surfs, key_list, n, xpitch, ypitch = __setup(geom)
+	cell_area = xpitch*ypitch
+	print()
+	print("CELL AREA:", cell_area)
+	print("Difference", cell_area - fuel_area - gap_area - clad_area - outer_area - sum((crd_area, crd_clad_area, crd_gap_area, channel_clad_area, channel_gap_area)))
+	
+	return crd_area, crd_clad_area, crd_gap_area, channel_clad_area, channel_gap_area,\
+	       fuel_area, gap_area, clad_area, outer_area
 
 
 def reflector_cell_by_material(geom):
@@ -270,8 +294,13 @@ def reflector_cell_by_material(geom):
 
 if __name__ == "__main__":
 	# Test
+	'''
 	print("---Fuel Cell:---")
 	fuel_cell_by_material(geometry)
 	print("\n")
 	print("---Reflector Cell:---")
 	reflector_cell_by_material(geometry)
+	'''
+	
+	control_cell_by_material(geometry)
+	
