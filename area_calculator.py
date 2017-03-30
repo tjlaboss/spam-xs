@@ -3,7 +3,8 @@
 
 import openmc
 from math import sqrt, pi
-rt = sqrt(2) / 2    # "root two" (useful shorthand)
+
+rt = sqrt(2)/2  # "root two" (useful shorthand)
 
 # Global variables
 # Extract the geometry from an existing summary
@@ -34,8 +35,6 @@ def __setup(geom):
 	# Get an OrderedDict of all the surfaces in the geometry
 	surfs = geometry.get_all_surfaces()
 	return surfs, key_list, n, xpitch, ypitch
-	
-	
 
 
 def fuel_cell_by_material(geom):
@@ -51,19 +50,19 @@ def fuel_cell_by_material(geom):
 	surfs, key_list, n, xpitch, ypitch = __setup(geom)
 	
 	fuel_base = 90001
-	fuel_list = [None,]*n
+	fuel_list = [None, ]*n
 	for i in range(n):
 		fuel_list[i] = surfs[fuel_base + i]
 	fuel = dict(zip(key_list, fuel_list))
 	
 	gap_base = 90011
-	gap_list = [None, ] * n
+	gap_list = [None, ]*n
 	for i in range(n):
 		gap_list[i] = surfs[gap_base + i]
 	gap = dict(zip(key_list, gap_list))
 	
 	clad_base = 90021
-	clad_list = [None, ] * n
+	clad_list = [None, ]*n
 	for i in range(n):
 		clad_list[i] = surfs[clad_base + i]
 	clad = dict(zip(key_list, clad_list))
@@ -88,7 +87,7 @@ def fuel_cell_by_material(geom):
 	
 	# Start with the outer gap (cooling air)
 	# Total area of the cell
-	cell_area = xpitch * ypitch
+	cell_area = xpitch*ypitch
 	
 	# Fuel area: Calculate the middle area and subtract the corners
 	# Sides (for middle)
@@ -96,12 +95,12 @@ def fuel_cell_by_material(geom):
 	left = fuel["w"].x0
 	top = fuel["n"].y0
 	bottom = fuel["s"].y0
-	fuel_middle_area = (right - left) * (top - bottom)
+	fuel_middle_area = (right - left)*(top - bottom)
 	# Corner
-	m = fuel["nw"].coefficients['D'] * rt
-	c = sqrt(top ** 2 + left ** 2)
+	m = fuel["nw"].coefficients['D']*rt
+	c = sqrt(top**2 + left**2)
 	h = c - m
-	fuel_corner_area = h ** 2
+	fuel_corner_area = h**2
 	
 	# Air gap calculation: same as fuel, but will ultimately subtract fuel
 	# Middle
@@ -109,25 +108,25 @@ def fuel_cell_by_material(geom):
 	top = gap["n"].y0
 	right = gap["e"].x0
 	bottom = gap["s"].y0
-	gap_middle_area = (right - left) * (top - bottom)
+	gap_middle_area = (right - left)*(top - bottom)
 	# Corner
-	m = gap["nw"].coefficients['D'] * rt
-	c = sqrt(top ** 2 + left ** 2)
+	m = gap["nw"].coefficients['D']*rt
+	c = sqrt(top**2 + left**2)
 	h = c - m
-	gap_corner_area = h ** 2
-		
+	gap_corner_area = h**2
+	
 	# Clad: Same deal as the air gap
 	# Middle
 	left = clad["w"].x0
 	top = clad["n"].y0
 	right = clad["e"].x0
 	bottom = clad["s"].y0
-	clad_middle_area = (right - left) * (top - bottom)
+	clad_middle_area = (right - left)*(top - bottom)
 	# Corner
-	m = clad["nw"].coefficients['D'] * rt
-	c = sqrt(top ** 2 + left ** 2)
+	m = clad["nw"].coefficients['D']*rt
+	c = sqrt(top**2 + left**2)
 	h = c - m
-	clad_corner_area = h ** 2
+	clad_corner_area = h**2
 	
 	# Now that we've got the areas of individual pieces of the puzzle,
 	# get those for each of the entire regions
@@ -142,7 +141,7 @@ def fuel_cell_by_material(geom):
 	print("Outer cooling area: {0:.4} cm^2".format(outer_area))
 	
 	# Check
-	print("\n")
+	print()
 	print("CELL AREA:", cell_area)
 	print("Difference", cell_area - fuel_area - gap_area - clad_area - outer_area)
 	
@@ -165,15 +164,15 @@ def control_cell_by_material(geom):
 				 Areas in cm^2 for the materials indicated
 	"""
 	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(summ)
-	#TODO: Write this
+	# TODO: Write this
 	
 	# Do stuff for each of the rings...
 	#
 	# Read their radii, find their areas, and subtract from
 	# the fuel cell areas
 	return fuel_area, gap_area, clad_area, outer_area
-	
-	
+
+
 def reflector_cell_by_material(geom):
 	"""Calculate the area of each material a graphite reflector lattice cell
 
@@ -217,17 +216,62 @@ def reflector_cell_by_material(geom):
 	h = c - m
 	refl_corner_area = h**2
 	
-	# Area of the gap between the graphite and the cladding
+	# Air gap between the graphite and the cladding:
+	# same shape as the reflector, but will ultimately subtract reflector
+	# Middle
+	left = gap["w"].x0
+	top = gap["n"].y0
+	right = gap["e"].x0
+	bottom = gap["s"].y0
+	gap_middle_area = (right - left)*(top - bottom)
+	# Corner
+	m = gap["nw"].coefficients['D']*rt
+	c = sqrt(top**2 + left**2)
+	h = c - m
+	gap_corner_area = h**2
 	
+	# Clad: Same deal as the air gap
+	# Middle
+	left = clad["w"].x0
+	top = clad["n"].y0
+	right = clad["e"].x0
+	bottom = clad["s"].y0
+	clad_middle_area = (right - left)*(top - bottom)
+	# Corner
+	m = clad["nw"].coefficients['D']*rt
+	c = sqrt(top**2 + left**2)
+	h = c - m
+	clad_corner_area = h**2
 	
+	# And then the outer gap, which is determined by the cell area
+	cell_area = xpitch*ypitch
 	
-		
+	# Now that we've got the areas of individual pieces of the puzzle,
+	# get those for each of the entire regions
+	refl_area = refl_middle_area - 4*refl_corner_area
+	gap_area = (gap_middle_area - 4*gap_corner_area) - refl_area
+	clad_area = (clad_middle_area - 4*clad_corner_area) - (refl_area + gap_area)
+	outer_area = cell_area - (refl_area + gap_area + clad_area)
+	
+	print("Reflector area:     {0:.4} cm^2".format(refl_area))
+	print("Gap area:           {0:.4} cm^2".format(gap_area))
+	print("Clad area:          {0:.4} cm^2".format(clad_area))
+	print("Outer cooling area: {0:.4} cm^2".format(outer_area))
+	
+	# Check
+	print()
+	print("CELL AREA:", cell_area)
+	print("Difference", cell_area - refl_area - gap_area - clad_area - outer_area)
+	
+	return refl_area, gap_area, clad_area, outer_area
+
+
+
 
 if __name__ == "__main__":
 	# Test
-	#fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(geometry)
+	print("---Fuel Cell:---")
+	fuel_cell_by_material(geometry)
+	print("\n")
+	print("---Reflector Cell:---")
 	reflector_cell_by_material(geometry)
-	
-	
-
-
