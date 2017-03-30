@@ -152,12 +152,25 @@ def control_cell_by_material(summ):
 				 Volumes in cm^3 for the materials indicated
 	"""
 	fuel_vol, gap_vol, clad_vol, outer_vol = fuel_cell_by_material(summ)
+	#TODO: Write this
 	
 	# Do stuff for each of the rings...
 	#
 	# Read their radii, find their areas, and subtract from
 	# the fuel cell volumes
 	return fuel_vol, gap_vol, clad_vol, outer_vol
+	
+	
+def reflector_cell_by_material(geom):
+	"""Calculate the volume of each material a graphite reflector lattice cell
+
+	Inputs:
+		:param summ: instance of openmc.Summary for the TREAT model
+		:param geom: instance of openmc.Geometry for the TREAT model
+
+	Outputs:
+		:return: refl_area, gap_area, clad_area, outer_area
+	"""
 	
 		
 
