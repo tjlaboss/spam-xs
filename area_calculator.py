@@ -3,10 +3,39 @@
 
 import openmc
 from math import sqrt, pi
+rt = sqrt(2) / 2    # "root two" (useful shorthand)
 
 # Global variables
 # Extract the geometry from an existing summary
 geometry = openmc.Summary("summary.h5").geometry
+
+
+def __setup(geom):
+	"""Get some of the basics out of the way
+	
+	Inputs:
+		:param geom: instance of openmc.Geometry for the TREAT model
+	
+	Outputs:
+		:return surfs:    OrderedDict of all the surfaces in `geom`
+		:return key_list: tuple of the strings for each of the directions
+		:return n:        int; length of `key_list` (should be 8)
+		:return xpitch:   float; assembly pitch in the x-direction (cm)
+		:return ypitch:   float; assembly pitch in the y-direction (cm)
+	"""
+	# The main core lattice which the cells appear in
+	core_lat = geom.get_all_lattices()[100]
+	xpitch, ypitch = core_lat.pitch[0:2]
+	
+	# Create dictionaries for each region
+	key_list = ("e", "s", "w", "n", "se", "sw", "nw", "ne")
+	n = len(key_list)
+	
+	# Get an OrderedDict of all the surfaces in the geometry
+	surfs = geometry.get_all_surfaces()
+	return surfs, key_list, n, xpitch, ypitch
+	
+	
 
 
 def fuel_cell_by_material(geom):
@@ -17,40 +46,26 @@ def fuel_cell_by_material(geom):
 	
 	Outputs:
 		:return: fuel_area, gap_area, clad_area, outer_area
-				 areas in cm^3 for the materials indicated
+				 Areas in cm^2 for the materials indicated
 	"""
-	# The main core lattice which the cells appear in
-	core_lat = geom.get_all_lattices()[100]
-	[xpitch, ypitch, z] = core_lat.pitch
-	# TODO: Ascertain whether `z` is the desired height.
-	
-	# Useful shorthand
-	rt = sqrt(2) / 2    # "root two"
-	
-	# Create dictionaries for each region
-	key_list = ("e", "s", "w", "n", "se", "sw", "nw", "ne")
-	n = len(key_list)
-	
-	surfs = geometry.get_all_surfaces()
-	print(surfs)
-	raise SystemExit
+	surfs, key_list, n, xpitch, ypitch = __setup(geom)
 	
 	fuel_base = 90001
 	fuel_list = [None,]*n
 	for i in range(n):
-		fuel_list[i] = summ.get_surface_by_id(fuel_base + i)
+		fuel_list[i] = surfs[fuel_base + i]
 	fuel = dict(zip(key_list, fuel_list))
 	
 	gap_base = 90011
 	gap_list = [None, ] * n
 	for i in range(n):
-		gap_list[i] = summ.get_surface_by_id(gap_base + i)
+		gap_list[i] = surfs[gap_base + i]
 	gap = dict(zip(key_list, gap_list))
 	
 	clad_base = 90021
 	clad_list = [None, ] * n
 	for i in range(n):
-		clad_list[i] = summ.get_surface_by_id(clad_base + i)
+		clad_list[i] = surfs[clad_base + i]
 	clad = dict(zip(key_list, clad_list))
 	
 	# Get the surface area (which is all this code does now)
@@ -147,7 +162,7 @@ def control_cell_by_material(geom):
 	
 	Outputs:
 		:return: fuel_area, gap_area, clad_area, outer_area
-				 areas in cm^3 for the materials indicated
+				 Areas in cm^2 for the materials indicated
 	"""
 	fuel_area, gap_area, clad_area, outer_area = fuel_cell_by_material(summ)
 	#TODO: Write this
@@ -167,7 +182,9 @@ def reflector_cell_by_material(geom):
 
 	Outputs:
 		:return: refl_area, gap_area, clad_area, outer_area
+				 Areas in cm^2 for the materials indicated
 	"""
+	surfs, key_list, n, xpitch, ypitch = __setup(geom)
 	
 		
 
