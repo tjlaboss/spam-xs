@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<settings>
+	<run_mode>eigenvalue</run_mode>
+    <particles>10000</particles>
+    <batches>50</batches>
+    <inactive>25</inactive>
+<source>
+        <space type="box">
+            <parameters>-96.52 -96.52 -60.48375 96.52 96.52 60.48375</parameters>
+        </space>
+    </source>
+<output>
+        <tallies>true</tallies>
+    <distribmats>false</distribmats>
+    <summary>true</summary>
+    </output>
+</settings>
