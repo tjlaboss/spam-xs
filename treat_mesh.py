@@ -6,6 +6,12 @@
 import openmc
 import area_calculator
 
+LAT_ID = 100
+FUEL_UNIVERSE = 9       # 99 for active fuel
+REFL_UNIVERSE = 4       # 26 for active reflector
+CONTROL_UNIVERSE = 5    # 99 (minus hole) for active crd
+
+
 class Treat_Mesh(openmc.Mesh):
 	"""A structured Cartesian mesh in one, two, or three dimensions
 
@@ -15,6 +21,8 @@ class Treat_Mesh(openmc.Mesh):
 		Unique identifier for the mesh
 	name : str
 		Name of the mesh
+	geometry: openmc.Geometry
+		Geometry of the TREAT model
 
 	Attributes
 	----------
@@ -37,7 +45,23 @@ class Treat_Mesh(openmc.Mesh):
 
 	"""
 	
+	def __init__(self, mesh_id = None, name = '', geometry = None):
+		super().__init__(mesh_id, name)
+		self.geometry = geometry
+	
 	
 	def get_nuclides(self):
 		"""Not implemented yet"""
 		raise NotImplementedError("Treat_Mesh.get_nuclides() has not been implemented yet.")
+	
+	
+
+# test
+if __name__ == "__main__":
+	summ = openmc.Summary("summary.h5")
+	geom = summ.geometry
+	mesh = Treat_Mesh(geometry = geom)
+	mesh.get_nuclides()
+
+
+
