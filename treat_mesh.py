@@ -24,6 +24,9 @@ class Treat_Mesh(openmc.Mesh):
 		Name of the mesh
 	geometry: openmc.Geometry
 		Geometry of the TREAT model
+	mesh_size : float
+		Mesh size in units of complete assemblies.
+		Must be given in half-integers, e.g. {0.5, 1.0, 1.5, 2.0}
 
 	Attributes
 	----------
@@ -46,7 +49,7 @@ class Treat_Mesh(openmc.Mesh):
 
 	"""
 	
-	def __init__(self, mesh_id = None, name = '', geometry = None):
+	def __init__(self, mesh_id = None, name = '', geometry = None, mesh_size = None):
 		super().__init__(mesh_id, name)
 		self.geometry = geometry
 		
@@ -58,6 +61,7 @@ class Treat_Mesh(openmc.Mesh):
 		# self.lattice = self.geometry.get_all_lattices()[LAT_ID]
 		
 		self.universes = geometry.get_all_universes()
+		self.materials = geometry.get_all_materials()
 		self.cells = geometry.get_all_cells()
 		self.fuel_cells = self.universes[99].cells
 		self.refl_cells = self.universes[26].cells
@@ -67,7 +71,7 @@ class Treat_Mesh(openmc.Mesh):
 		
 		# self.nuclides = self._get_nuclides()
 	
-	# Convert this to private method
+	# TODO: Convert this to private method or eliminate altogether
 	def get_nuclides(self):
 		"""Not implemented yet"""
 		# TODO: Determine whether to return nuclides for an assembly type or all nuclides
@@ -87,7 +91,60 @@ class Treat_Mesh(openmc.Mesh):
 		nuclides = self.universes[99].get_nuclides()
 		return nuclides
 	
-	def get_nuclide_densities(self, assembly):
+	def get_refl_nuclides(self):
+		nuclides = self.universes[26].get_nuclides()
+		return nuclides
+	
+	def get_cont_nuclides(self):
+		nuclides = []
+		for cell in self.cont_cells.values():
+			for nuc in cell.get_nuclides():
+				if nuc not in nuclides:
+					nuclides.append(nuc)
+		return nuclides
+	
+	def get_nuclide_densities(self, assembly_type):
+		"""Return all nuclides contained in the universe
+		
+		Parameters
+		----------
+		assembly_type : str
+			{"fuel", "reflector", "control"}
+
+		Returns
+		-------
+		nuclide_densities : dict
+			Dictionary whose keys are nuclide names and values are 3-tuples of
+			(nuclide, density percent, density percent type)
+
+		"""
+		assembly_type = assembly_type.lower()
+		assert assembly_type in ("fuel", "reflector", "refl", "control", "cont"), \
+			'assembly_type must be in {"fuel", "reflector", "control"}'
+		# nuclides = self.nuclides
+		# nuclides = self.get_nuclides()
+		nuclide_densities = {}
+		
+		if assembly_type == "fuel":
+			volumes = area_calculator.fuel_cell_by_material(self.geometry)
+			fuel_vol, gap_vol, clad_vol, outer_vol = [self.zactive*v for v in volumes]
+			for nuc in self.get_fuel_nuclides():
+				print(nuc)
+				#TODO: The rest
+		elif assembly_type in ("reflector", "refl"):
+			volumes = area_calculator.reflector_cell_by_material(self.geometry)
+			refl_vol, gap_vol, clad_vol, outer_vol = [self.zactive*v for v in volumes]
+			for nuc in self.get_refl_nuclides():
+				print(nuc)
+			# TODO: The rest
+		elif assembly_type in ("control", "cont"):
+			volumes = area_calculator.control_cell_by_material(self.geometry)
+			crd_vol, crd_clad_vol, crd_gap_vol, channel_clad_vol, channel_gap_vol, \
+			fuel_vol, gap_vol, clad_vol, outer_vol = [self.zactive*v for v in volumes]
+			for nuc in self.get_cont_nuclides():
+				print(nuc)
+			# TODO: the rest
+			
 		raise NotImplementedError("Treat_Mesh.get_nuclide_densities() has not been implemented yet.")
 
 
@@ -97,4 +154,4 @@ if __name__ == "__main__":
 	geom = summ.geometry
 	mesh = Treat_Mesh(geometry = geom)
 	# mesh.get_nuclides()
-	mesh.get_nuclides()
+	mesh.get_nuclide_densities(assembly_type = "fuel")
