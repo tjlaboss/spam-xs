@@ -37,9 +37,8 @@ mesh_lib.domain_type = "mesh"
 
 # Define a mesh
 # Instantiate a tally Mesh
-mesh = Treat_Mesh(mesh_id=1)
-# Use the core lattice as a template
-#core_lat = summ.get_lattice_by_id(100)
+mesh = Treat_Mesh(mesh_id=1, geometry = geom)
+#FIXME: RecursionError
 core_lat = geom.get_all_lattices()[100]
 xdist = -core_lat.pitch[0]*core_lat.lower_left[0]
 
