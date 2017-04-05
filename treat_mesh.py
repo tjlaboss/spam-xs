@@ -6,6 +6,7 @@
 import openmc
 import numpy
 import area_calculator
+from copy import deepcopy
 
 LAT_ID = 100
 FUEL_UNIVERSE = 9  # 99 for active fuel
@@ -63,12 +64,11 @@ class Treat_Mesh(openmc.Mesh):
 		self.universes = geometry.get_all_universes()
 		self.materials = geometry.get_all_materials()
 		self.cells = geometry.get_all_cells()
-		self.fuel_cells = self.universes[99].cells
-		self.refl_cells = self.universes[26].cells
-		self.cont_cells = self.fuel_cells
-		for id in (50110, 50210, 50310):
+		self.fuel_cells = deepcopy(self.universes[99].cells)
+		self.refl_cells = deepcopy(self.universes[26].cells)
+		self.cont_cells = deepcopy(self.fuel_cells)
+		for id in (50210, 50310):
 			self.cont_cells[id] = self.cells[id]
-		
 		# self.nuclides = self._get_nuclides()
 	
 	# TODO: Convert this to private method or eliminate altogether
