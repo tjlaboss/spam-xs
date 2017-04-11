@@ -156,9 +156,9 @@ class Treat_Mesh(openmc.Mesh):
 			self.cont_cells[id] = self.cells[id]
 		# self.nuclides = self._get_nuclides()
 	
-	# TODO: Determine whether this method is even needed
+	# TODO: Describe this
 	def get_nuclides(self):
-		"""Not implemented yet"""
+		"""Not written up yet"""
 		nuclides = []
 		for cell in tuple(self.cont_cells.values()) + tuple(self.refl_cells.values()):
 			for nuclide in cell.get_nuclides():
