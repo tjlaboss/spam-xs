@@ -13,6 +13,55 @@ FUEL_UNIVERSE = 9  # 99 for active fuel
 REFL_UNIVERSE = 4  # 26 for active reflector
 CONTROL_UNIVERSE = 5  # 99 (minus hole) for active crd
 
+MAT_IDS = {"fuel"    : 90000,
+           "air"     : 20000,
+           "zirc"    : 20005,
+           "aluminum": 20008,
+           "graphite": 20012}
+
+
+def merge_nuclide_densities(old_dict, new_dict, vfrac):
+	"""Add a dictionary of nuclide densities to an existing dictionary
+	by volume fraction.
+	
+	Parameters
+	----------
+	old_dict : dictionary
+		Existing Dictionary whose keys are nuclide names and values are
+			3-tuples of (nuclide, density percent, density percent type)
+	
+	new_dict : dictionary
+		Dictionary to merge into old_dict. Must be of the same format,
+			and nuclides must share fraction type.
+	
+	vfrac : float
+		Volume fraction of the material whose nuclides are in new_dict
+	
+	
+	Returns
+	-------
+	old_dict : dictionary
+		The original dictionary updated with the values from new_dict
+	
+	"""
+	for key in new_dict:
+		if key in old_dict:
+			old_tuple = old_dict[key]
+			new_tuple = new_dict[key]
+			# Third entry is the percent type
+			old_type = old_tuple[2]
+			new_type = new_tuple[2]
+			errstr = "Density percents must be of the same type. \
+			Expected '{}', got '{}'".format(old_type, new_type)
+			assert old_type == new_type, errstr
+			
+			# Update the dictionary with the appropriate fraction of this nuclide
+			merged_frac = old_tuple[1] + new_tuple[1]*vfrac
+			old_dict[key] = (old_tuple[0], merged_frac, old_type)
+		else:
+			old_dict[key] = new_dict[key]
+	return old_dict
+			
 
 class Treat_Mesh(openmc.Mesh):
 	"""A structured Cartesian mesh in one, two, or three dimensions
@@ -126,11 +175,22 @@ class Treat_Mesh(openmc.Mesh):
 		nuclide_densities = {}
 		
 		if assembly_type == "fuel":
-			volumes = area_calculator.fuel_cell_by_material(self.geometry)
-			fuel_vol, gap_vol, clad_vol, outer_vol = [self.zactive*v for v in volumes]
-			for nuc in self.get_fuel_nuclides():
-				print(nuc)
-				#TODO: The rest
+			areas = area_calculator.fuel_cell_by_material(self.geometry)
+			volumes = [self.zactive*a for a in areas]
+			fuel_vol, gap_vol, clad_vol, outer_vol = volumes
+			total_volume = sum(volumes)
+			'''
+			fuel_mat = self.materials[MAT_IDS["fuel"]]
+			gap_mat  = self.materials[MAT_IDS["air"]]
+			clad_mat = self.materials[MAT_IDS["zirc"]]
+			#print(fuel_mat, gap_mat, clad_mat)
+			'''
+			
+			for c in self.fuel_cells.values():
+				print(c.fill)
+			# for nuc in self.get_fuel_nuclides():
+			#	print(nuc)
+			# TODO: The rest
 		elif assembly_type in ("reflector", "refl"):
 			volumes = area_calculator.reflector_cell_by_material(self.geometry)
 			refl_vol, gap_vol, clad_vol, outer_vol = [self.zactive*v for v in volumes]
@@ -144,7 +204,7 @@ class Treat_Mesh(openmc.Mesh):
 			for nuc in self.get_cont_nuclides():
 				print(nuc)
 			# TODO: the rest
-			
+		
 		raise NotImplementedError("Treat_Mesh.get_nuclide_densities() has not been implemented yet.")
 
 
