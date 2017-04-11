@@ -9,7 +9,6 @@ import openmc.mgxs as mgxs
 import numpy as np
 import pandas
 
-
 sp = openmc.StatePoint('statepoint.020.h5')
 '''
 # 2-group approximation
@@ -33,17 +32,59 @@ mesh_lib.load_from_statepoint(sp)
 mesh = mesh_lib.domains[0]
 x_width, y_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 
+#######################################
+# Dataframes
+#######################################
+# xs_types = ['nu-fission', 'transport', 'chi', 'scatter matrix']
+transport = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "transport")
+chi = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "chi")
+scatter = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "scatter matrix")
+nu_fission = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "nu-fission")
+mgxs_list = [transport, chi, scatter, nu_fission]
+
+# Get the dataframes
+dataframe_values = [mg.get_pandas_dataframe(nuclides = "sum") for mg in mgxs_list]
+dataframe_keys = [mg.rxn_type for mg in mgxs_list]
+dataframes = dict(zip(dataframe_keys, dataframe_values))
+# nu_fission_df = transport.get_pandas_dataframe()
+# transport_df = transport.get_pandas_dataframe()
+# chi_df = transport.get_pandas_dataframe(nuclides = "sum")
+# scatter_df = transport.get_pandas_dataframe(nuclides = "sum")
+
+
+
+#######################################
+# Geometry
+#######################################
 # Build a checkerboard geometry in OpenMOC
-lattice = openmoc.Lattice(name='4x4 lattice')
+lattice = openmoc.Lattice(name = '4x4 lattice')
 lattice.setWidth(x_width, y_width)
 
 nx, ny = mesh.dimension[:2]
-universes = [[None for i in range(nx)] for j in range (ny)]
+universes = [[None for i in range(nx)] for j in range(ny)]
 
 for i in range(nx):
+	
 	for j in range(ny):
 		c = openmoc.Cell()
 		m = openmoc.Material()
+		m.setNumEnergyGroups(2)
+		for key in dataframes:
+			df = dataframes[key]
+			x_df = df[df[('mesh 1', 'x')] == i + 1]
+			y_at_x = x_df[x_df[("mesh 1", "y")] == j + 1]
+			# Get the xs data from the dataframes for this square
+			yvals = y_at_x['mean'].values
+			
+			if key == "transport":
+				m.setSigmaT(yvals)
+			elif key == "chi":
+				m.setChi(yvals)
+			elif key == "nu-fission":
+				m.setNuSigmaF(yvals)
+			elif key == "scatter matrix":
+				m.setSigmaS(yvals)
+		
 		c.setFill(m)
 		u = openmoc.Universe()
 		u.addCell(c)
@@ -51,18 +92,15 @@ for i in range(nx):
 print(universes)
 lattice.setUniverses([universes])
 
-print(lattice.getMinX(), lattice.getMaxX())
-print(lattice.getMinY(), lattice.getMaxY())
-
 root_universe = openmoc.Universe(name = "root universe")
 root_cell = openmoc.Cell(name = "root cell")
 root_cell.setFill(lattice)
 # Make some boundaries
 min_x, min_y = mesh.lower_left[:2]
 max_x, max_y = mesh.upper_right[:2]
-xleft =  openmoc.XPlane(x = min_x)
+xleft = openmoc.XPlane(x = min_x)
 xright = openmoc.XPlane(x = max_x)
-yleft =  openmoc.YPlane(y = min_y)
+yleft = openmoc.YPlane(y = min_y)
 yright = openmoc.YPlane(y = max_y)
 surfs = [xleft, xright, yleft, yright]
 for s in surfs:
@@ -80,36 +118,12 @@ geom.setRootUniverse(root_universe)
 plt.plot_cells(geom)
 plt.plot_materials(geom)
 
+#moc_geom = openmc.openmoc_compatible.get_openmoc_geometry(sp.summary.geometry)
+#materials = openmoc.materialize.load_openmc_mgxs_lib(mesh_lib, moc_geom)
 
-#######################################
-# Dataframes
-#######################################
-# xs_types = ['nu-fission', 'transport', 'chi', 'scatter matrix']
-transport  = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "transport")
-chi        = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "chi")
-scatter    = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "scatter matrix")
-nu_fission = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "nu-fission")
-mgxs_list = [transport, chi, scatter, nu_fission]
-
-# Get the dataframes
-
-
-dataframes = [mg.get_pandas_dataframe(nuclides = "sum") for mg in mgxs_list]
-#nu_fission_df = transport.get_pandas_dataframe()
-#transport_df = transport.get_pandas_dataframe()
-#chi_df = transport.get_pandas_dataframe(nuclides = "sum")
-#scatter_df = transport.get_pandas_dataframe(nuclides = "sum")
-
-
-
-
-
-
-moc_geom = openmc.openmoc_compatible.get_openmoc_geometry(sp.summary.geometry)
-materials = openmoc.materialize.load_openmc_mgxs_lib(mesh_lib, moc_geom)
 # Generate tracks for OpenMOC
 # note: increase num_azim and decrease azim_spacing for actual results (as for TREAT)
-track_generator = openmoc.TrackGenerator(moc_geom, num_azim = 32, azim_spacing = 0.1)
+track_generator = openmoc.TrackGenerator(geom, num_azim = 32, azim_spacing = 0.1)
 track_generator.generateTracks()
 
 # Run OpenMOC
