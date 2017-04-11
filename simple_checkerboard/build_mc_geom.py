@@ -2,7 +2,6 @@ import openmc
 import openmc.mgxs as mgxs
 import numpy as np
 import copy
-from treat_mesh import Treat_Mesh
 
 
 def duplicate(universe):
@@ -103,8 +102,8 @@ root.add_cell(cell1)
 
 # Instantiate a Lattice
 lattice = openmc.RectLattice(lattice_id = 5)
-lattice.lower_left = [-2., -2.]
-lattice.pitch = [1., 1.]
+lattice.lower_left = np.array([-2., -2.])
+lattice.pitch = np.array([1., 1.])
 lattice.universes = [[univ1, univ2, univ1, univ2],
                      [univ2, univ3, univ2, univ3],
                      [univ1, univ2, univ1, univ2],
@@ -135,6 +134,7 @@ bounds = [-1, -1, -1, 1, 1, 1]
 uniform_dist = openmc.stats.Box(bounds[:3], bounds[3:], only_fissionable = True)
 settings_file.source = openmc.source.Source(space = uniform_dist)
 
+settings_file.run_mode = "eigenvalue"
 settings_file.trigger_active = True
 settings_file.trigger_max_batches = 100
 settings_file.export_to_xml()
@@ -184,7 +184,7 @@ xdist = -lattice.lower_left[0]
 mesh.lower_left = lattice.lower_left
 mesh.upper_right = -lattice.lower_left
 mesh.type = 'regular'
-mesh.dimension = lattice.pitch
+mesh.dimension = lattice.shape
 
 mesh_lib.domains = [mesh]
 mesh_lib.build_library()
@@ -210,6 +210,8 @@ mesh_lib.domains = geometry.get_all_material_cells().values()
 mesh_lib.build_library()
 '''
 
+mesh_lib.dump_to_file("mesh_lib")
+
 two_groups = mgxs.EnergyGroups()
 two_groups.group_edges = np.array([0., 0.625, 20.0e6])
 
@@ -218,5 +220,7 @@ tallies_file = openmc.Tallies()
 mesh_lib.add_to_tallies_file(tallies_file, merge = True)
 tallies_file.export_to_xml()
 
-#openmc.run()
+
+if __name__ == "__main__":
+	openmc.run()
 
