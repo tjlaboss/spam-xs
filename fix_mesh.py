@@ -37,16 +37,14 @@ mesh_lib.domain_type = "mesh"
 
 # Define a mesh
 # Instantiate a tally Mesh
-mesh = Treat_Mesh(mesh_id=1)
-# Use the core lattice as a template
-#core_lat = summ.get_lattice_by_id(100)
+mesh = Treat_Mesh(mesh_id=1, geometry = geom)
 core_lat = geom.get_all_lattices()[100]
-xdist = -core_lat.pitch[0]*core_lat.lower_left[0]
+xdist = -core_lat.lower_left[0]
 
 mesh.lower_left = core_lat.lower_left
-mesh.upper_right = [0, 0, 0]
+mesh.upper_right = -core_lat.lower_left
 mesh.type = 'regular'
-mesh.dimension = [17, 17, 17]
+mesh.dimension = [19, 19, 19]
 
 mesh_lib.domains = [mesh,]
 mesh_lib.build_library()
@@ -79,7 +77,7 @@ print(material_lib.all_mgxs)
 
 
 
-def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = 0, x1 = xdist, n = 17):
+def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = 0, x1 = xdist, n = 19):
 	"""Plotting a single energy group as a function of space
 	
 	Inputs:
@@ -100,12 +98,11 @@ def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = 0, x1 = xdist, n = 17):
 	group_df = xs_df[xs_df["group in"] == g]
 	y_df = group_df[group_df[('mesh 1', 'y')] == 17]
 	y_at_z = y_df[y_df[("mesh 1", "z")] == 17]
-	yvals = y_at_z['mean'].values
-	print(yvals)
+	yvals = y_at_z['mean']
 	
 	# FIXME: This returns an empty array
 	#nuc_df = xs_df[xs_df['nuclide'] == nuc]['mean']
-	#print(nuc_df)
+	#print(nuc_df
 	#nuc_matrix = nuc_df.as_matrix()
 	#print(nuc_matrix)
 	
@@ -132,28 +129,28 @@ if __name__ == "__main__":
 		tallies_file.export_to_xml("test_model/tallies.xml")
 	
 	# Examine the data after the run
-	sp = openmc.StatePoint('test_model/statepoint.50.h5')
+	#sp = openmc.StatePoint('test_model/statepoint.50.h5')
+	sp = openmc.StatePoint('test_model/statepoint.30.h5')
+	
+	
+	# FIXME: This appears to be loading an openmc.Mesh, not a Treat_Mesh
 	mesh_lib.load_from_statepoint(sp)
+	mesh_lib.domains = [mesh]
+	for domain in mesh_lib.domains:
+		for mgxs_type in mesh_lib.mgxs_types:
+			xs = mesh_lib.get_mgxs(domain, mgxs_type)
+			xs.domain = mesh
+			
 	material_lib.load_from_statepoint(sp)
 	
-	"""
-	I think the main problem is that fission_mgxs should be
-	on a mesh, not on a material.
-	
-	I'm not sure how to plot the fission cross section for a group
-	as a function of radial position without this.
-	"""
-	#fission_mgxs = material_lib.get_mgxs(fuel, "fission")
-	fission_mgxs = mesh_lib.get_mgxs(mesh, "fission")
-	# fission_mgxs = mg_lib.get_mgxs(mesh, "fission")
-	# fission_mgxs = mg_lib.all_mgxs[mesh.id]["fission"]
-	fission_df = fission_mgxs.get_pandas_dataframe()
+	fission_mgxs = mesh_lib.get_mgxs(mesh, "transport")
+	fission_df = fission_mgxs.get_pandas_dataframe(nuclides = ["C0"])
 	#print(fission_df.head(17), fission_df.tail(17))
 	#fission_mgxs.print_xs()
 	
 	if PLOT:
 		# Plot stuff
-		plot_mgxs("U235", fission_mgxs, fission_df, 2, two_groups)
+		plot_mgxs("U235", fission_mgxs, fission_df, 1, two_groups)
 	
 
 

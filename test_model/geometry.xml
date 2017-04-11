@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='utf-8'?>
+<geometry>
+
+    <!-- Fuel Block (for outside control rod) -->
+
+    <cell id="90001" name="Fuel rod active region - 0.211% wgt, boron 5.9 ppm radial 0: Fuel - Replace H-1 H-2 with C-Nat" 
+                     material="90000" 
+                     region="-90001 90002 90003 -90004 90005 90006 -90007 -90008" 
+                     universe="99" />
+
+    <cell id="90002" name="Fuel rod active region - 0.211% wgt, 5.9 ppm radial 1: Airbox" 
+                     material="20000" 
+                     region="(90001 | -90002 | -90003 | 90004 | -90005 | -90006 | 90007 | 90008)
+                               (-90011 90012 90013 -90014 90015 90016 -90017 -90018)" 
+                     universe="99" />
+ 
+    <cell id="90003" name="Fuel rod active region - 0.211% wgt, 5.9 ppm radial 2: Zr Clad" 
+                     material="20005" 
+                     region="(90011 | -90012 | -90013 | 90014 | -90015 | -90016 | 90017 | 90018)
+                               (-90021 90022 90023 -90024 90025 90026 -90027 -90028)" 
+                     universe="99" />
+
+    <cell id="90004" name="Fuel rod active region - 0.211% wgt, 5.9 ppm Outer: Cooling Air" 
+                     material="20000" 
+                     region="(90021 | -90022 | -90023 | 90024 | -90025 | -90026 | 90027 | 90028)" 
+                     universe="99" />    
+
+
+    <!-- Fuel Block -->
+
+    <cell id="90011" name="Fuel rod active region - 0.211% wgt, boron 5.9 ppm radial 0: Fuel - Replace H-1 H-2 with C-Nat" 
+                     material="90000" 
+                     region="-90001 90002 90003 -90004 90005 90006 -90007 -90008" 
+                     universe="98" />
+
+    <cell id="90012" name="Fuel rod active region - 0.211% wgt, 5.9 ppm radial 1: Airbox" 
+                     material="20000" 
+                     region="(90001 | -90002 | -90003 | 90004 | -90005 | -90006 | 90007 | 90008)
+                               (-90011 90012 90013 -90014 90015 90016 -90017 -90018)" 
+                     universe="98" />
+ 
+    <cell id="90013" name="Fuel rod active region - 0.211% wgt, 5.9 ppm radial 2: Zr Clad" 
+                     material="20005" 
+                     region="(90011 | -90012 | -90013 | 90014 | -90015 | -90016 | 90017 | 90018)
+                               (-90021 90022 90023 -90024 90025 90026 -90027 -90028)" 
+                     universe="98" />
+
+    <cell id="90014" name="Fuel rod active region - 0.211% wgt, 5.9 ppm Outer: Cooling Air" 
+                     material="20000" 
+                     region="(90021 | -90022 | -90023 | 90024 | -90025 | -90026 | 90027 | 90028)" 
+                     universe="98" />   
+ 
+ 
+    <!-- Spacer filled mostly with Void/Air -->
+
+    <cell id="20011" name="Spacer fill with Air/Void (Upper and Lower): Air/Void" 
+                     material="20000" 
+                     region="-90011 90012 90013 -90014 90015 90016 -90017 -90018" 
+                     universe="21" />
+ 
+    <cell id="20012" name="Spacer fill with Air/Void (Upper and Lower): Zr Clad" 
+                     material="20005" 
+                     region="(90011 | -90012 | -90013 | 90014 | -90015 | -90016 | 90017 | 90018)
+                               (-90021 90022 90023 -90024 90025 90026 -90027 -90028)" 
+                     universe="21" />
+
+    <cell id="20013" name="Spacer fill with Air/Void (Upper and Lower): Cooling Air" 
+                     material="20000" 
+                     region="(90021 | -90022 | -90023 | 90024 | -90025 | -90026 | 90027 | 90028)" 
+                     universe="21" />  
+ 
+ 
+    <!-- Zr Spacer -->
+
+    <cell id="20090" name="Zr Spacer (Upper and Lower): Zr Spacer" 
+                     material="20005" 
+                     region="-90091 90092 90093 -90094" 
+                     universe="29" />
+                     
+    <cell id="20091" name="Spacer fill with Air/Void (Upper and Lower): Air/Void" 
+                     material="20000" 
+                     region="(90091 | -90092 | -90093 | 90094)
+                               (-90011 90012 90013 -90014 90015 90016 -90017 -90018)" 
+                     universe="29" />
+ 
+    <cell id="20092" name="Spacer fill with Air/Void (Upper and Lower): Zr Clad" 
+                     material="20005" 
+                     region="(90011 | -90012 | -90013 | 90014 | -90015 | -90016 | 90017 | 90018)
+                               (-90021 90022 90023 -90024 90025 90026 -90027 -90028)" 
+                     universe="29" />
+
+    <cell id="20093" name="Spacer fill with Air/Void (Upper and Lower): Cooling Air" 
+                     material="20000" 
+                     region="(90021 | -90022 | -90023 | 90024 | -90025 | -90026 | 90027 | 90028)" 
+                     universe="29" />  
+
+
+    <!-- Zirc Can Top -->
+
+    <!--cell id="20021" name="Spacer fill with Air/Void (Upper and Lower): Air/Void" 
+                     material="20000" 
+                     region="(-90021 90022 90023 -90024 90025 90026 -90027 -90028)" 
+                     universe="21" /-->
+ 
+    <cell id="20022" name="Zr Can: Part Inside" 
+                     material="20005" 
+                     region="(-90021 90022 90023 -90024 90025 90026 -90027 -90028)" 
+                     universe="22" />
+
+    <cell id="20023" name="Zr Can: Part Outside" 
+                     material="20005" 
+                     region="(90021 | -90022 | -90023 | 90024 | -90025 | -90026 | 90027 | 90028)" 
+                     universe="22" />  
+
+
+    <!-- Upper Graphite Reflector - Upper Fission Gas Vent -->
+
+    <cell id="20030" name="Graphite Reflector - Fission Gas Vent Region radial 0: Air/Void" 
+                     material="20000" 
+                     region="-90030" 
+                     universe="23" />
+
+    <cell id="20031" name="Graphite Reflector - Fission Gas Vent Region radial 1: Graphite" 
+                     material="20012" 
+                     region="90030  -90031 90032 90033 -90034" 
+                     universe="23" />
+
+    <cell id="20032" name="Graphite Reflector - Fission Gas Vent Region radial 2: Fission Gas Vent" 
+                     material="20000" 
+                     region="(90031 | -90032 | -90033 | 90034)
+                               (-90141 90142 90143 -90144 90145 90146 -90147 -90148)" 
+                     universe="23" />
+
+    <cell id="20033" name="Graphite Reflector - Fission Gas Vent Region radial 3: Zr Tab" 
+                      material="20005" 
+                      region="(90141 | -90142 | -90143 | 90144 | -90145 | -90146 | 90147 | 90148)
+                                (-90041 90042 90043 -90044 90045 90046 -90047 -90048)" 
+                      universe="23" />
+ 
+    <cell id="20034" name="Graphite Reflector - Fission Gas Vent Region radial 4: Aluminum Box" 
+                     material="20008" 
+                     region="(90041 | -90042 | -90043 | 90044 | -90045 | -90046 | 90047 | 90048)
+                               (-90051 90052 90053 -90054 90055 90056 -90057 -90058)" 
+                     universe="23" />
+
+    <cell id="20035" name="Graphite Reflector - Fission Gas Vent Region radial 5: Cooling Air" 
+                     material="20000" 
+                     region="(90051 | -90052 | -90053 | 90054 | -90055 | -90056 | 90057 | 90058)" 
+                     universe="23" />    
+
+
+    <!-- Upper Graphite Reflector - Outgas Hole -->
+
+    <cell id="20040" name="Graphite Reflector - Fission Gas Vent Region radial 0: Air/Void" 
+                     material="20000" 
+                     region="-90030" 
+                     universe="24" />
+
+    <cell id="20041" name="Graphite Reflector - Fission Gas Vent Region radial 1: Graphite" 
+                     material="20012" 
+                     region="90030  -90061 90062 90063 -90064 90065 90066 -90067 -90068" 
+                     universe="24" />
+
+    <cell id="20042" name="Graphite Reflector - Fission Gas Vent Region radial 2: Air/Void" 
+                     material="20000" 
+                     region="(90061 | -90062 | -90063 | 90064 | -90065 | -90066 | 90067 | 90068)
+                               (-90041 90042 90043 -90044 90045 90046 -90047 -90048)" 
+                     universe="24" />
+ 
+    <cell id="20043" name="Graphite Reflector - Fission Gas Vent Region radial 3: Aluminum Box" 
+                     material="20008" 
+                     region="(90041 | -90042 | -90043 | 90044 | -90045 | -90046 | 90047 | 90048)
+                               (-90051 90052 90053 -90054 90055 90056 -90057 -90058)" 
+                     universe="24" />
+
+    <cell id="20044" name="Graphite Reflector - Fission Gas Vent Region radial 4: Cooling Air" 
+                     material="20000" 
+                     region="(90051 | -90052 | -90053 | 90054 | -90055 | -90056 | 90057 | 90058)" 
+                     universe="24" />  
+
+
+    <!-- Lower Graphite Reflector - Lower Fission Gas Vent -->
+
+    <cell id="20061" name="Graphite Reflector - Fission Gas Vent Region radial 1: Graphite" 
+                     material="20012" 
+                     region="-90031 90032 90033 -90034" 
+                     universe="25" />
+
+    <cell id="20062" name="Graphite Reflector - Fission Gas Vent Region radial 2: Fission Gas Vent" 
+                     material="20000" 
+                     region="(90031 | -90032 | -90033 | 90034)
+                               (-90141 90142 90143 -90144 90145 90146 -90147 -90148)" 
+                     universe="25" />
+
+    <cell id="20063" name="Graphite Reflector - Fission Gas Vent Region radial 3: Zr Tab" 
+                      material="20005" 
+                      region="(90141 | -90142 | -90143 | 90144 | -90145 | -90146 | 90147 | 90148)
+                                (-90041 90042 90043 -90044 90045 90046 -90047 -90048)" 
+                      universe="25" />
+ 
+    <cell id="20064" name="Graphite Reflector - Fission Gas Vent Region radial 4: Aluminum Box" 
+                     material="20008" 
+                     region="(90041 | -90042 | -90043 | 90044 | -90045 | -90046 | 90047 | 90048)
+                               (-90051 90052 90053 -90054 90055 90056 -90057 -90058)" 
+                     universe="25" />
+
+    <cell id="20065" name="Graphite Reflector - Fission Gas Vent Region radial 5: Cooling Air" 
+                     material="20000" 
+                     region="(90051 | -90052 | -90053 | 90054 | -90055 | -90056 | 90057 | 90058)" 
+                     universe="25" />   
+
+
+    <!-- Graphite Reflector - Upper and Lower -->
+
+    <cell id="20051" name="Graphite Reflector - w/ boron 5.9 ppm radial 0: Graphite" 
+                     material="20012" 
+                     region="-90061 90062 90063 -90064 90065 90066 -90067 -90068" 
+                     universe="26" />
+
+    <cell id="20052" name="Graphite Reflector - w/ boron 5.9 ppm radial 1: Airbox" 
+                     material="20000" 
+                     region="(90061 | -90062 | -90063 | 90064 | -90065 | -90066 | 90067 | 90068)
+                               (-90041 90042 90043 -90044 90045 90046 -90047 -90048)" 
+                     universe="26" />
+ 
+    <cell id="20053" name="Graphite Reflector - w/ boron 5.9 ppm radial 2: Aluminum Box" 
+                     material="20008" 
+                     region="(90041 | -90042 | -90043 | 90044 | -90045 | -90046 | 90047 | 90048)
+                               (-90051 90052 90053 -90054 90055 90056 -90057 -90058)" 
+                     universe="26" />
+
+    <cell id="20054" name="Graphite Reflector - w/ boron 5.9 ppm Outer: Cooling Air" 
+                     material="20000" 
+                     region="(90051 | -90052 | -90053 | 90054 | -90055 | -90056 | 90057 | 90058)" 
+                     universe="26" /> 
+
+
+    <!-- Upper Reflector Fitting -->
+
+    <cell id="20070" name="Upper Reflector Fitting radial 0: Air/Void" 
+                     material="20000" 
+                     region="-90070" 
+                     universe="27" />
+
+    <cell id="20071" name="Upper Reflector Fitting radial 1: Aluminum Fitting" 
+                     material="20008" 
+                     region="90070" 
+                     universe="27" />                   
+
+
+    <!-- Lower Reflector Fitting -->
+
+    <cell id="20080" name="Upper Reflector Fitting radial 0: Aluminum Fitting" 
+                     material="20008" 
+                     region="-90080" 
+                     universe="28" />
+
+    <cell id="20081" name="Upper Reflector Fitting radial 1: Air/Void" 
+                     material="20000" 
+                     region="90080" 
+                     universe="28" /> 
+
+    <!-- Standard Fuel Assembly -->
+    <cell id="20101" universe="9" material="20010" region=" 20000 -20001"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 1:  Bottom Shield" />    
+    <cell id="20102" universe="9" material="20000" region=" 20001 -20002"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 2:  Bottom air" />
+    <cell id="20103" universe="9" fill="28"        region=" 20002 -20003"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 3:  Lower Reflector Fitting" />
+    <cell id="20104" universe="9" fill="26"        region=" 20003 -20004"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 4:  Lower Graphite Reflector" />
+    <cell id="20105" universe="9" fill="25"        region=" 20004 -20005"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 5:  Lower Graphite Reflector - Fission Gas Vent" />
+    <cell id="20106" universe="9" fill="22"        region=" 20005 -20006"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 6:  Zirc Can Top" />
+    <cell id="20107" universe="9" fill="21"        region=" 20006 -20007"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 7:  Lower void/air 2" />
+    <cell id="20108" universe="9" fill="29"        region=" 20007 -20008"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 8:  Lower Spacer" />
+    <cell id="20109" universe="9" fill="21"        region=" 20008 -20009"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 9:  Lower void/air 1" />
+    <cell id="20110" universe="9" fill="98"        region=" 20009 -20010"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 10: Fuel rod active region - 0.211% wgt, 5.9 ppm" />
+    <cell id="20111" universe="9" fill="21"        region=" 20010 -20011"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 11: Upper void/air 1"/>
+    <cell id="20112" universe="9" fill="29"        region=" 20011 -20012"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 12: Upper Spacer"/>
+    <cell id="20113" universe="9" fill="21"        region=" 20012 -20013"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 13: Upper void/air 1"/>
+    <cell id="20114" universe="9" fill="22"        region=" 20013 -20014"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 14: Zirc Can Top"/>
+    <cell id="20115" universe="9" fill="23"        region=" 20014 -20015"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 15: Upper Graphite Reflector - Fission Gas Vent"/>
+    <cell id="20116" universe="9" fill="24"        region=" 20015 -20016"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 16: Upper Graphite Reflector - Outgas Hole"/>
+    <cell id="20117" universe="9" fill="26"        region=" 20016 -20017"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 17: Upper Graphite Reflector"/>
+    <cell id="20118" universe="9" fill="27"        region=" 20017 -20018"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 18: Upper Reflector Fitting"/>
+    <cell id="20119" universe="9" material="20000" region=" 20018 -20019"  name="Fuel rod - 0.211% wgt, 5.9 ppm axial 19: Top air"/> 
+  
+
+
+    <!-- Dummy Fuel Block (in Zircaloy-Clad Dummy Fuel Assemblies) -->
+
+    <cell id="30001" name="Dummy Fuel Block - radial 0: Graphite " 
+                     material="20012" 
+                     region="-90001 90002 90003 -90004 90005 90006 -90007 -90008" 
+                     universe="30" />
+
+    <cell id="30002" name="Dummy Fuel Block - radial 1: Airbox" 
+                     material="20000" 
+                     region="(90001 | -90002 | -90003 | 90004 | -90005 | -90006 | 90007 | 90008)
+                               (-90011 90012 90013 -90014 90015 90016 -90017 -90018)" 
+                     universe="30" />
+ 
+    <cell id="30003" name="Dummy Fuel Block - radial 2: Zr Clad" 
+                     material="20005" 
+                     region="(90011 | -90012 | -90013 | 90014 | -90015 | -90016 | 90017 | 90018)
+                               (-90021 90022 90023 -90024 90025 90026 -90027 -90028)" 
+                     universe="30" />
+
+    <cell id="30004" name="Dummy Fuel Block - Outer: Cooling Air" 
+                     material="20000" 
+                     region="(90021 | -90022 | -90023 | 90024 | -90025 | -90026 | 90027 | 90028)" 
+                     universe="30" />   
+
+
+    <!-- Upper Graphite Reflector - Upper Fission Gas Vent - no Fission Gas Hole -->
+
+    <cell id="30011" name="Graphite Reflector - Fission Gas Vent Region radial 1: Graphite" 
+                     material="20012" 
+                     region="-90031 90032 90033 -90034" 
+                     universe="31" />
+
+    <cell id="30012" name="Graphite Reflector - Fission Gas Vent Region radial 2: Fission Gas Vent" 
+                     material="20000" 
+                     region="(90031 | -90032 | -90033 | 90034)
+                               (-90141 90142 90143 -90144 90145 90146 -90147 -90148)" 
+                     universe="31" />
+
+    <cell id="30013" name="Graphite Reflector - Fission Gas Vent Region radial 3: Zr Tab" 
+                      material="20005" 
+                      region="(90141 | -90142 | -90143 | 90144 | -90145 | -90146 | 90147 | 90148)
+                                (-90041 90042 90043 -90044 90045 90046 -90047 -90048)" 
+                      universe="31" />
+ 
+    <cell id="30014" name="Graphite Reflector - Fission Gas Vent Region radial 4: Aluminum Box" 
+                     material="20008" 
+                     region="(90041 | -90042 | -90043 | 90044 | -90045 | -90046 | 90047 | 90048)
+                               (-90051 90052 90053 -90054 90055 90056 -90057 -90058)" 
+                     universe="31" />
+
+    <cell id="30015" name="Graphite Reflector - Fission Gas Vent Region radial 5: Cooling Air" 
+                     material="20000" 
+                     region="(90051 | -90052 | -90053 | 90054 | -90055 | -90056 | 90057 | 90058)" 
+                     universe="31" />    
+                     
+    <!-- Zircaloy-Clad Dummy Fuel Assembly -->                   
+    <cell id="30101" universe="3" material="20010" region=" 20000 -20001"  name="Zircaloy-Clad Dummy -  axial 1:  Bottom Shield" />    
+    <cell id="30102" universe="3" material="20000" region=" 20001 -20002"  name="Zircaloy-Clad Dummy -  axial 2:  Bottom air" />
+    <cell id="30103" universe="3" fill="28"        region=" 20002 -20003"  name="Zircaloy-Clad Dummy -  axial 3:  Lower Reflector Fitting" />
+    <cell id="30104" universe="3" fill="26"        region=" 20003 -20004"  name="Zircaloy-Clad Dummy -  axial 4:  Lower Graphite Reflector" />
+    <cell id="30105" universe="3" fill="25"        region=" 20004 -20005"  name="Zircaloy-Clad Dummy -  axial 5:  Lower Graphite Reflector - Fission Gas Vent" />
+    <cell id="30106" universe="3" fill="22"        region=" 20005 -20006"  name="Zircaloy-Clad Dummy -  axial 6:  Zirc Can Top" />
+    <cell id="30107" universe="3" fill="21"        region=" 20006 -20007"  name="Zircaloy-Clad Dummy -  axial 7:  Lower void/air 2" />
+    <cell id="30108" universe="3" fill="29"        region=" 20007 -20008"  name="Zircaloy-Clad Dummy -  axial 8:  Lower Spacer" />
+    <cell id="30109" universe="3" fill="21"        region=" 20008 -20009"  name="Zircaloy-Clad Dummy -  axial 9:  Lower void/air 1" />
+    <cell id="30110" universe="3" fill="30"        region=" 20009 -20010"  name="Zircaloy-Clad Dummy -  axial 10: Zircaloy-Clad Dummy Block" />
+    <cell id="30111" universe="3" fill="21"        region=" 20010 -20011"  name="Zircaloy-Clad Dummy -  axial 11: Upper void/air 1"/>
+    <cell id="30112" universe="3" fill="29"        region=" 20011 -20012"  name="Zircaloy-Clad Dummy -  axial 12: Upper Spacer"/>
+    <cell id="30113" universe="3" fill="21"        region=" 20012 -20013"  name="Zircaloy-Clad Dummy -  axial 13: Upper void/air 2"/>
+    <cell id="30114" universe="3" fill="22"        region=" 20013 -20014"  name="Zircaloy-Clad Dummy -  axial 14: Zirc Can Top"/>
+    <cell id="30115" universe="3" fill="31"        region=" 20014 -20015"  name="Zircaloy-Clad Dummy -  axial 15: Upper Graphite Reflector - Fission Gas Vent - no Outgas Hole"/>
+    <cell id="30116" universe="3" fill="26"        region=" 20015 -20016"  name="Zircaloy-Clad Dummy -  axial 16: Upper Graphite Reflector"/>
+    <cell id="30117" universe="3" fill="26"        region=" 20016 -20017"  name="Zircaloy-Clad Dummy -  axial 17: Upper Graphite Reflector"/>
+    <cell id="30118" universe="3" fill="27"        region=" 20017 -20018"  name="Zircaloy-Clad Dummy -  axial 18: Upper Reflector Fitting"/>
+    <cell id="30119" universe="3" material="20000" region=" 20018 -20019"  name="Zircaloy-Clad Dummy -  axial 19: Top air"/>    
+
+
+    <!-- Aluminum-Clad Dummy Fuel Assembly -->             
+    <cell id="40101" universe="4" material="20010" region=" 20000 -20001"  name="Aluminum-Clad Dummy -  axial 1:  Bottom Shield" />    
+    <cell id="40102" universe="4" material="20000" region=" 20001 -20002"  name="Aluminum-Clad Dummy -  axial 2:  Bottom air" />
+    <cell id="40103" universe="4" fill="28"        region=" 20002 -20003"  name="Aluminum-Clad Dummy -  axial 3:  Lower Reflector Fitting" />
+    <cell id="40104" universe="4" fill="26"        region=" 20003 -20017"  name="Aluminum-Clad Dummy -  axial 4:  Graphite Reflector" />
+    <cell id="40105" universe="4" fill="27"        region=" 20017 -20018"  name="Aluminum-Clad Dummy -  axial 5:  Upper Reflector Fitting"/>
+    <cell id="40106" universe="4" material="20000" region=" 20018 -20019"  name="Aluminum-Clad Dummy -  axial 6:  Top air"/>  
+
+
+    <!-- Aluminum-Clad Dummy Fuel Assembly 
+    <cell id="60101" universe="6" material="20010" region=" 20000 -20001"  name="Aluminum-Clad Dummy -  axial 1:  Bottom Shield" />    
+    <cell id="60102" universe="6" material="20000" region=" 20001 -20002"  name="Aluminum-Clad Dummy -  axial 2:  Bottom air" />
+    <cell id="60103" universe="6" fill="28"        region=" 20002 -20003"  name="Aluminum-Clad Dummy -  axial 3:  Lower Reflector Fitting" />
+    <cell id="60104" universe="6" fill="26"        region=" 20003 -20017"  name="Aluminum-Clad Dummy -  axial 4:  Graphite Reflector" />
+    <cell id="60105" universe="6" fill="27"        region=" 20017 -20018"  name="Aluminum-Clad Dummy -  axial 5:  Upper Reflector Fitting"/>
+    <cell id="60106" universe="6" material="20000" region=" 20018 -20019"  name="Aluminum-Clad Dummy -  axial 6:  Top air"/> 
+	-->             
+
+ 
+    <!-- Control Rod Fuel Assembly -->
+    
+    <!-- Outside Gas Gap Region - Fuel Block -->
+    <cell id="50101" universe="5" material="20010" region=" 20000 -20001 50001"        name="Control Rod Fuel -  axial 1:  Bottom Shield" />    
+    <cell id="50102" universe="5" material="20000" region=" 20001 -20002 50001"        name="Control Rod Fuel -  axial 2:  Bottom air" />
+    <cell id="50103" universe="5" material="20000" region=" 20002 -20003 50001"        name="Control Rod Fuel -  axial 3:  Lower Control Assembly Fitting" />
+    <cell id="50104" universe="5" fill="26"        region=" 20003 -20004 50001"        name="Control Rod Fuel -  axial 4:  Lower Graphite Reflector" />
+    <cell id="50105" universe="5" fill="25"        region=" 20004 -20005 50001"        name="Control Rod Fuel -  axial 5:  Lower Graphite Reflector - Fission Gas Vent" />
+    <cell id="50106" universe="5" fill="22"        region=" 20005 -20006 50001"        name="Control Rod Fuel -  axial 6:  Zirc Can Top" />
+    <cell id="50107" universe="5" fill="21"        region=" 20006 -20007 50001"        name="Control Rod Fuel -  axial 7:  Lower void/air 2" />
+    <cell id="50108" universe="5" fill="29"        region=" 20007 -20008 50001"        name="Control Rod Fuel -  axial 8:  Lower Spacer"/>
+    <cell id="50109" universe="5" fill="21"        region=" 20008 -20009 50001"        name="Control Rod Fuel -  axial 9:  Lower void/air 1"/>
+    <cell id="50110" universe="5" fill="99"        region=" 20009 -20010 50001"        name="Control Rod Fuel -  axial 10: Control Rod Fuel Block" />
+    <cell id="50111" universe="5" fill="21"        region=" 20010 -20011 50001"        name="Control Rod Fuel -  axial 11: Upper void/air 1"/>
+    <cell id="50112" universe="5" fill="29"        region=" 20011 -20012 50001"        name="Control Rod Fuel -  axial 12: Upper Spacer"/>
+    <cell id="50113" universe="5" fill="21"        region=" 20012 -20013 50001"        name="Control Rod Fuel -  axial 13: Upper void/air 2"/>
+    <cell id="50114" universe="5" fill="22"        region=" 20013 -20014 50001"        name="Control Rod Fuel -  axial 14: Zirc Can Top"/>
+    <cell id="50115" universe="5" fill="31"        region=" 20014 -20015 50001 50011"  name="Control Rod Fuel -  axial 15: Upper Graphite Reflector - Fission Gas Vent - no Outgas Hole"/>
+    <cell id="50121" universe="5" material="20000" region=" 20014 -20015      -50011"  name="Control Rod Fuel -  axial 15: Upper Graphite Reflector - Fission Gas Vent - no Outgas Hole"/> 
+    <cell id="50116" universe="5" fill="26"        region=" 20015 -20016 50000"        name="Control Rod Fuel -  axial 16: Upper Graphite Reflector"/>
+    <cell id="50117" universe="5" fill="26"        region=" 20016 -20017 50000"        name="Control Rod Fuel -  axial 17: Upper Graphite Reflector"/>
+    <cell id="50118" universe="5" fill="27"        region=" 20017 -20018 50000"        name="Control Rod Fuel -  axial 18: Upper Reflector Fitting"/>
+    <cell id="50119" universe="5" material="20000" region=" 20018 -20019 50001"        name="Control Rod Fuel -  axial 19: Top air"/>  
+
+
+    <!-- Outer Gas Gap Region -->
+    <cell id="50201" universe="5" material="20010" region=" 20000 -20001 50002 -50001"  name="Control Rod Fuel -  axial 1:  Bottom Shield" />    
+    <cell id="50202" universe="5" material="20000" region=" 20001 -20002 50002 -50001"  name="Control Rod Fuel -  axial 2:  Bottom air" />
+    <cell id="50203" universe="5" material="20000" region=" 20002 -20003 50002 -50001"  name="Control Rod Fuel -  axial 3:  Lower Control Assembly Fitting" />
+    <cell id="50204" universe="5" fill="26"        region=" 20003 -20004 50002 -50001"  name="Control Rod Fuel -  axial 4:  Lower Graphite Reflector" />
+    <cell id="50205" universe="5" fill="25"        region=" 20004 -20005 50002 -50001"  name="Control Rod Fuel -  axial 5:  Lower Graphite Reflector - Fission Gas Vent" />
+    <cell id="50206" universe="5" fill="22"        region=" 20005 -20006 50002 -50001"  name="Control Rod Fuel -  axial 6:  Zirc Can Top" />
+    <cell id="50207" universe="5" fill="21"        region=" 20006 -20007 50002 -50001"  name="Control Rod Fuel -  axial 7:  Lower void/air 2" />
+    <cell id="50208" universe="5" fill="29"        region=" 20007 -20008 50002 -50001"  name="Control Rod Fuel -  axial 8:  Lower Spacer"/>
+    <cell id="50209" universe="5" fill="21"        region=" 20008 -20009 50002 -50001"  name="Control Rod Fuel -  axial 9:  Lower void/air 1"/>
+    <cell id="50210" universe="5" material="20000" region=" 20009 -20010 50002 -50001"  name="Control Rod Fuel -  axial 10: Control Rod Fuel Block" />
+    <cell id="50211" universe="5" fill="21"        region=" 20010 -20011 50002 -50001"  name="Control Rod Fuel -  axial 11: Upper void/air 1" />
+    <cell id="50212" universe="5" fill="29"        region=" 20011 -20012 50002 -50001"  name="Control Rod Fuel -  axial 12: Upper Spacer"/>
+    <cell id="50213" universe="5" fill="21"        region=" 20012 -20013 50002 -50001"  name="Control Rod Fuel -  axial 13: Upper void/air 2"/>
+    <cell id="50214" universe="5" fill="22"        region=" 20013 -20014 50002 -50001"  name="Control Rod Fuel -  axial 14:  Zirc Can Top"/>
+    <cell id="50215" universe="5" fill="31"        region=" 20014 -20015 50002 -50001"  name="Control Rod Fuel -  axial 15: Upper Graphite Reflector - Fission Gas Vent - no Outgas Hole"/>
+    <cell id="50216" universe="5" material="20008" region=" 20015 -20016 50002 -50000"  name="Control Rod Fuel -  axial 16: Upper Graphite Reflector"/>
+    <cell id="50217" universe="5" material="20008" region=" 20016 -20017 50002 -50000"  name="Control Rod Fuel -  axial 17: Upper Graphite Reflector"/>
+    <cell id="50218" universe="5" material="20008" region=" 20017 -20018 50002 -50000"  name="Control Rod Fuel -  axial 18: Upper Reflector Fitting"/>
+    <cell id="50219" universe="5" material="20000" region=" 20018 -20019 50002 -50001"  name="Control Rod Fuel -  axial 19: Top air"/>   
+
+
+    <!-- Zr Clad Region -->
+    <cell id="50301" universe="5" material="20010" region=" 20000 -20001 50003 -50002"  name="Control Rod Fuel -  axial 1:  Bottom Shield" />    
+    <cell id="50302" universe="5" material="20000" region=" 20001 -20002 50003 -50002"  name="Control Rod Fuel -  axial 2:  Bottom air" />
+    <cell id="50303" universe="5" material="20005" region=" 20002 -20003 50003 -50002"  name="Control Rod Fuel -  axial 3:  Lower Control Assembly Fitting" />
+    <cell id="50304" universe="5" material="20005" region=" 20003 -20004 50003 -50002"  name="Control Rod Fuel -  axial 4:  Lower Graphite Reflector" />
+    <cell id="50305" universe="5" material="20005" region=" 20004 -20005 50003 -50002"  name="Control Rod Fuel -  axial 5:  Lower Graphite Reflector - Fission Gas Vent" />
+    <cell id="50306" universe="5" material="20005" region=" 20005 -20006 50003 -50002"  name="Control Rod Fuel -  axial 6:  Zirc Can Top" />
+    <cell id="50307" universe="5" material="20005" region=" 20006 -20007 50003 -50002"  name="Control Rod Fuel -  axial 7:  Spacer with void/air" />
+    <cell id="50308" universe="5" material="20005" region=" 20007 -20008 50003 -50002"  name="Control Rod Fuel -  axial 8:  Spacer with void/air" />
+    <cell id="50309" universe="5" material="20005" region=" 20008 -20009 50003 -50002"  name="Control Rod Fuel -  axial 9:  Spacer with void/air" />
+    <cell id="50310" universe="5" material="20005" region=" 20009 -20010 50003 -50002"  name="Control Rod Fuel -  axial 10: Control Rod Fuel Block" />
+    <cell id="50311" universe="5" material="20005" region=" 20010 -20011 50003 -50002"  name="Control Rod Fuel -  axial 11: Spacer with void/air"/>
+    <cell id="50312" universe="5" material="20005" region=" 20011 -20012 50003 -50002"  name="Control Rod Fuel -  axial 12: Spacer with void/air"/>
+    <cell id="50313" universe="5" material="20005" region=" 20012 -20013 50003 -50002"  name="Control Rod Fuel -  axial 13: Spacer with void/air"/>
+    <cell id="50314" universe="5" material="20005" region=" 20013 -20014 50003 -50002"  name="Control Rod Fuel -  axial 14:  Zirc Can Top"/>
+    <cell id="50315" universe="5" material="20005" region=" 20014 -20015 50003 -50002"  name="Control Rod Fuel -  axial 15: Upper Graphite Reflector - Fission Gas Vent - no Outgas Hole"/>
+    <cell id="50316" universe="5" material="20008" region=" 20015 -20016 50003 -50002"  name="Control Rod Fuel -  axial 16: Upper Graphite Reflector"/>
+    <cell id="50317" universe="5" material="20008" region=" 20016 -20017 50003 -50002"  name="Control Rod Fuel -  axial 17: Upper Graphite Reflector"/>
+    <cell id="50318" universe="5" material="20008" region=" 20017 -20018 50003 -50002"  name="Control Rod Fuel -  axial 18: Upper Reflector Fitting"/>
+    <cell id="50319" universe="5" material="20000" region=" 20018 -20019 50003 -50002"  name="Control Rod Fuel -  axial 19: Top air"/>  
+    
+
+    <!-- Inner Gas Gap Region -->
+    <cell id="50400" universe="5" material="20000" region=" 20000 -20019 50004 -50003"  name="Control Rod Fuel -  Full Length:  Inner Gas Gap" />  
+
+
+    <!-- Clad for Control Rod -->
+    <cell id="50501" universe="5" material="20009" region=" 20000 -20102 50005 -50004"  name="Control Rod - Control Rod Follower - Mild Steel" />    
+    <cell id="50502" universe="5" material="20009" region=" 20102 -20105 50005 -50004"  name="Control Rod - Upper Follower       - Mild Steel" />
+    <cell id="50503" universe="5" material="20005" region=" 20105 -20108 50005 -50004"  name="Control Rod - Zirco Follower       - Zr-3" />
+    <cell id="50504" universe="5" material="20009" region=" 20108 -20019 50005 -50004"  name="Control Rod - Poison Section       - Mild Steel" />
+
+
+    <!-- Control Rod Region -->
+    <cell id="50901" universe="5" material="20012" region=" 20000 -20101   -50005"  name="Control Rod - Control Rod Follower - Graphite         -  axial 1" />    
+    <cell id="50902" universe="5" material="20009" region=" 20101 -20102   -50005"  name="Control Rod - Control Rod Follower - Mild Steel Head  -  axial 2" />
+    <cell id="50903" universe="5" material="20009" region=" 20102 -20103   -50005"  name="Control Rod - Upper Follower       - Mild Steel End   -  axial 3" />
+    <cell id="50904" universe="5" material="20012" region=" 20103 -20104   -50005"  name="Control Rod - Upper Follower       - Graphite         -  axial 4" />
+    <cell id="50905" universe="5" material="20009" region=" 20104 -20105   -50005"  name="Control Rod - Upper Follower       - Mild Steel Head  -  axial 5" />
+    <cell id="50906" universe="5" material="20009" region=" 20105 -20106   -50005"  name="Control Rod - Zirco Follower       - Mild Steel End   -  axial 6" />
+    <cell id="50907" universe="5" material="20012" region=" 20106 -20107   -50005"  name="Control Rod - Zirco Follower       - Graphite         -  axial 7" />
+    <cell id="50908" universe="5" material="20009" region=" 20107 -20108   -50005"  name="Control Rod - Zirco Follower       - Mild Steel Head  -  axial 8" />
+    <cell id="50909" universe="5" material="20009" region=" 20108 -20109   -50005"  name="Control Rod - Poison Section       - Mild Steel End   -  axial 9"/>
+    <cell id="50910" universe="5" material="20012" region=" 20109 -20110   -50005"  name="Control Rod - Poison Section       - Graphite         -  axial 10"/>
+    <cell id="50911" universe="5" material="10002" region=" 20110 -20111   -50005"  name="Control Rod - Poison Section       - B4C Absorber     -  axial 11"/>
+    <cell id="50912" universe="5" material="20009" region=" 20111 -20019   -50005"  name="Control Rod - Poison Section       - Mild Steel Head  -  axial 12"/>
+
+
+ 
+    <lattice id="100">
+        <pitch>10.16 10.16 1000.0</pitch>
+        <dimension>19 19 1</dimension>
+        <lower_left>-96.52 -96.52 -500.0</lower_left>
+        <universes>
+            4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+            4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+            4 4 4 4 4 4 4 4 3 4 3 4 4 4 4 4 4 4 4 
+            4 4 4 4 4 4 9 9 9 3 9 9 9 4 4 4 4 4 4 
+            4 4 4 4 3 9 9 9 9 9 9 9 9 9 3 4 4 4 4 
+            4 4 4 4 9 9 9 5 9 9 9 5 9 9 9 4 4 4 4 
+            4 4 4 9 9 9 9 9 9 9 9 9 9 9 9 9 4 4 4 
+            4 4 4 9 9 5 9 9 9 9 9 9 9 5 9 9 4 4 4 
+            4 4 3 9 9 9 9 9 9 9 9 9 9 9 9 9 3 4 4 
+            4 4 4 3 9 9 9 9 9 9 9 9 9 9 9 3 4 4 4 
+            4 4 3 9 9 9 9 9 9 9 9 9 9 9 9 9 3 4 4 
+            4 4 4 9 9 5 9 9 9 9 9 9 9 5 9 9 4 4 4 
+            4 4 4 9 9 9 9 9 9 9 9 9 9 9 9 9 4 4 4 
+            4 4 4 4 9 9 9 5 9 9 9 5 9 9 9 4 4 4 4 
+            4 4 4 4 3 9 9 9 9 9 9 9 9 9 3 4 4 4 4 
+            4 4 4 4 4 4 9 9 9 3 9 9 9 4 4 4 4 4 4 
+            4 4 4 4 4 4 4 4 3 4 3 4 4 4 4 4 4 4 4 
+            4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+            4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        </universes>
+    </lattice>    
+    
+    
+    <cell fill="100" id="20000"     name="Minimum Critical Core"     
+                                    region="30007 -30008 30009 -30010 30005 -30006" universe="0" />
+
+    <cell id="101" material="20000" name="Outside Core Air Volume"  
+                                    region="(-30007 | 30008 | -30009 | 30010) (30011 -30012 30013 -30014 30005 -30006)" universe="0" />
+
+    <cell id="102" material="20008" name="Aluminium Liner"  
+                                    region="(-30011 | 30012 | -30013 | 30014) (30015 -30016 30017 -30018 30005 -30006)" universe="0" />
+
+    <cell id="103" material="30012" name="Pemanent Graphite Reflector"  
+                                    region="(-30015 | 30016 | -30017 | 30018) (30019 -30020 30021 -30022 30005 -30026)" universe="0" />
+
+    <cell id="104" material="20000" name="Pemanent Graphite Reflector"  
+                                    region="(-30015 | 30016 | -30017 | 30018) (30019 -30020 30021 -30022 30026 -30006)" universe="0" />   
+    
+    
+    <!-- Fuel - Block Active Region -->
+    <surface boundary="transmission" coeffs=" 4.826"                      id="90001" name="Fuel Surface E" type="x-plane" />
+    <surface boundary="transmission" coeffs="-4.826"                      id="90002" name="Fuel Surface S" type="y-plane" />
+    <surface boundary="transmission" coeffs="-4.826"                      id="90003" name="Fuel Surface W" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 4.826"                      id="90004" name="Fuel Surface N" type="y-plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0 -8.55281665078" id="90005" name="Fuel Surface SE" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0 -8.55281665078" id="90006" name="Fuel Surface SW" type="plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0  8.55281665078" id="90007" name="Fuel Surface NW" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0  8.55281665078" id="90008" name="Fuel Surface NE" type="plane" />    
+    
+    <!-- Fuel - Air/Void Gap Region -->
+    <surface boundary="transmission" coeffs=" 4.9657"                     id="90011" name="Gap Surface E" type="x-plane" />
+    <surface boundary="transmission" coeffs="-4.9657"                     id="90012" name="Gap Surface S" type="y-plane" />
+    <surface boundary="transmission" coeffs="-4.9657"                     id="90013" name="Gap Surface W" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 4.9657"                     id="90014" name="Gap Surface N" type="y-plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0 -8.846065424"   id="90015" name="Gap Surface SE" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0 -8.846065424"   id="90016" name="Gap Surface SW" type="plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0  8.846065424"   id="90017" name="Gap Surface NW" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0  8.846065424"   id="90018" name="Gap Surface NE" type="plane" />      
+     
+    <!-- Fuel - Spacer Region -->
+    <surface boundary="transmission" coeffs=" 3.571875"                     id="90091" name="Gap Surface E" type="x-plane" />
+    <surface boundary="transmission" coeffs="-3.571875"                     id="90092" name="Gap Surface S" type="y-plane" />
+    <surface boundary="transmission" coeffs="-3.571875"                     id="90093" name="Gap Surface W" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 3.571875"                     id="90094" name="Gap Surface N" type="y-plane" />
+    
+    <!-- Fuel - Zr Clad Region -->
+    <surface boundary="transmission" coeffs=" 5.0292"                     id="90021" name="Clad Surface E" type="x-plane" />
+    <surface boundary="transmission" coeffs="-5.0292"                     id="90022" name="Clad Surface S" type="y-plane" />
+    <surface boundary="transmission" coeffs="-5.0292"                     id="90023" name="Clad Surface W" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 5.0292"                     id="90024" name="Clad Surface N" type="y-plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0 -8.935867985"   id="90025" name="Clad Surface SE" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0 -8.935867985"   id="90026" name="Clad Surface SW" type="plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0  8.935867985"   id="90027" name="Clad Surface NW" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0  8.935867985"   id="90028" name="Clad Surface NE" type="plane" /> 
+     
+    <!-- Fuel - Fission Gas Vent Region -->
+    <surface boundary="transmission" coeffs=" 0.0 0.0 0.9525"             id="90030" name="Central Vent" type="z-cylinder" />
+    
+    <surface boundary="transmission" coeffs=" 4.1656"                     id="90031" name="Side Vent Inner E" type="x-plane" />
+    <surface boundary="transmission" coeffs="-4.1656"                     id="90032" name="Side Vent Inner S" type="y-plane" />
+    <surface boundary="transmission" coeffs="-4.1656"                     id="90033" name="Side Vent Inner W" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 4.1656"                     id="90034" name="Side Vent Inner N" type="y-plane" />
+
+    <surface boundary="transmission" coeffs=" 4.664"                       id="90141" name="Zr Tab Inner E" type="x-plane" />
+    <surface boundary="transmission" coeffs="-4.664"                       id="90142" name="Zr Tab Inner S" type="y-plane" />
+    <surface boundary="transmission" coeffs="-4.664"                       id="90143" name="Zr Tab Inner W" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 4.664"                       id="90144" name="Zr Tab Inner N" type="y-plane" /> 
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0 -8.4193971920"  id="90145" name="Zr Tab Inner SE" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0 -8.4193971920"  id="90146" name="Zr Tab Inner SW" type="plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0  8.4193971920"  id="90147" name="Zr Tab Inner NW" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0  8.4193971920"  id="90148" name="Zr Tab Inner NE" type="plane" /> 
+    
+    <surface boundary="transmission" coeffs=" 4.9022"                     id="90041" name="Aluminum Inner E" type="x-plane" />
+    <surface boundary="transmission" coeffs="-4.9022"                     id="90042" name="Aluminum Inner S" type="y-plane" />
+    <surface boundary="transmission" coeffs="-4.9022"                     id="90043" name="Aluminum Inner W" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 4.9022"                     id="90044" name="Aluminum Inner N" type="y-plane" /> 
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0 -8.7562628626"  id="90045" name="Aluminum Inner SE" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0 -8.7562628626"  id="90046" name="Aluminum Inner SW" type="plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0  8.7562628626"  id="90047" name="Aluminum Inner NW" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0  8.7562628626"  id="90048" name="Aluminum Inner NE" type="plane" />  
+
+    <surface boundary="transmission" coeffs=" 5.0292"                     id="90051" name="Aluminum Outer E" type="x-plane" />
+    <surface boundary="transmission" coeffs="-5.0292"                     id="90052" name="Aluminum Outer S" type="y-plane" />
+    <surface boundary="transmission" coeffs="-5.0292"                     id="90053" name="Aluminum Outer W" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 5.0292"                     id="90054" name="Aluminum Outer N" type="y-plane" /> 
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0 -8.935867985"   id="90055" name="Aluminum Outer SE" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0 -8.935867985"   id="90056" name="Aluminum Outer SW" type="plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0  8.935867985"   id="90057" name="Aluminum Outer NW" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0  8.935867985"   id="90058" name="Aluminum Outer NE" type="plane" />  
+ 
+    <!-- Fuel - Graphite Reflector -->
+    <surface boundary="transmission" coeffs=" 4.8006"                     id="90061" name="Graphite Reflector E" type="x-plane" />
+    <surface boundary="transmission" coeffs="-4.8006"                     id="90062" name="Graphite Reflector S" type="y-plane" />
+    <surface boundary="transmission" coeffs="-4.8006"                     id="90063" name="Graphite Reflector W" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 4.8006"                     id="90064" name="Graphite Reflector N" type="y-plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0 -8.514589010"   id="90065" name="Graphite Reflector SE" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0 -8.514589010"   id="90066" name="Graphite Reflector SW" type="plane" />
+    <surface boundary="transmission" coeffs="-1.0 1.0 0.0  8.514589010"   id="90067" name="Graphite Reflector NW" type="plane" />
+    <surface boundary="transmission" coeffs=" 1.0 1.0 0.0  8.514589010"   id="90068" name="Graphite Reflector NE" type="plane" /> 
+ 
+    <!-- Fuel - Upper Reflector Fitting -->
+    <surface boundary="transmission" coeffs=" 0.0 0.0 2.54"               id="90070" name="Upper Reflector Fitting - Central Air/Void" type="z-cylinder" />    
+ 
+    <!-- Fuel - Lower Reflector Fitting -->
+    <surface boundary="transmission" coeffs=" 0.0 0.0 1.27"               id="90080" name="Lower Reflector Fitting - Central Aluminum" type="z-cylinder" />
+
+    
+    <!-- Fuel Region Axial z-plane -->
+    <surface boundary="transmission" coeffs="-250.0      " id="20000"  name="Bottom Shield" type="z-plane" />
+    <surface boundary="transmission" coeffs="-155.09875  " id="20001"  name="Air Above Bottom Shield" type="z-plane" />
+    <surface boundary="transmission" coeffs="-136.68375  " id="20002"  name="Support structure bottom" type="z-plane" />
+    <surface boundary="transmission" coeffs="-119.935625 " id="20003"  name="Support structure top" type="z-plane" />
+    <surface boundary="transmission" coeffs=" -70.4301825" id="20004"  name="Lower Reflector" type="z-plane" />
+    <surface boundary="transmission" coeffs=" -61.356875 " id="20005"  name="Lower Fission Gas Vent" type="z-plane" />
+    <surface boundary="transmission" coeffs=" -61.11875  " id="20006"  name="Lower Zirc" type="z-plane" />
+    <surface boundary="transmission" coeffs=" -60.86475  " id="20007"  name="Lower Void 2" type="z-plane" />
+    <surface boundary="transmission" coeffs=" -60.73775  " id="20008"  name="Lower Spacer" type="z-plane" />
+    <surface boundary="transmission" coeffs=" -60.48375  " id="20009"  name="Lower Void 1" type="z-plane" />
+    <surface boundary="transmission" coeffs="  60.48375  " id="20010"  name="Fuel Block" type="z-plane" />
+    <surface boundary="transmission" coeffs="  60.73775  " id="20011"  name="Upper Void 1" type="z-plane" />
+    <surface boundary="transmission" coeffs="  60.86475  " id="20012"  name="Upper Spacer" type="z-plane" />
+    <surface boundary="transmission" coeffs="  61.11875  " id="20013"  name="Upper Void 2" type="z-plane" />
+    <surface boundary="transmission" coeffs="  61.356875 " id="20014"  name="Upper Zirc" type="z-plane" />
+    <surface boundary="transmission" coeffs="  70.4301825" id="20015"  name="Upper Fission Gas Vent" type="z-plane" />
+    <surface boundary="transmission" coeffs="  83.423125 " id="20016"  name="Upper Outgas Hole" type="z-plane" />    
+    <surface boundary="transmission" coeffs=" 124.063125 " id="20017"  name="Upper Reflector" type="z-plane" />
+    <surface boundary="transmission" coeffs=" 129.936875 " id="20018"  name="Upper plug top" type="z-plane" />
+    <surface boundary="transmission" coeffs=" 240.0      " id="20019"  name="Top Air/Void" type="z-plane" /> 
+ 
+ 
+    <!-- Control Rod Fuel - Block Active Region -->
+    <surface boundary="transmission" coeffs=" 0.0 0.0 3.175"       id="50000" name="Control Assembly Al Bearing Tube Outer Boundary" type="z-cylinder" /> 
+    <surface boundary="transmission" coeffs=" 0.0 0.0 2.9591"      id="50001" name="Control Assembly Fuel Inner Boundary" type="z-cylinder" /> 
+    <surface boundary="transmission" coeffs=" 0.0 0.0 2.8575"      id="50002" name="Control Assembly Zr Outer Boundary"   type="z-cylinder" />
+    <surface boundary="transmission" coeffs=" 0.0 0.0 2.54  "      id="50003" name="Control Assembly Zr Inner Boundary"   type="z-cylinder" />
+    <surface boundary="transmission" coeffs=" 0.0 0.0 2.2225"      id="50004" name="Control Assembly Steel Outer Boundary"   type="z-cylinder" />
+    <surface boundary="transmission" coeffs=" 0.0 0.0 1.905 "      id="50005" name="Control Assembly Steel Inner Boundary"   type="z-cylinder" /> 
+    
+    <surface boundary="transmission" coeffs=" 3.1431 3.1431 0.635 "  id="50011" name="Corner Vent"   type="z-cylinder" />
+    
+
+    <!-- CS / CC - Full Out - Axial Region -->
+    <surface boundary="transmission" coeffs=" -143.82225"   id="20101" name="Control Rod - Control Rod Follower - Steel Head Bottom" type="z-plane" /> 
+    <surface boundary="transmission" coeffs=" -140.01225"   id="20102" name="Control Rod - Control Rod Follower - Steel Head Top   " type="z-plane" />
+    <surface boundary="transmission" coeffs=" -133.97975"   id="20103" name="Control Rod - Upper Follower       - Steel End Top    " type="z-plane" />
+    <surface boundary="transmission" coeffs="  -96.83225"   id="20104" name="Control Rod - Upper Follower       - Graphite Top     " type="z-plane" />
+    <surface boundary="transmission" coeffs="  -79.05225"   id="20105" name="Control Rod - Upper Follower       - Steel Head Top   " type="z-plane" />    
+    <surface boundary="transmission" coeffs="  -73.01975"   id="20106" name="Control Rod - Zirco Follower       - Steel End Top    " type="z-plane" /> 
+    <surface boundary="transmission" coeffs="   67.31525"   id="20107" name="Control Rod - Zirco Follower       - Graphite Top     " type="z-plane" />
+    <surface boundary="transmission" coeffs="   73.34775"   id="20108" name="Control Rod - Zirco Follower       - Steel Head Top   " type="z-plane" />
+    <surface boundary="transmission" coeffs="   77.24775"   id="20109" name="Control Rod - Poison Section       - Steel End Top    " type="z-plane" />
+    <surface boundary="transmission" coeffs="  119.06775"   id="20110" name="Control Rod - Poison Section       - Graphite Top     " type="z-plane" /> 
+    <surface boundary="transmission" coeffs="  219.71525"   id="20111" name="Control Rod - Poison Section       - B4C Absorber Top " type="z-plane" /> 
+ 
+        
+    <!-- Infinite Lattice Region -->
+    <surface boundary="reflective" coeffs="-15.24"     id="30001"  name="Infinite Lattice X min" type="x-plane" />
+    <surface boundary="reflective" coeffs=" 15.24"     id="30002"  name="Infinite Lattice X max" type="x-plane" />
+    <surface boundary="reflective" coeffs="-15.24"     id="30003"  name="Infinite Lattice X min" type="y-plane" />
+    <surface boundary="reflective" coeffs=" 15.24"     id="30004"  name="Infinite Lattice X max" type="y-plane" />
+
+    
+    <!-- Outer Boundary -->
+    <surface boundary="vacuum" coeffs=" -246.53875 "   id="30005"  name="Lowest Extent - Bottom Concrete Shield" type="z-plane" />
+    <surface boundary="vacuum" coeffs="  237.8075  "   id="30006"  name="Highest Extent - Top Air/Void" type="z-plane" />
+
+
+    <!-- Core Boundary -->
+    <surface boundary="transmission" coeffs="-96.52"        id="30007"  name="Core W Radial Universe Bound" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 96.52"        id="30008"  name="Core E Radial Universe Bound" type="x-plane" />
+    <surface boundary="transmission" coeffs="-96.52"        id="30009"  name="Core S Radial Universe Bound" type="y-plane" />
+    <surface boundary="transmission" coeffs=" 96.52"        id="30010"  name="Core N Radial Universe Bound" type="y-plane" />
+
+
+    <!-- Permanent Reflector Liner Inner Surface -->
+    <surface boundary="transmission" coeffs="-100.965"      id="30011"  name="Inner Liner W Radial Universe Bound" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 100.965"      id="30012"  name="Inner Liner E Radial Universe Bound" type="x-plane" />
+    <surface boundary="transmission" coeffs="-100.965"      id="30013"  name="Inner Liner S Radial Universe Bound" type="y-plane" />
+    <surface boundary="transmission" coeffs=" 100.965"      id="30014"  name="Inner Liner N Radial Universe Bound" type="y-plane" />
+
+
+    <!-- Permanent Reflector Liner Outer Surface -->
+    <surface boundary="transmission" coeffs="-101.2825"     id="30015"  name="Outer Liner W Radial Universe Bound" type="x-plane" />
+    <surface boundary="transmission" coeffs=" 101.2825"     id="30016"  name="Outer Liner E Radial Universe Bound" type="x-plane" />
+    <surface boundary="transmission" coeffs="-101.2825"     id="30017"  name="Outer Liner S Radial Universe Bound" type="y-plane" />
+    <surface boundary="transmission" coeffs=" 101.2825"     id="30018"  name="Outer Liner N Radial Universe Bound" type="y-plane" />
+
+
+    <!-- Permanent Reflector -->
+    <surface boundary="vacuum" coeffs="-162.8775"     id="30019"  name="Reflector W Radial Universe Bound" type="x-plane" />
+    <surface boundary="vacuum" coeffs=" 162.8775"     id="30020"  name="Reflector E Radial Universe Bound" type="x-plane" />
+    <surface boundary="vacuum" coeffs="-162.8775"     id="30021"  name="Reflector S Radial Universe Bound" type="y-plane" />
+    <surface boundary="vacuum" coeffs=" 162.8775"     id="30022"  name="Reflector N Radial Universe Bound" type="y-plane" />
+
+    <!--surface boundary="vacuum" coeffs=" -246.53875 "   id="30025"  name="Lowest Extent - Bottom Concrete Shield" type="z-plane" /-->
+    <surface boundary="transmission" coeffs="  116.84  "   id="30026"  name="Highest Extent - Top Air/Void" type="z-plane" />
+    
+</geometry>
