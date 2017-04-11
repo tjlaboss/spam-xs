@@ -6,10 +6,6 @@ from math import sqrt, pi
 
 rt = sqrt(2)/2  # "root two" (useful shorthand)
 
-# Global variables
-# Extract the geometry from an existing summary
-geometry = openmc.Summary("summary.h5").geometry
-
 
 def __setup(geom):
 	"""Get some of the basics out of the way
@@ -311,6 +307,9 @@ def reflector_cell_by_material(geom, display = False):
 
 
 if __name__ == "__main__":
+	# Extract the geometry from an existing summary
+	geometry = openmc.Summary("summary.h5").geometry
+	
 	# Test
 	print("Fuel Cell:")
 	fuel_cell_by_material(geometry, True)
@@ -318,5 +317,3 @@ if __name__ == "__main__":
 	control_cell_by_material(geometry, True)
 	print("\nReflector Cell:")
 	reflector_cell_by_material(geometry, True)
-
-
