@@ -145,10 +145,7 @@ class Treat_Mesh(openmc.Mesh):
 		# TODO: Add the following to the docstring
 		self.surfaces = self.geometry.get_all_surfaces()
 		self.zactive = self.surfaces[20010].z0 - self.surfaces[20009].z0
-		
-		# FIXME: this breaks the code
-		# self.lattice = self.geometry.get_all_lattices()[LAT_ID]
-		
+		self.lattice = self.geometry.get_all_lattices()[LAT_ID]
 		self.universes = geometry.get_all_universes()
 		self.materials = geometry.get_all_materials()
 		self.cells = geometry.get_all_cells()
@@ -159,36 +156,14 @@ class Treat_Mesh(openmc.Mesh):
 			self.cont_cells[id] = self.cells[id]
 		# self.nuclides = self._get_nuclides()
 	
-	# TODO: Convert this to private method or eliminate altogether
+	# TODO: Determine whether this method is even needed
 	def get_nuclides(self):
 		"""Not implemented yet"""
-		# TODO: Determine whether to return nuclides for an assembly type or all nuclides
 		nuclides = []
-		# FIXME: RecursionError
 		for cell in tuple(self.cont_cells.values()) + tuple(self.refl_cells.values()):
-			# self.cont_cells ontains self.fuel_cells
 			for nuclide in cell.get_nuclides():
 				if nuclide not in nuclides:
 					nuclides.append(nuclide)
-		
-		return nuclides
-	
-	# Test: see if the recursion error occurs here too
-	# FIXME: RecursionError does indeed occur
-	def get_fuel_nuclides(self):
-		nuclides = self.universes[99].get_nuclides()
-		return nuclides
-	
-	def get_refl_nuclides(self):
-		nuclides = self.universes[26].get_nuclides()
-		return nuclides
-	
-	def get_cont_nuclides(self):
-		nuclides = []
-		for cell in self.cont_cells.values():
-			for nuc in cell.get_nuclides():
-				if nuc not in nuclides:
-					nuclides.append(nuc)
 		return nuclides
 	
 	def get_nuclide_densities(self, assembly_type):
@@ -209,8 +184,6 @@ class Treat_Mesh(openmc.Mesh):
 		assembly_type = assembly_type.lower()
 		assert assembly_type in ("fuel", "reflector", "refl", "control", "cont"), \
 			'assembly_type must be in {"fuel", "reflector", "control"}'
-		# nuclides = self.nuclides
-		# nuclides = self.get_nuclides()
 		nuclide_densities = {}
 		
 		if assembly_type == "fuel":
@@ -225,7 +198,8 @@ class Treat_Mesh(openmc.Mesh):
 		volumes = [self.zactive*a for a in areas]
 		total_volume = sum(volumes)
 		vfracs = [v/total_volume for v in volumes]
-		nuclide_densities = merge_nuclide_densities_by_cell(self.fuel_cells, vfracs, nuclide_densities)
+		nuclide_densities = merge_nuclide_densities_by_cell(self.fuel_cells,
+		                        vfracs, nuclide_densities)
 		return nuclide_densities
 
 
