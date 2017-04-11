@@ -3,8 +3,11 @@
 import openmoc
 import openmoc.materialize
 import openmc.openmoc_compatible
+import openmoc.plotter as plt
+
 import openmc.mgxs as mgxs
 import numpy as np
+import pandas
 
 
 sp = openmc.StatePoint('statepoint.020.h5')
@@ -26,6 +29,7 @@ mesh_lib.load_from_statepoint(sp)
 '''
 
 mesh_lib = mgxs.Library.load_from_file(filename = "mesh_lib")
+mesh_lib.load_from_statepoint(sp)
 mesh = mesh_lib.domains[0]
 x_width, y_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 
@@ -73,9 +77,32 @@ root_universe.addCell(root_cell)
 geom = openmoc.Geometry()
 geom.setRootUniverse(root_universe)
 
-import openmoc.plotter as plt
 plt.plot_cells(geom)
 plt.plot_materials(geom)
+
+
+#######################################
+# Dataframes
+#######################################
+# xs_types = ['nu-fission', 'transport', 'chi', 'scatter matrix']
+transport  = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "transport")
+chi        = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "chi")
+scatter    = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "scatter matrix")
+nu_fission = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "nu-fission")
+mgxs_list = [transport, chi, scatter, nu_fission]
+
+# Get the dataframes
+
+
+dataframes = [mg.get_pandas_dataframe(nuclides = "sum") for mg in mgxs_list]
+#nu_fission_df = transport.get_pandas_dataframe()
+#transport_df = transport.get_pandas_dataframe()
+#chi_df = transport.get_pandas_dataframe(nuclides = "sum")
+#scatter_df = transport.get_pandas_dataframe(nuclides = "sum")
+
+
+
+
 
 
 moc_geom = openmc.openmoc_compatible.get_openmoc_geometry(sp.summary.geometry)
