@@ -5,15 +5,15 @@ import copy
 
 
 def duplicate(universe):
-	thing2 = copy.deepcopy(universe)
-	thing2.id = None
-	old_cells = copy.deepcopy(thing2.cells)
-	thing2._cells.clear()
-	for id in old_cells:
-		new_cell = copy.deepcopy(old_cells[id])
+	cell_copy = copy.deepcopy(universe)
+	cell_copy.id = None
+	old_cells = copy.deepcopy(cell_copy.cells)
+	cell_copy._cells.clear()
+	for cell_id in old_cells:
+		new_cell = copy.deepcopy(old_cells[cell_id])
 		new_cell.id = None
-		thing2.add_cell(new_cell)
-	return thing2
+		cell_copy.add_cell(new_cell)
+	return cell_copy
 
 
 ###############################################################################
@@ -30,11 +30,11 @@ particles = 10000
 ###############################################################################
 
 # Instantiate some Materials and register the appropriate Nuclides
-fuel = openmc.Material(material_id = 1, name = 'fuel')
+fuel = openmc.Material(name='fuel')
 fuel.set_density('g/cc', 4.5)
 fuel.add_nuclide('U235', 1.)
 
-moderator = openmc.Material(material_id = 2, name = 'moderator')
+moderator = openmc.Material(name='moderator')
 moderator.set_density('g/cc', 1.0)
 moderator.add_element('H', 2.)
 moderator.add_element('O', 1.)
@@ -49,30 +49,34 @@ materials_file.export_to_xml()
 ###############################################################################
 
 # Instantiate Surfaces
-left = openmc.XPlane(surface_id = 1, x0 = -2, name = 'left')
-right = openmc.XPlane(surface_id = 2, x0 = 2, name = 'right')
-bottom = openmc.YPlane(surface_id = 3, y0 = -2, name = 'bottom')
-top = openmc.YPlane(surface_id = 4, y0 = 2, name = 'top')
-fuel1 = openmc.ZCylinder(surface_id = 5, x0 = 0, y0 = 0, R = 0.4)
-fuel2 = openmc.ZCylinder(surface_id = 6, x0 = 0, y0 = 0, R = 0.3)
-fuel3 = openmc.ZCylinder(surface_id = 7, x0 = 0, y0 = 0, R = 0.2)
+min_x = openmc.XPlane(x0=-2, name='min-x')
+max_x = openmc.XPlane(x0=+2, name='max-x')
+min_y = openmc.YPlane(y0=-2, name='min-y')
+max_y = openmc.YPlane(y0=+2, name='max-y')
+min_z = openmc.ZPlane(z0=-2, name='min-z')
+max_z = openmc.ZPlane(z0=+2, name='max-z')
+fuel1 = openmc.ZCylinder(x0=0, y0=0, R=0.4)
+fuel2 = openmc.ZCylinder(x0=0, y0=0, R=0.3)
+fuel3 = openmc.ZCylinder(x0=0, y0=0, R=0.2)
 
-left.boundary_type = 'vacuum'
-right.boundary_type = 'vacuum'
-top.boundary_type = 'vacuum'
-bottom.boundary_type = 'vacuum'
+min_x.boundary_type = 'reflective'
+max_x.boundary_type = 'reflective'
+min_y.boundary_type = 'reflective'
+max_y.boundary_type = 'reflective'
+min_z.boundary_type = 'reflective'
+max_z.boundary_type = 'reflective'
 
 # Instantiate Cells
-cell1 = openmc.Cell(cell_id = 1, name = 'Cell 1')
-cell2 = openmc.Cell(cell_id = 101, name = 'cell 2')
-cell3 = openmc.Cell(cell_id = 102, name = 'cell 3')
-cell4 = openmc.Cell(cell_id = 201, name = 'cell 4')
-cell5 = openmc.Cell(cell_id = 202, name = 'cell 5')
-cell6 = openmc.Cell(cell_id = 301, name = 'cell 6')
-cell7 = openmc.Cell(cell_id = 302, name = 'cell 7')
+cell1 = openmc.Cell(name='Cell 1')
+cell2 = openmc.Cell(name='cell 2')
+cell3 = openmc.Cell(name='cell 3')
+cell4 = openmc.Cell(name='cell 4')
+cell5 = openmc.Cell(name='cell 5')
+cell6 = openmc.Cell(name='cell 6')
+cell7 = openmc.Cell(name='cell 7')
 
 # Use surface half-spaces to define regions
-cell1.region = +left & -right & +bottom & -top
+cell1.region = +min_x & -max_x & +min_y & -max_y & +min_z & -max_z
 cell2.region = -fuel1
 cell3.region = +fuel1
 cell4.region = -fuel2
@@ -89,10 +93,10 @@ cell6.fill = fuel
 cell7.fill = moderator
 
 # Instantiate Universe
-univ1 = openmc.Universe(universe_id = 1)
-univ2 = openmc.Universe(universe_id = 2)
-univ3 = openmc.Universe(universe_id = 3)
-root = openmc.Universe(universe_id = 0, name = 'root universe')
+univ1 = openmc.Universe(name='small pin')
+univ2 = openmc.Universe(name='medium pin')
+univ3 = openmc.Universe(name='big pin')
+root = openmc.Universe(name='root universe')
 
 # Register Cells with Universe
 univ1.add_cells([cell2, cell3])
@@ -101,7 +105,7 @@ univ3.add_cells([cell6, cell7])
 root.add_cell(cell1)
 
 # Instantiate a Lattice
-lattice = openmc.RectLattice(lattice_id = 5)
+lattice = openmc.RectLattice()
 lattice.lower_left = np.array([-2., -2.])
 lattice.pitch = np.array([1., 1.])
 lattice.universes = [[univ1, univ2, univ1, univ2],
@@ -130,20 +134,18 @@ settings_file.inactive = inactive
 settings_file.particles = particles
 
 # Create an initial uniform spatial source distribution over fissionable zones
-bounds = [-1, -1, -1, 1, 1, 1]
-uniform_dist = openmc.stats.Box(bounds[:3], bounds[3:], only_fissionable = True)
+bounds = [-2, -2, -2, 2, 2, 2]
+uniform_dist = openmc.stats.Box(bounds[:3], bounds[3:], only_fissionable=True)
 settings_file.source = openmc.source.Source(space = uniform_dist)
 
 settings_file.run_mode = "eigenvalue"
-settings_file.trigger_active = True
-settings_file.trigger_max_batches = 100
 settings_file.export_to_xml()
 
 ###############################################################################
 #                   Exporting to OpenMC plots.xml file
 ###############################################################################
 
-plot = openmc.Plot(plot_id = 1)
+plot = openmc.Plot()
 plot.origin = [0, 0, 0]
 plot.width = [4, 4]
 plot.pixels = [400, 400]
@@ -162,32 +164,30 @@ plot_file.export_to_xml()
 # Begin treat-like stuff
 ############################################
 
-# 2-group approximation
-two_groups = mgxs.EnergyGroups()
-two_groups.group_edges = np.array([0., 0.625, 20.0e6])
-mesh_lib = mgxs.Library(geometry)
-mesh_lib.energy_groups = two_groups
-
-# For purposes of this demonstration, let's just look at the capture
-# and the transport cross sections
-mesh_lib.mgxs_types = ['fission', 'nu-fission', 'transport', 'chi', 'scatter matrix']
-mesh_lib.by_nuclide = False
-# mesh_lib.nuclides = ["U235", "U238"]
-# TODO: select all the nuclides from `mats`
-mesh_lib.domain_type = "mesh"
-
-# Define a mesh
 # Instantiate a tally Mesh
-mesh = openmc.Mesh(1)
-xdist = -lattice.lower_left[0]
-
+mesh = openmc.Mesh()
 mesh.lower_left = lattice.lower_left
 mesh.upper_right = -lattice.lower_left
 mesh.type = 'regular'
 mesh.dimension = lattice.shape
 
+# Two energy groups
+two_groups = mgxs.EnergyGroups()
+two_groups.group_edges = np.array([0., 0.625, 20.0e6])
+
+# Mesh MGXS library
+mesh_lib = mgxs.Library(geometry)
+mesh_lib.energy_groups = two_groups
+mesh_lib.mgxs_types = ['fission', 'nu-fission', 'total', 'chi', 'consistent nu-scatter matrix']
+mesh_lib.by_nuclide = False
+mesh_lib.correction = None
+mesh_lib.domain_type = "mesh"
 mesh_lib.domains = [mesh]
 mesh_lib.build_library()
+mesh_lib.dump_to_file("mesh_lib")
+
+# TODO: select all the nuclides from `mats`
+
 
 #######################
 '''
@@ -210,14 +210,9 @@ mesh_lib.domains = geometry.get_all_material_cells().values()
 mesh_lib.build_library()
 '''
 
-mesh_lib.dump_to_file("mesh_lib")
-
-two_groups = mgxs.EnergyGroups()
-two_groups.group_edges = np.array([0., 0.625, 20.0e6])
-
 # Instantiate a Tallies collection and export to XML
 tallies_file = openmc.Tallies()
-mesh_lib.add_to_tallies_file(tallies_file, merge = True)
+mesh_lib.add_to_tallies_file(tallies_file, merge=True)
 tallies_file.export_to_xml()
 
 

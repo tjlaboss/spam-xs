@@ -7,25 +7,8 @@ import openmoc.plotter as plt
 
 import openmc.mgxs as mgxs
 import numpy as np
-import pandas
 
-sp = openmc.StatePoint('statepoint.020.h5')
-'''
-# 2-group approximation
-two_groups = mgxs.EnergyGroups()
-two_groups.group_edges = np.array([0., 0.625, 20.0e6])
-mesh_lib = mgxs.Library(sp.summary.geometry)
-mesh_lib.energy_groups = two_groups
-
-# For purposes of this demonstration, let's just look at the capture
-# and the transport cross sections
-mesh_lib.mgxs_types = ['fission', 'nu-fission', 'transport', 'chi', 'scatter matrix']
-mesh_lib.by_nuclide = False
-# mesh_lib.nuclides = ["U235", "U238"]
-# TODO: select all the nuclides from `mats`
-mesh_lib.domain_type = "mesh"
-mesh_lib.load_from_statepoint(sp)
-'''
+sp = openmc.StatePoint('statepoint.20.h5')
 
 mesh_lib = mgxs.Library.load_from_file(filename = "mesh_lib")
 mesh_lib.load_from_statepoint(sp)
@@ -35,81 +18,76 @@ x_width, y_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 #######################################
 # Dataframes
 #######################################
-# xs_types = ['nu-fission', 'transport', 'chi', 'scatter matrix']
-transport = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "transport")
-chi = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "chi")
-scatter = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "scatter matrix")
-nu_fission = mesh_lib.get_mgxs(domain = mesh, mgxs_type = "nu-fission")
-mgxs_list = [transport, chi, scatter, nu_fission]
+
+total = mesh_lib.get_mgxs(domain=mesh, mgxs_type="total")
+chi = mesh_lib.get_mgxs(domain=mesh, mgxs_type="chi")
+scatter = mesh_lib.get_mgxs(domain=mesh, mgxs_type="consistent nu-scatter matrix")
+nu_fission = mesh_lib.get_mgxs(domain=mesh, mgxs_type="nu-fission")
 
 # Get the dataframes
-dataframe_values = [mg.get_pandas_dataframe(nuclides = "sum") for mg in mgxs_list]
-dataframe_keys = [mg.rxn_type for mg in mgxs_list]
-dataframes = dict(zip(dataframe_keys, dataframe_values))
-# nu_fission_df = transport.get_pandas_dataframe()
-# transport_df = transport.get_pandas_dataframe()
-# chi_df = transport.get_pandas_dataframe(nuclides = "sum")
-# scatter_df = transport.get_pandas_dataframe(nuclides = "sum")
-
-
+mgxs_dfs = {}
+mgxs_dfs['total'] = total.get_pandas_dataframe(nuclides='sum')
+mgxs_dfs['nu-fission'] = nu_fission.get_pandas_dataframe(nuclides='sum')
+mgxs_dfs['nu-scatter'] = scatter.get_pandas_dataframe(nuclides='sum')
+mgxs_dfs['chi'] = chi.get_pandas_dataframe(nuclides='sum')
 
 #######################################
 # Geometry
 #######################################
+
 # Build a checkerboard geometry in OpenMOC
-lattice = openmoc.Lattice(name = '4x4 lattice')
+lattice = openmoc.Lattice(name='4x4 lattice')
 lattice.setWidth(x_width, y_width)
 
 nx, ny = mesh.dimension[:2]
 universes = [[None for i in range(nx)] for j in range(ny)]
 
-for i in range(nx):
-	
+for i in range(nx):	
 	for j in range(ny):
+
 		c = openmoc.Cell()
 		m = openmoc.Material()
 		m.setNumEnergyGroups(2)
-		for key in dataframes:
-			df = dataframes[key]
-			x_df = df[df[('mesh 1', 'x')] == i + 1]
-			y_at_x = x_df[x_df[("mesh 1", "y")] == j + 1]
-			# Get the xs data from the dataframes for this square
-			yvals = y_at_x['mean'].values
+
+		for key in mgxs_dfs:
+			df = mgxs_dfs[key]
+			x_df = df[df[('mesh 10000', 'x')] == i + 1]
+			y_at_x = x_df[x_df[("mesh 10000", "y")] == j + 1]
 			
-			if key == "transport":
-				m.setSigmaT(yvals)
+			if key == "total":
+				m.setSigmaT(y_at_x['mean'].values)
 			elif key == "chi":
-				m.setChi(yvals)
+				m.setChi(y_at_x['mean'].values)
 			elif key == "nu-fission":
-				m.setNuSigmaF(yvals)
-			elif key == "scatter matrix":
-				m.setSigmaS(yvals)
+				m.setNuSigmaF(y_at_x['mean'].values)
+			elif key == "nu-scatter":
+				m.setSigmaS(y_at_x['mean'].values)
 		
 		c.setFill(m)
 		u = openmoc.Universe()
 		u.addCell(c)
 		universes[j][i] = u
-print(universes)
+
 lattice.setUniverses([universes])
 
-root_universe = openmoc.Universe(name = "root universe")
-root_cell = openmoc.Cell(name = "root cell")
+root_universe = openmoc.Universe(name="root universe")
+root_cell = openmoc.Cell(name="root cell")
 root_cell.setFill(lattice)
-# Make some boundaries
-min_x, min_y = mesh.lower_left[:2]
-max_x, max_y = mesh.upper_right[:2]
-xleft = openmoc.XPlane(x = min_x)
-xright = openmoc.XPlane(x = max_x)
-yleft = openmoc.YPlane(y = min_y)
-yright = openmoc.YPlane(y = max_y)
-surfs = [xleft, xright, yleft, yright]
-for s in surfs:
-	s.setBoundaryType(openmoc.VACUUM)
-root_cell.addSurface(+1, xleft)
-root_cell.addSurface(-1, xright)
-root_cell.addSurface(+1, yleft)
-root_cell.addSurface(-1, yright)
 
+# Make some boundaries
+min_x = openmoc.XPlane(x=mesh.lower_left[0])
+max_x = openmoc.XPlane(x=mesh.upper_right[0])
+min_y = openmoc.YPlane(y=mesh.lower_left[1])
+max_y = openmoc.YPlane(y=mesh.upper_right[1])
+surfs = [min_x, max_x, min_y, max_y]
+
+for s in surfs:
+	s.setBoundaryType(openmoc.REFLECTIVE)
+
+root_cell.addSurface(+1, min_x)
+root_cell.addSurface(-1, max_x)
+root_cell.addSurface(+1, min_y)
+root_cell.addSurface(-1, max_y)
 root_universe.addCell(root_cell)
 
 geom = openmoc.Geometry()
@@ -118,14 +96,21 @@ geom.setRootUniverse(root_universe)
 plt.plot_cells(geom)
 plt.plot_materials(geom)
 
-#moc_geom = openmc.openmoc_compatible.get_openmoc_geometry(sp.summary.geometry)
-#materials = openmoc.materialize.load_openmc_mgxs_lib(mesh_lib, moc_geom)
-
 # Generate tracks for OpenMOC
 # note: increase num_azim and decrease azim_spacing for actual results (as for TREAT)
-track_generator = openmoc.TrackGenerator(geom, num_azim = 32, azim_spacing = 0.1)
+track_generator = openmoc.TrackGenerator(geom, num_azim=32, azim_spacing=0.1)
 track_generator.generateTracks()
 
 # Run OpenMOC
 solver = openmoc.CPUSolver(track_generator)
 solver.computeEigenvalue()
+
+# Compute eigenvalue bias with OpenMC
+keff_mc = sp.k_combined[0]
+keff_moc = solver.getKeff()
+bias = (keff_moc - keff_mc) * 1e5
+
+print('OpenMC keff: {:1.6f} +/- {:1.6f}'.format(keff_mc, sp.k_combined[1]))
+print('OpenMC keff: {:1.6f}'.format(keff_moc))
+print('OpenMC bias: {:.0f} [pcm]'.format(bias))
+
