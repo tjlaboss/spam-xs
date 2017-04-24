@@ -25,13 +25,13 @@ two_groups.group_edges = np.array([0., 0.625, 20.0e6])
 mesh_lib = mgxs.Library(geom)
 mesh_lib.energy_groups = two_groups
 
-# For purposes of this demonstration, let's just look at the capture
-# and the transport cross sections
-mesh_lib.mgxs_types = ['fission', 'nu-fission', 'transport']
+# The four most important cross sections to tally right now
+mesh_lib.mgxs_types = ['total', 'nu-fission', 'chi', 'consistent nu-scatter matrix']
 mesh_lib.by_nuclide = True
 # mesh_lib.nuclides = ["U235", "U238"]
 # TODO: select all the nuclides from `mats`
 mesh_lib.domain_type = "mesh"
+mesh_lib.correction = None
 
 # Define a mesh
 # Instantiate a tally Mesh
@@ -57,6 +57,7 @@ mesh_lib.dump_to_file("treat_mesh_lib")
 mesh_filter = openmc.MeshFilter(mesh)
 
 # Create the material lib
+'''
 material_lib = mgxs.Library(geom)
 material_lib.energy_groups = two_groups
 material_lib.mgxs_types = ['fission', 'nu-fission', 'transport']
@@ -64,7 +65,7 @@ material_lib.domain_type = "material"
 material_lib.domains = mats.values()
 material_lib.by_nuclide = True
 material_lib.build_library()
-
+'''
 
 def make_tallies():
 	# Instantiate the Tally
@@ -77,7 +78,7 @@ def make_tallies():
 	tallies_file.append(tally)
 	
 	mesh_lib.add_to_tallies_file(tallies_file, merge = True)
-	material_lib.add_to_tallies_file(tallies_file, merge = True)
+	#material_lib.add_to_tallies_file(tallies_file, merge = True)
 	return tallies_file
 
 
@@ -147,7 +148,7 @@ if __name__ == "__main__":
 			xs = mesh_lib.get_mgxs(domain, mgxs_type)
 			xs.domain = mesh
 	
-	material_lib.load_from_statepoint(sp)
+	#material_lib.load_from_statepoint(sp)
 	
 	nuc = "U235"
 	xstype = "nu-fission"

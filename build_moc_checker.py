@@ -11,9 +11,12 @@ import openmc.mgxs as mgxs
 import numpy as np
 from build_mesh import mesh, Treat_Mesh
 
+PLOT = False
+
 print(type(mesh))
 # Load the Monte Carlo results
-fname = "test_model/statepoint.30.h5"
+#fname = "test_model/statepoint.30.h5"
+fname = "test_model/statepoint_quick.h5"
 sp = openmc.StatePoint(fname)
 mesh_lib = mgxs.Library.load_from_file(filename = "treat_mesh_lib")
 mesh_lib.domains = [mesh]
@@ -29,13 +32,19 @@ x_width, y_width, z_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 # FIXME: it doesn't like the "stride" attribute for "transport"...
 # FIXME: ...and it is only looking for Tally 10001, when it needs Tally 1.
 
-#transport = mesh_lib.get_mgxs(domain=mesh, mgxs_type="transport")
-#nu_fission = mesh_lib.get_mgxs(domain=mesh, mgxs_type="nu-fission")
+#total = mesh_lib.get_mgxs(domain=mesh, mgxs_type="total")
+#chi = mesh_lib.get_mgxs(domain=mesh, mgxs_type="chi")
+#scatter = mesh_lib.get_mgxs(domain=mesh, mgxs_type="consistent nu-scatter matrix")
+nu_fission = mesh_lib.get_mgxs(domain=mesh, mgxs_type="nu-fission")
+
 
 # Get the dataframes
 mgxs_dfs = {}
-#mgxs_dfs['transport'] = transport.get_pandas_dataframe(nuclides='sum')
-#mgxs_dfs['nu-fission'] = nu_fission.get_pandas_dataframe(nuclides='sum')
+#mgxs_dfs['total'] = total.get_pandas_dataframe(nuclides='sum')
+#mgxs_dfs['nu-scatter'] = scatter.get_pandas_dataframe(nuclides='sum')
+#mgxs_dfs['chi'] = chi.get_pandas_dataframe(nuclides='sum')
+mgxs_dfs['nu-fission'] = nu_fission.get_pandas_dataframe(nuclides='sum')
+
 
 #######################################
 # Geometry
@@ -101,5 +110,6 @@ root_universe.addCell(root_cell)
 geom = openmoc.Geometry()
 geom.setRootUniverse(root_universe)
 
-plt.plot_cells(geom)
-plt.plot_materials(geom)
+if PLOT:
+	plt.plot_cells(geom)
+	plt.plot_materials(geom)
