@@ -81,7 +81,7 @@ def make_tallies():
 	return tallies_file
 
 
-def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = 19):
+def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = 19):
 	"""Plotting a single energy group as a function of space
 	
 	Inputs:
@@ -113,13 +113,14 @@ def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = 19):
 	
 	# plotting stuff for later
 	ylist = yvals
-	pylab.plot(xlist, ylist, drawstyle = "steps", label = "$\Sigma$")
 	pylab.plot(xlist, ylist + uncert, "red", drawstyle = "steps", alpha = 0.5, label = "+/- 1sigma")
 	pylab.plot(xlist, ylist - uncert, "red", drawstyle = "steps", alpha = 0.5)
-	pylab.legend(loc = "upper left")
+	pylab.plot(xlist, ylist, drawstyle = "steps", label = "$\Sigma$")
+	
+	pylab.legend(loc = "lower center")
 	pylab.grid()
 	pylab.xticks(pylab.linspace(x0, x1, n))
-	title_string = "{0} {1}scopic Cross Section".format("Total", xs_scale.title())
+	title_string = "{} {}scopic Cross Section for {}".format(xstype.title(), xs_scale.title(), nuc)
 	pylab.xlabel("Radial distance (cm)")
 	pylab.ylabel("$\Sigma$ (cm$^{-1}$)")
 	pylab.title(title_string, {"fontsize": 14})
@@ -148,11 +149,14 @@ if __name__ == "__main__":
 	
 	material_lib.load_from_statepoint(sp)
 	
-	fission_mgxs = mesh_lib.get_mgxs(mesh, "transport")
-	fission_df = fission_mgxs.get_pandas_dataframe(nuclides = ["C0"])
+	nuc = "U235"
+	xstype = "nu-fission"
+	
+	fission_mgxs = mesh_lib.get_mgxs(mesh, xstype)
+	fission_df = fission_mgxs.get_pandas_dataframe(nuclides = [nuc])
 	# print(fission_df.head(17), fission_df.tail(17))
 	# fission_mgxs.print_xs()
 	
 	if PLOT:
 		# Plot stuff
-		plot_mgxs("U235", fission_mgxs, fission_df, 1, two_groups)
+		plot_mgxs(nuc, xstype, fission_df, 1, two_groups)
