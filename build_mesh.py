@@ -38,13 +38,18 @@ mesh_lib.domain_type = "mesh"
 # Define a mesh
 # Instantiate a tally Mesh
 mesh = Treat_Mesh(mesh_id=1, geometry = geom)
+# FIXME: For some reason, in tallies.xml, the mesh gets exported 3 times!!
 core_lat = geom.get_all_lattices()[100]
 xdist = -core_lat.lower_left[0]
+zbot = mesh.surfaces[20009].z0  # bottom of active fuel region
+ztop = mesh.surfaces[20010].z0  # top of active fuel
 
 mesh.lower_left = core_lat.lower_left
+mesh.lower_left[-1] = zbot
 mesh.upper_right = -core_lat.lower_left
+mesh.upper_right[-1] = ztop
 mesh.type = 'regular'
-mesh.dimension = [19, 19, 19]
+mesh.dimension = core_lat.shape
 
 mesh_lib.domains = [mesh,]
 mesh_lib.build_library()
@@ -73,11 +78,10 @@ tallies_file = openmc.Tallies()
 
 mesh_lib.add_to_tallies_file(tallies_file, merge=True)
 material_lib.add_to_tallies_file(tallies_file, merge = True)
-print(material_lib.all_mgxs)
 
 
 
-def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = 0, x1 = xdist, n = 19):
+def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = 19):
 	"""Plotting a single energy group as a function of space
 	
 	Inputs:
@@ -96,9 +100,10 @@ def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = 0, x1 = xdist, n = 19):
 	#nuc_xs = xs_lib.get_xs(order_groups = "decreasing", xs_type = xs_scale, groups = g).
 	
 	group_df = xs_df[xs_df["group in"] == g]
-	y_df = group_df[group_df[('mesh 1', 'y')] == 17]
-	y_at_z = y_df[y_df[("mesh 1", "z")] == 17]
-	yvals = y_at_z['mean']
+	y_df = group_df[group_df[('mesh 1', 'y')] == 9]
+	#y_at_z = y_df[y_df[("mesh 1", "z")] == 9]
+	yvals = y_df['mean']
+	uncert = y_df['std. dev.']
 	
 	# FIXME: This returns an empty array
 	#nuc_df = xs_df[xs_df['nuclide'] == nuc]['mean']
@@ -108,7 +113,12 @@ def plot_mgxs(nuc, xs_lib, xs_df, g, groups, x0 = 0, x1 = xdist, n = 19):
 	
 	# plotting stuff for later
 	ylist = yvals
-	pylab.plot(xlist, ylist, drawstyle = "steps")
+	pylab.plot(xlist, ylist, drawstyle = "steps", label = "$\Sigma$")
+	pylab.plot(xlist, ylist + uncert, "red", drawstyle = "steps", alpha = 0.5, label="+/- 1sigma")
+	pylab.plot(xlist, ylist - uncert, "red", drawstyle = "steps", alpha = 0.5)
+	pylab.legend(loc = "upper left")
+	pylab.grid()
+	pylab.xticks(pylab.linspace(x0, x1, n))
 	title_string = "{0} {1}scopic Cross Section".format("Total", xs_scale.title())
 	pylab.xlabel("Radial distance (cm)")
 	pylab.ylabel("$\Sigma$ (cm$^{-1}$)")
