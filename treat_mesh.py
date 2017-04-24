@@ -198,8 +198,8 @@ class Treat_Mesh(openmc.Mesh):
 		volumes = [self.zactive*a for a in areas]
 		total_volume = sum(volumes)
 		vfracs = [v/total_volume for v in volumes]
-		nuclide_densities = merge_nuclide_densities_by_cell(self.fuel_cells,
-		                        vfracs, nuclide_densities)
+		nuclide_densities = \
+			merge_nuclide_densities_by_cell(self.fuel_cells, vfracs, nuclide_densities)
 		return nuclide_densities
 
 

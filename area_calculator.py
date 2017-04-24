@@ -29,7 +29,7 @@ def __setup(geom):
 	n = len(key_list)
 	
 	# Get an OrderedDict of all the surfaces in the geometry
-	surfs = geometry.get_all_surfaces()
+	surfs = geom.get_all_surfaces()
 	return surfs, key_list, n, xpitch, ypitch
 
 
