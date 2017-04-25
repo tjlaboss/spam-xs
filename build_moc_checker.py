@@ -13,15 +13,30 @@ from build_mesh import mesh, Treat_Mesh
 
 PLOT = False
 
-print(type(mesh))
+print(type(mesh), mesh.id)
 # Load the Monte Carlo results
 #fname = "test_model/statepoint.30.h5"
 fname = "test_model/statepoint_quick.h5"
 sp = openmc.StatePoint(fname)
 mesh_lib = mgxs.Library.load_from_file(filename = "treat_mesh_lib")
 mesh_lib.domains = [mesh]
-# FIXME: this next line breaks because it thinks it has a Mesh, not a Treat_Mesh
-#mesh_lib.load_from_statepoint(sp)
+
+
+for xstype in mesh_lib.mgxs_types:
+	for domain in mesh_lib.domains:
+		mg = mesh_lib.get_mgxs(domain, xstype)
+		mg.domain = mesh
+		print(type(mg.domain))
+		for tally in mg.tallies.values():
+			for filter in tally.filters:
+				if isinstance(filter, openmc.MeshFilter):
+					filter.mesh = mesh
+					#print(type(filter.mesh))
+
+print("\n\n\n")
+					
+mesh_lib.load_from_statepoint(sp)
+print("you loaded the statepoint")
 x_width, y_width, z_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 
 
@@ -29,8 +44,8 @@ x_width, y_width, z_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 # Dataframes
 #######################################
 
-# FIXME: it doesn't like the "stride" attribute for "transport"...
-# FIXME: ...and it is only looking for Tally 10001, when it needs Tally 1.
+# FIXME: it is only looking for Tally 10001, when it needs Tally 1.
+# FIXME: I don't see any place where I can specify this.
 
 #total = mesh_lib.get_mgxs(domain=mesh, mgxs_type="total")
 #chi = mesh_lib.get_mgxs(domain=mesh, mgxs_type="chi")
