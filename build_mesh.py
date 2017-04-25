@@ -11,7 +11,7 @@ from treat_mesh import Treat_Mesh
 
 # Settings
 EXPORT = True
-PLOT = True
+PLOT = False
 
 # Extract the geometry from an existing summary
 summ = openmc.Summary("summary.h5")
@@ -26,21 +26,22 @@ mesh_lib = mgxs.Library(geom)
 mesh_lib.energy_groups = two_groups
 
 # The four most important cross sections to tally right now
-mesh_lib.mgxs_types = ['total', 'nu-fission', 'chi', 'consistent nu-scatter matrix']
+mesh_lib.mgxs_types = ['total', 'fission', 'nu-fission', 'capture', 'chi', 'consistent nu-scatter matrix']
 mesh_lib.by_nuclide = True
-# mesh_lib.nuclides = ["U235", "U238"]
+
 # TODO: select all the nuclides from `mats`
 mesh_lib.domain_type = "mesh"
 mesh_lib.correction = None
 
 # Define a mesh
 # Instantiate a tally Mesh
+# TODO: try replacing this with a regular openmc.Mesh and making it a Treat_Mesh later
 mesh = Treat_Mesh(mesh_id = 1, geometry = geom)
 # FIXME: For some reason, in tallies.xml, the mesh gets exported 3 times!!
 core_lat = geom.get_all_lattices()[100]
 xdist = -core_lat.lower_left[0]
-zbot = mesh.surfaces[20009].z0  # bottom of active fuel region
-ztop = mesh.surfaces[20010].z0  # top of active fuel
+zbot = mesh._surfaces[20009].z0  # bottom of active fuel region
+ztop = mesh._surfaces[20010].z0  # top of active fuel
 
 mesh.lower_left = core_lat.lower_left
 mesh.lower_left[-1] = zbot
@@ -51,6 +52,10 @@ mesh.dimension = core_lat.shape
 
 mesh_lib.domains = [mesh]
 mesh_lib.build_library()
+# Turn off by_nuclide for nu-scatter
+cnsm_mgxs = mesh_lib.get_mgxs(mesh, 'consistent nu-scatter matrix')
+cnsm_mgxs.by_nuclide = False
+
 mesh_lib.dump_to_file("treat_mesh_lib")
 
 # Instantiate tally Filter
@@ -69,16 +74,21 @@ material_lib.build_library()
 
 def make_tallies():
 	# Instantiate the Tally
-	tally = openmc.Tally(name = 'mesh tally')
-	tally.filters = [mesh_filter]
-	tally.scores = ["fission", "nu-fission"]
+	fission_tally = openmc.Tally(name = 'mesh tally')
+	fission_tally.filters = [mesh_filter]
+	fission_tally.scores = ["fission"]
+	
+	capture_tally = openmc.Tally(name = "U238 capture tally")
+	capture_tally.filters = [mesh_filter]
+	capture_tally.scores = ["absorption", "fission"]
+	capture_tally.nuclides = ["U238"]
 	
 	# Create a "tallies.xml" file for the MGXS Library
+	print("before Tallies()", cnsm_mgxs._tallies)
 	tallies_file = openmc.Tallies()
-	tallies_file.append(tally)
+	tallies_file.extend([fission_tally, capture_tally])
 	
 	mesh_lib.add_to_tallies_file(tallies_file, merge = True)
-	#material_lib.add_to_tallies_file(tallies_file, merge = True)
 	return tallies_file
 
 
@@ -106,13 +116,7 @@ def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = 19):
 	yvals = y_df['mean']
 	uncert = y_df['std. dev.']
 	
-	# FIXME: This returns an empty array
-	# nuc_df = xs_df[xs_df['nuclide'] == nuc]['mean']
-	# print(nuc_df
-	# nuc_matrix = nuc_df.as_matrix()
-	# print(nuc_matrix)
-	
-	# plotting stuff for later
+	# plotting stuff
 	ylist = yvals
 	pylab.plot(xlist, ylist + uncert, "red", drawstyle = "steps", alpha = 0.5, label = "+/- 1sigma")
 	pylab.plot(xlist, ylist - uncert, "red", drawstyle = "steps", alpha = 0.5)
@@ -134,12 +138,9 @@ if __name__ == "__main__":
 	if EXPORT:
 		tallies_file.export_to_xml("test_model/tallies.xml")
 	
-	# Filter
-	mesh_filter = openmc.Filter(mesh)
-	
 	# Examine the data after the run
 	# sp = openmc.StatePoint('test_model/statepoint.50.h5')
-	sp = openmc.StatePoint('test_model/statepoint.30.h5')
+	sp = openmc.StatePoint('test_model/statepoint_quick.h5')
 	
 	mesh_lib.load_from_statepoint(sp)
 	mesh_lib.domains = [mesh]
