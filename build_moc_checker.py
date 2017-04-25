@@ -19,24 +19,34 @@ print(type(mesh), mesh.id)
 fname = "test_model/statepoint_quick.h5"
 sp = openmc.StatePoint(fname)
 mesh_lib = mgxs.Library.load_from_file(filename = "treat_mesh_lib")
-mesh_lib.domains = [mesh]
 
-
+# Set the domain of the MGXS objects and the MeshFilter to use the Treat_Mesh instance!
+# This must be done before loading the statepoint
 for xstype in mesh_lib.mgxs_types:
 	for domain in mesh_lib.domains:
 		mg = mesh_lib.get_mgxs(domain, xstype)
 		mg.domain = mesh
-		print(type(mg.domain))
 		for tally in mg.tallies.values():
 			for filter in tally.filters:
 				if isinstance(filter, openmc.MeshFilter):
 					filter.mesh = mesh
-					#print(type(filter.mesh))
-
-print("\n\n\n")
 					
 mesh_lib.load_from_statepoint(sp)
-print("you loaded the statepoint")
+
+# Loading from the statepoint overrides the domain
+# Set the MGXS domains to the Treat_Mesh again.
+for xstype in mesh_lib.mgxs_types:
+	for domain in mesh_lib.domains:
+		mg = mesh_lib.get_mgxs(domain, xstype)
+		mg.domain = mesh
+
+mesh_lib.domains = [mesh]
+
+
+
+					#print(type(filter.mesh))
+
+
 x_width, y_width, z_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 
 
@@ -44,14 +54,11 @@ x_width, y_width, z_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 # Dataframes
 #######################################
 
-# FIXME: it is only looking for Tally 10001, when it needs Tally 1.
-# FIXME: I don't see any place where I can specify this.
 
 #total = mesh_lib.get_mgxs(domain=mesh, mgxs_type="total")
 #chi = mesh_lib.get_mgxs(domain=mesh, mgxs_type="chi")
 #scatter = mesh_lib.get_mgxs(domain=mesh, mgxs_type="consistent nu-scatter matrix")
 nu_fission = mesh_lib.get_mgxs(domain=mesh, mgxs_type="nu-fission")
-
 
 # Get the dataframes
 mgxs_dfs = {}
