@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plots>
+    <plot basis="xy" color="mat" filename="MCC_Radial" id="10000" type="slice">
+        <origin>0 0 0</origin>
+    <width>300 300</width>
+    <pixels>8000 8000</pixels>
+    <col_spec id="20000" rgb="255 218 185" />
+    <col_spec id="10001" rgb="0 0 0" />
+    <col_spec id="10002" rgb="100 70 45" />
+    <col_spec id="10003" rgb="100 70 55" />
+    <col_spec id="10004" rgb="255 255 255" />
+    <col_spec id="20005" rgb="61 61 61" />
+    <col_spec id="20008" rgb="131 131 131" />
+    <col_spec id="20009" rgb="50 50 50" />
+    <col_spec id="20010" rgb="170 170 170" />
+    <col_spec id="10011" rgb="165 165 165" />
+    <col_spec id="20012" rgb="220 220 220" />
+    <col_spec id="90000" rgb="142 35 35" />
+    <col_spec id="10013" rgb="142 30 30" />
+    <col_spec id="10014" rgb="142 25 25" />
+    </plot>
+     
+    <plot basis="xz" color="mat" filename="MCC_Axial" id="20000" type="slice">
+        <origin>0 0 0</origin>
+    <width>400 400</width>
+    <pixels>8000 8000</pixels>
+    <col_spec id="20000" rgb="255 218 185" />
+    <col_spec id="10001" rgb="0 0 0" />
+    <col_spec id="10002" rgb="100 70 45" />
+    <col_spec id="10003" rgb="100 70 55" />
+    <col_spec id="10004" rgb="255 255 255" />
+    <col_spec id="20005" rgb="61 61 61" />
+    <col_spec id="20008" rgb="131 131 131" />
+    <col_spec id="20009" rgb="50 50 50" />
+    <col_spec id="20010" rgb="170 170 170" />
+    <col_spec id="10011" rgb="165 165 165" />
+    <col_spec id="20012" rgb="220 220 220" />
+    <col_spec id="90000" rgb="142 35 35" />
+    <col_spec id="10013" rgb="142 30 30" />
+    <col_spec id="10014" rgb="142 25 25" />
+    </plot>
+
+    <plot basis="xz" color="mat" filename="MCC_Axial_CR" id="21000" type="slice">
+        <origin>0 20.32 0</origin>
+    <width>400 400</width>
+    <pixels>8000 8000</pixels>
+    <col_spec id="20000" rgb="255 218 185" />
+    <col_spec id="10001" rgb="0 0 0" />
+    <col_spec id="10002" rgb="100 70 45" />
+    <col_spec id="10003" rgb="100 70 55" />
+    <col_spec id="10004" rgb="255 255 255" />
+    <col_spec id="20005" rgb="61 61 61" />
+    <col_spec id="20008" rgb="131 131 131" />
+    <col_spec id="20009" rgb="50 50 50" />
+    <col_spec id="20010" rgb="170 170 170" />
+    <col_spec id="10011" rgb="165 165 165" />
+    <col_spec id="20012" rgb="220 220 220" />
+    <col_spec id="90000" rgb="142 35 35" />
+    <col_spec id="10013" rgb="142 30 30" />
+    <col_spec id="10014" rgb="142 25 25" />
+    </plot>
+
+</plots>
