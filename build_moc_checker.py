@@ -12,11 +12,12 @@ import numpy as np
 from build_mesh import mesh, Treat_Mesh
 
 PLOT = False
+RUN = False
 
 print(type(mesh), mesh.id)
 # Load the Monte Carlo results
 #fname = "test_model/statepoint.30.h5"
-fname = "test_model/statepoint_quick.h5"
+fname = "quick/statepoint.10.h5"
 sp = openmc.StatePoint(fname)
 mesh_lib = mgxs.Library.load_from_file(filename = "treat_mesh_lib")
 
@@ -42,11 +43,6 @@ for xstype in mesh_lib.mgxs_types:
 
 mesh_lib.domains = [mesh]
 
-
-
-					#print(type(filter.mesh))
-
-
 x_width, y_width, z_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 
 
@@ -55,16 +51,17 @@ x_width, y_width, z_width = (mesh.upper_right - mesh.lower_left)/mesh.dimension
 #######################################
 
 
-#total = mesh_lib.get_mgxs(domain=mesh, mgxs_type="total")
-#chi = mesh_lib.get_mgxs(domain=mesh, mgxs_type="chi")
-#scatter = mesh_lib.get_mgxs(domain=mesh, mgxs_type="consistent nu-scatter matrix")
+total = mesh_lib.get_mgxs(domain=mesh, mgxs_type="total")
+chi = mesh_lib.get_mgxs(domain=mesh, mgxs_type="chi")
+scatter = mesh_lib.get_mgxs(domain=mesh, mgxs_type="consistent nu-scatter matrix")
 nu_fission = mesh_lib.get_mgxs(domain=mesh, mgxs_type="nu-fission")
 
 # Get the dataframes
 mgxs_dfs = {}
-#mgxs_dfs['total'] = total.get_pandas_dataframe(nuclides='sum')
-#mgxs_dfs['nu-scatter'] = scatter.get_pandas_dataframe(nuclides='sum')
-#mgxs_dfs['chi'] = chi.get_pandas_dataframe(nuclides='sum')
+mgxs_dfs['total'] = total.get_pandas_dataframe(nuclides='sum')
+# Warning: memory error on nu-scatter
+mgxs_dfs['nu-scatter'] = scatter.get_pandas_dataframe(nuclides='sum')
+mgxs_dfs['chi'] = chi.get_pandas_dataframe(nuclides='sum')
 mgxs_dfs['nu-fission'] = nu_fission.get_pandas_dataframe(nuclides='sum')
 
 
@@ -91,7 +88,6 @@ for i in range(nx):
 			x_df = df[df[('mesh 1', 'x')] == i + 1]
 			y_at_x = x_df[x_df[("mesh 1", "y")] == j + 1]
 			
-			'''
 			if key == "total":
 				m.setSigmaT(y_at_x['mean'].values)
 			elif key == "chi":
@@ -100,9 +96,6 @@ for i in range(nx):
 				m.setNuSigmaF(y_at_x['mean'].values)
 			elif key == "nu-scatter":
 				m.setSigmaS(y_at_x['mean'].values)
-			'''
-			if key == "nu-fission":
-				m.setNuSigmaF(y_at_x['mean'].values)
 		
 		c.setFill(m)
 		u = openmoc.Universe()
@@ -135,3 +128,25 @@ geom.setRootUniverse(root_universe)
 if PLOT:
 	plt.plot_cells(geom)
 	plt.plot_materials(geom)
+
+if RUN:
+	# Generate tracks for OpenMOC
+	# note: increase num_azim and decrease azim_spacing for actual results (as for TREAT)
+	track_generator = openmoc.TrackGenerator(geom, num_azim=32, azim_spacing=0.1)
+	track_generator.generateTracks()
+	
+	# Run OpenMOC
+	solver = openmoc.CPUSolver(track_generator)
+	solver.computeEigenvalue()
+	
+	# Compute eigenvalue bias with OpenMC
+	keff_mc = sp.k_combined[0]
+	keff_moc = solver.getKeff()
+	bias = (keff_moc - keff_mc) * 1e5
+	
+	print('OpenMC keff: {:1.6f} +/- {:1.6f}'.format(keff_mc, sp.k_combined[1]))
+	print('OpenMC keff: {:1.6f}'.format(keff_moc))
+	print('OpenMC bias: {:.0f} [pcm]'.format(bias))
+
+
+
