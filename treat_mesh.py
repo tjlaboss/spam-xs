@@ -143,27 +143,34 @@ class Treat_Mesh(openmc.Mesh):
 		self.geometry = geometry
 		
 		# TODO: Add the following to the docstring
-		self.surfaces = self.geometry.get_all_surfaces()
-		self.zactive = self.surfaces[20010].z0 - self.surfaces[20009].z0
-		self.lattice = self.geometry.get_all_lattices()[LAT_ID]
-		self.universes = geometry.get_all_universes()
-		self.materials = geometry.get_all_materials()
-		self.cells = geometry.get_all_cells()
-		self.fuel_cells = deepcopy(self.universes[99].cells)
-		self.refl_cells = deepcopy(self.universes[26].cells)
+		self._surfaces = self.geometry.get_all_surfaces()
+		self.zactive = self._surfaces[20010].z0 - self._surfaces[20009].z0
+		self._universes = geometry.get_all_universes()
+		self._materials = geometry.get_all_materials()
+		self._cells = geometry.get_all_cells()
+		self.fuel_cells = deepcopy(self._universes[99].cells)
+		self.refl_cells = deepcopy(self._universes[26].cells)
 		self.cont_cells = deepcopy(self.fuel_cells)
 		for id in (50210, 50310):
-			self.cont_cells[id] = self.cells[id]
+			self.cont_cells[id] = self._cells[id]
 		# self.nuclides = self._get_nuclides()
 	
 	# TODO: Describe this
 	def get_nuclides(self):
-		"""Not written up yet"""
+		"""Return all of the nuclides in the active region of the core.
+		
+		Returns
+		-------
+		nuclides : list of strings
+			Names of all the nuclides in the model
+		
+		"""
 		nuclides = []
 		for cell in tuple(self.cont_cells.values()) + tuple(self.refl_cells.values()):
 			for nuclide in cell.get_nuclides():
 				if nuclide not in nuclides:
 					nuclides.append(nuclide)
+					print(type(nuclide))
 		return nuclides
 	
 	def get_nuclide_densities(self, assembly_type):
@@ -208,7 +215,7 @@ if __name__ == "__main__":
 	summ = openmc.Summary("summary.h5")
 	geom = summ.geometry
 	mesh = Treat_Mesh(geometry = geom)
-	# mesh.get_nuclides()
+	mesh.get_nuclides()
 	fuel_nuc_dens = mesh.get_nuclide_densities(assembly_type = "fuel")
 	refl_nuc_dens = mesh.get_nuclide_densities(assembly_type = "refl")
 	cont_nuc_dens = mesh.get_nuclide_densities(assembly_type = "cont")
