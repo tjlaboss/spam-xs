@@ -153,9 +153,7 @@ class Treat_Mesh(openmc.Mesh):
 		self.cont_cells = deepcopy(self.fuel_cells)
 		for id in (50210, 50310):
 			self.cont_cells[id] = self._cells[id]
-		# self.nuclides = self._get_nuclides()
 	
-	# TODO: Describe this
 	def get_nuclides(self):
 		"""Return all of the nuclides in the active region of the core.
 		
@@ -170,7 +168,6 @@ class Treat_Mesh(openmc.Mesh):
 			for nuclide in cell.get_nuclides():
 				if nuclide not in nuclides:
 					nuclides.append(nuclide)
-					print(type(nuclide))
 		return nuclides
 	
 	def get_nuclide_densities(self, assembly_type):
