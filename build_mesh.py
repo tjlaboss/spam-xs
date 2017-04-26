@@ -11,7 +11,7 @@ from treat_mesh import Treat_Mesh
 
 # Settings
 EXPORT = True
-PLOT = False
+PLOT = True
 
 # Extract the geometry from an existing summary
 summ = openmc.Summary("summary.h5")
@@ -37,7 +37,7 @@ mesh_lib.correction = None
 # Instantiate a tally Mesh
 # TODO: try replacing this with a regular openmc.Mesh and making it a Treat_Mesh later
 mesh = Treat_Mesh(mesh_id = 1, geometry = geom)
-# FIXME: For some reason, in tallies.xml, the mesh gets exported 3 times!!
+# FIXME: For some reason, in tallies.xml, the mesh gets exported 4 times!!
 core_lat = geom.get_all_lattices()[100]
 xdist = -core_lat.lower_left[0]
 zbot = mesh._surfaces[20009].z0  # bottom of active fuel region
@@ -58,21 +58,11 @@ cnsm_mgxs.by_nuclide = False
 
 mesh_lib.dump_to_file("treat_mesh_lib")
 
-# Instantiate tally Filter
-mesh_filter = openmc.MeshFilter(mesh)
-
-# Create the material lib
-'''
-material_lib = mgxs.Library(geom)
-material_lib.energy_groups = two_groups
-material_lib.mgxs_types = ['fission', 'nu-fission', 'transport']
-material_lib.domain_type = "material"
-material_lib.domains = mats.values()
-material_lib.by_nuclide = True
-material_lib.build_library()
-'''
 
 def make_tallies():
+	# Instantiate tally Filter
+	mesh_filter = openmc.MeshFilter(mesh)
+	
 	# Instantiate the Tally
 	fission_tally = openmc.Tally(name = 'mesh tally')
 	fission_tally.filters = [mesh_filter]
@@ -84,7 +74,6 @@ def make_tallies():
 	capture_tally.nuclides = ["U238"]
 	
 	# Create a "tallies.xml" file for the MGXS Library
-	print("before Tallies()", cnsm_mgxs._tallies)
 	tallies_file = openmc.Tallies()
 	tallies_file.extend([fission_tally, capture_tally])
 	
@@ -134,13 +123,12 @@ def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = 19):
 
 if __name__ == "__main__":
 	# Add tally to collection
-	tallies_file = make_tallies()
+	tallies_xml = make_tallies()
 	if EXPORT:
-		tallies_file.export_to_xml("test_model/tallies.xml")
+		tallies_xml.export_to_xml("treat2d/tallies.xml")
 	
 	# Examine the data after the run
-	# sp = openmc.StatePoint('test_model/statepoint.50.h5')
-	sp = openmc.StatePoint('test_model/statepoint_quick.h5')
+	sp = openmc.StatePoint('treat2d/statepoint_quick.h5')
 	
 	mesh_lib.load_from_statepoint(sp)
 	mesh_lib.domains = [mesh]
@@ -148,8 +136,6 @@ if __name__ == "__main__":
 		for mgxs_type in mesh_lib.mgxs_types:
 			xs = mesh_lib.get_mgxs(domain, mgxs_type)
 			xs.domain = mesh
-	
-	#material_lib.load_from_statepoint(sp)
 	
 	nuc = "U235"
 	xstype = "nu-fission"
