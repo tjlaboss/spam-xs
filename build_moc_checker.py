@@ -8,16 +8,13 @@ import openmoc.materialize
 import openmc.openmoc_compatible
 import openmoc.plotter as plt
 import openmc.mgxs as mgxs
-import numpy as np
-from build_mesh import mesh, Treat_Mesh
+from build_mesh import mesh
 
 PLOT = False
 RUN = False
 
-print(type(mesh), mesh.id)
 # Load the Monte Carlo results
-#fname = "test_model/statepoint.30.h5"
-fname = "quick/statepoint.10.h5"
+fname = "treat2d/statepoint_quick.h5"
 sp = openmc.StatePoint(fname)
 mesh_lib = mgxs.Library.load_from_file(filename = "treat_mesh_lib")
 
@@ -59,7 +56,7 @@ nu_fission = mesh_lib.get_mgxs(domain=mesh, mgxs_type="nu-fission")
 # Get the dataframes
 mgxs_dfs = {}
 mgxs_dfs['total'] = total.get_pandas_dataframe(nuclides='sum')
-# Warning: memory error on nu-scatter
+# Warning: memory error on nu-scatter is possible!
 mgxs_dfs['nu-scatter'] = scatter.get_pandas_dataframe(nuclides='sum')
 mgxs_dfs['chi'] = chi.get_pandas_dataframe(nuclides='sum')
 mgxs_dfs['nu-fission'] = nu_fission.get_pandas_dataframe(nuclides='sum')
@@ -145,8 +142,8 @@ if RUN:
 	bias = (keff_moc - keff_mc) * 1e5
 	
 	print('OpenMC keff: {:1.6f} +/- {:1.6f}'.format(keff_mc, sp.k_combined[1]))
-	print('OpenMC keff: {:1.6f}'.format(keff_moc))
-	print('OpenMC bias: {:.0f} [pcm]'.format(bias))
+	print('OpenMOC keff: {:1.6f}'.format(keff_moc))
+	print('OpenMOC bias: {:.0f} [pcm]'.format(bias))
 
 
 
