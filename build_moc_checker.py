@@ -8,14 +8,13 @@ import openmoc.materialize
 import openmc.openmoc_compatible
 import openmoc.plotter as plt
 import openmc.mgxs as mgxs
-from build_mesh import mesh
+from build_mesh import mesh, STATEPOINT
 
 PLOT = False
 RUN = False
 
 # Load the Monte Carlo results
-fname = "treat2d/statepoint_quick.h5"
-sp = openmc.StatePoint(fname)
+sp = openmc.StatePoint(STATEPOINT)
 mesh_lib = mgxs.Library.load_from_file(filename = "treat_mesh_lib")
 
 # Set the domain of the MGXS objects and the MeshFilter to use the Treat_Mesh instance!
@@ -129,7 +128,7 @@ if PLOT:
 if RUN:
 	# Generate tracks for OpenMOC
 	# note: increase num_azim and decrease azim_spacing for actual results (as for TREAT)
-	track_generator = openmoc.TrackGenerator(geom, num_azim=32, azim_spacing=0.1)
+	track_generator = openmoc.TrackGenerator(geom, num_azim = 32, azim_spacing = 0.1)
 	track_generator.generateTracks()
 	
 	# Run OpenMOC

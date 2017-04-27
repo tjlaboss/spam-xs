@@ -12,6 +12,7 @@ from treat_mesh import Treat_Mesh
 # Settings
 EXPORT = True
 PLOT = True
+STATEPOINT = 'treat2d/statepoint_quick.h5'
 
 # Extract the geometry from an existing summary
 summ = openmc.Summary("summary.h5")
@@ -128,7 +129,7 @@ if __name__ == "__main__":
 		tallies_xml.export_to_xml("treat2d/tallies.xml")
 	
 	# Examine the data after the run
-	sp = openmc.StatePoint('treat2d/statepoint_quick.h5')
+	sp = openmc.StatePoint(STATEPOINT)
 	
 	mesh_lib.load_from_statepoint(sp)
 	mesh_lib.domains = [mesh]
