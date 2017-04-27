@@ -113,7 +113,7 @@ class Treat_Mesh(openmc.Mesh):
 		Name of the mesh
 	geometry: openmc.Geometry
 		Geometry of the TREAT model
-	mesh_size : float
+	mesh_size : tuple of floats
 		Mesh size in units of complete assemblies.
 		Must be given in half-integers, e.g. {0.5, 1.0, 1.5, 2.0}
 
@@ -138,9 +138,10 @@ class Treat_Mesh(openmc.Mesh):
 
 	"""
 	
-	def __init__(self, mesh_id = None, name = '', geometry = None, mesh_size = None):
+	def __init__(self, mesh_id = None, name = '', geometry = None, mesh_size = (1, 1, 1)):
 		super().__init__(mesh_id, name)
 		self.geometry = geometry
+		self.mesh_size = mesh_size
 		
 		# TODO: Add the following to the docstring
 		self._surfaces = self.geometry.get_all_surfaces()
@@ -153,6 +154,32 @@ class Treat_Mesh(openmc.Mesh):
 		self.cont_cells = deepcopy(self.fuel_cells)
 		for id in (50210, 50310):
 			self.cont_cells[id] = self._cells[id]
+	
+	@property
+	def mesh_size(self):
+		return self._mesh_size
+	
+	@mesh_size.setter
+	def mesh_size(self, xyz):
+		# limitation for now
+		if any(xyz[0:2]) not in {1, 2}:
+			raise NotImplementedError("Mesh sizes currently only work for values of 1 or 2.")
+		elif len(xyz) != 3:
+			raise ValueError("mesh_size must be an iterable of length 3: (x, y, z)")
+		else:
+			self._mesh_size = xyz
+
+	@property
+	def dimension(self):
+		return self._dimension
+	
+	@dimension.setter
+	def dimension(self, xyz):
+		n = len(xyz)
+		self._dimension = [None]*n
+		for i in range(n):
+			self._dimension[i] = self._mesh_size[i]*xyz[i]
+			
 	
 	def get_nuclides(self):
 		"""Return all of the nuclides in the active region of the core.

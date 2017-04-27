@@ -12,7 +12,7 @@ from treat_mesh import Treat_Mesh
 # Settings
 EXPORT = True
 PLOT = True
-STATEPOINT = 'treat2d/statepoint_quick.h5'
+STATEPOINT = 'treat2d/statepoint_good.h5'
 
 # Extract the geometry from an existing summary
 summ = openmc.Summary("summary.h5")
@@ -36,8 +36,10 @@ mesh_lib.correction = None
 
 # Define a mesh
 # Instantiate a tally Mesh
-# TODO: try replacing this with a regular openmc.Mesh and making it a Treat_Mesh later
 mesh = Treat_Mesh(mesh_id = 1, geometry = geom)
+mesh.mesh_size = (1, 1, 1)
+#mesh.mesh_size = (2, 2, 1)
+
 # FIXME: For some reason, in tallies.xml, the mesh gets exported 4 times!!
 core_lat = geom.get_all_lattices()[100]
 xdist = -core_lat.lower_left[0]
@@ -82,7 +84,7 @@ def make_tallies():
 	return tallies_file
 
 
-def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = 19):
+def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = mesh.dimension[1]):
 	"""Plotting a single energy group as a function of space
 	
 	Inputs:
@@ -95,14 +97,14 @@ def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = 19):
 	Outputs:
 		???
 	"""
-	
+	row = int(pylab.floor(n/2))
 	xlist = pylab.linspace(x1, x0, n)
 	xs_scale = "macro"
 	# nuc_xs = xs_lib.get_xs(order_groups = "decreasing", xs_type = xs_scale, groups = g).
 	
 	group_df = xs_df[xs_df["group in"] == g]
-	y_df = group_df[group_df[('mesh 1', 'y')] == 9]
-	# y_at_z = y_df[y_df[("mesh 1", "z")] == 9]
+	y_df = group_df[group_df[('mesh 1', 'y')] == row]
+	# y_at_z = y_df[y_df[("mesh 1", "z")] == row]
 	yvals = y_df['mean']
 	uncert = y_df['std. dev.']
 	
