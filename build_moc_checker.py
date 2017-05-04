@@ -61,6 +61,17 @@ mgxs_dfs['chi'] = chi.get_pandas_dataframe(nuclides='sum')
 mgxs_dfs['nu-fission'] = nu_fission.get_pandas_dataframe(nuclides='sum')
 
 
+# TODO: New! Get the capture rate mesh tally data
+# I believe this to be the difference between "absorption" and "fission"
+capture_tally = sp.get_tally(name = "U238 capture tally")
+vals = capture_tally.get_values(scores = ["absorption", "fission"])
+absorption_rates = vals[:, 0, 0]
+fission_rates    = vals[:, 0, 1]
+capture_rates = absorption_rates - fission_rates
+capture_rates.shape = mesh.dimension
+capture_rates /= capture_rates.mean()
+
+
 #######################################
 # Geometry
 #######################################
@@ -77,7 +88,7 @@ for i in range(nx):
 		
 		c = openmoc.Cell()
 		m = openmoc.Material()
-		m.setNumEnergyGroups(2)
+		m.setNumEnergyGroups(mesh_lib.num_groups)
 		
 		for key in mgxs_dfs:
 			df = mgxs_dfs[key]
@@ -124,11 +135,18 @@ geom.setRootUniverse(root_universe)
 if PLOT:
 	plt.plot_cells(geom)
 	plt.plot_materials(geom)
+	
+	'''
+	from matplotlib import pyplot
+	pyplot.imshow(capture_rates, interpolation = 'none', cmap = 'jet')
+	pyplot.title('OpenMC Capture Rates')
+	pyplot.show()
+	'''
 
 if RUN:
 	# Generate tracks for OpenMOC
 	# note: increase num_azim and decrease azim_spacing for actual results (as for TREAT)
-	track_generator = openmoc.TrackGenerator(geom, num_azim = 32, azim_spacing = 0.1)
+	track_generator = openmoc.TrackGenerator(geom, num_azim = 128, azim_spacing = 0.01)
 	track_generator.generateTracks()
 	
 	# Run OpenMOC
@@ -140,7 +158,7 @@ if RUN:
 	keff_moc = solver.getKeff()
 	bias = (keff_moc - keff_mc) * 1e5
 	
-	print('OpenMC keff: {:1.6f} +/- {:1.6f}'.format(keff_mc, sp.k_combined[1]))
+	print('OpenMC keff:  {:1.6f} +/- {:1.6f}'.format(keff_mc, sp.k_combined[1]))
 	print('OpenMOC keff: {:1.6f}'.format(keff_moc))
 	print('OpenMOC bias: {:.0f} [pcm]'.format(bias))
 
