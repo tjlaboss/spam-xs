@@ -5,7 +5,6 @@
 
 import openmc
 from openmc import mgxs
-import numpy as np
 import pylab
 import energy_groups
 from treat_mesh import Treat_Mesh
@@ -115,7 +114,7 @@ def plot_mgxs(nuc, xstype, xs_df, g, x0 = -xdist, x1 = xdist, n = mesh.dimension
 		None
 	"""
 	row = int(pylab.ceil(n/2))
-	xlist = pylab.linspace(x1, x0, n)
+	xlist = pylab.linspace(x0, x1, n)
 	xs_scale = "macro"
 	# nuc_xs = xs_lib.get_xs(order_groups = "decreasing", xs_type = xs_scale, groups = g).
 	pitch = (x1 - x0)/(n - 1)
@@ -127,29 +126,27 @@ def plot_mgxs(nuc, xstype, xs_df, g, x0 = -xdist, x1 = xdist, n = mesh.dimension
 	uncert = y_df['std. dev.']
 	
 	# plotting stuff
-	ylist = yvals
-	pylab.grid()
+	ylist = pylab.array(yvals)
+	ulist = pylab.array(uncert)
 	xtvals = pylab.linspace(x0, x1, n)
+	
 	if n % 2:
 		# Odd number: assemblies are offset by a halfwidth
-		style = "steps"
-		xtvals = pylab.linspace(x0, x1, n)
-		print(xtvals)
+		style = "steps-mid"
 		xtvals -= pitch/2
-		xlist -= pitch/2
 	else:
 		# Even: assemblies are aligned with default grid
 		style = "steps"
-		
-	print(xtvals)
+	
+	pylab.grid()
 	pylab.xticks(xtvals)
-	pylab.plot(xlist, ylist + uncert, "red", drawstyle = style, alpha = 0.5, label = "+/- 1sigma")
-	pylab.plot(xlist, ylist - uncert, "red", drawstyle = style, alpha = 0.5)
+	pylab.xlim(min(xlist) - pitch, max(xlist) + pitch)
+	
+	pylab.plot(xlist, ylist + ulist, "red", drawstyle = style, alpha = 0.5, label = "+/- 1sigma")
+	pylab.plot(xlist, ylist - ulist, "red", drawstyle = style, alpha = 0.5)
 	pylab.plot(xlist, ylist, drawstyle = style, label = "$\Sigma$")
 	
 	pylab.legend(loc = "lower center")
-	
-	
 	title_string = "{} {}scopic Cross Section for {}".format(xstype.title(), xs_scale.title(), nuc)
 	pylab.xlabel("Radial distance (cm)")
 	pylab.ylabel("$\Sigma$ (cm$^{-1}$)")
@@ -168,6 +165,7 @@ if __name__ == "__main__":
 	
 	mesh_lib.load_from_statepoint(sp)
 	mesh_lib.domains = [mesh]
+	# Reassign the loaded data to be on the Treat_Mesh
 	for domain in mesh_lib.domains:
 		for mgxs_type in mesh_lib.mgxs_types:
 			xs = mesh_lib.get_mgxs(domain, mgxs_type)
@@ -178,8 +176,6 @@ if __name__ == "__main__":
 	
 	fission_mgxs = mesh_lib.get_mgxs(mesh, xstype)
 	fission_df = fission_mgxs.get_pandas_dataframe(nuclides = [nuc])
-	# print(fission_df.head(17), fission_df.tail(17))
-	# fission_mgxs.print_xs()
 	
 	if PLOT:
 		# Plot stuff
