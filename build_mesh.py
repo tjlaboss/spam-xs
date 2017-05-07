@@ -42,8 +42,6 @@ mesh_lib.energy_groups = groups
 # The four most important cross sections to tally right now
 mesh_lib.mgxs_types = ['total', 'fission', 'nu-fission', 'capture', 'chi', 'consistent nu-scatter matrix']
 mesh_lib.by_nuclide = True
-
-# TODO: select all the nuclides from `mats`
 mesh_lib.domain_type = "mesh"
 mesh_lib.correction = None
 
@@ -97,23 +95,30 @@ def make_tallies():
 	return tallies_file
 
 
-def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = mesh.dimension[1]):
+def plot_mgxs(nuc, xstype, xs_df, g, x0 = -xdist, x1 = xdist, n = mesh.dimension[1]):
 	"""Plotting a single energy group as a function of space
 	
 	Inputs:
 		nuc:        str; name of nuclide
-		xs_lib:     instance of mgxs.MGXS
-		xs_df:      instance of pandas dataframe
+		xstype:     str; name of reaction type
+		xs_df:      instance of pandas dataframe containing the cross sections
 		g:          int; group number
-		groups:     instance of mgxs.EnergyGroups()
+		
+		x0:         float, optional; x-value to start plotting at
+					[Default: `lower_left` x coordinate of Treat lattice]
+		x1:         float, optional; x-value to stop plotting at
+					[Default: `upper_right` x coordinate of Treat lattice]
+		n:          int, optional; number of values to plot
+					[Default: x `dimension` of Treat lattice]
 	
 	Outputs:
-		???
+		None
 	"""
-	row = int(pylab.floor(n/2))
+	row = int(pylab.ceil(n/2))
 	xlist = pylab.linspace(x1, x0, n)
 	xs_scale = "macro"
 	# nuc_xs = xs_lib.get_xs(order_groups = "decreasing", xs_type = xs_scale, groups = g).
+	pitch = (x1 - x0)/(n - 1)
 	
 	group_df = xs_df[xs_df["group in"] == g]
 	y_df = group_df[group_df[('mesh 1', 'y')] == row]
@@ -123,13 +128,28 @@ def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = mesh.d
 	
 	# plotting stuff
 	ylist = yvals
-	pylab.plot(xlist, ylist + uncert, "red", drawstyle = "steps", alpha = 0.5, label = "+/- 1sigma")
-	pylab.plot(xlist, ylist - uncert, "red", drawstyle = "steps", alpha = 0.5)
-	pylab.plot(xlist, ylist, drawstyle = "steps", label = "$\Sigma$")
+	pylab.grid()
+	xtvals = pylab.linspace(x0, x1, n)
+	if n % 2:
+		# Odd number: assemblies are offset by a halfwidth
+		style = "steps"
+		xtvals = pylab.linspace(x0, x1, n)
+		print(xtvals)
+		xtvals -= pitch/2
+		xlist -= pitch/2
+	else:
+		# Even: assemblies are aligned with default grid
+		style = "steps"
+		
+	print(xtvals)
+	pylab.xticks(xtvals)
+	pylab.plot(xlist, ylist + uncert, "red", drawstyle = style, alpha = 0.5, label = "+/- 1sigma")
+	pylab.plot(xlist, ylist - uncert, "red", drawstyle = style, alpha = 0.5)
+	pylab.plot(xlist, ylist, drawstyle = style, label = "$\Sigma$")
 	
 	pylab.legend(loc = "lower center")
-	pylab.grid()
-	pylab.xticks(pylab.linspace(x0, x1, n))
+	
+	
 	title_string = "{} {}scopic Cross Section for {}".format(xstype.title(), xs_scale.title(), nuc)
 	pylab.xlabel("Radial distance (cm)")
 	pylab.ylabel("$\Sigma$ (cm$^{-1}$)")
@@ -163,4 +183,4 @@ if __name__ == "__main__":
 	
 	if PLOT:
 		# Plot stuff
-		plot_mgxs(nuc, xstype, fission_df, 6, groups)
+		plot_mgxs(nuc, xstype, fission_df, 1)
