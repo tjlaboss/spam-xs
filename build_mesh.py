@@ -8,6 +8,7 @@ from openmc import mgxs
 import pylab
 import energy_groups
 from treat_mesh import Treat_Mesh
+from copy import deepcopy
 
 # Settings
 EXPORT = True
@@ -65,13 +66,12 @@ xdist = -core_lat.lower_left[0]
 zbot = mesh._surfaces[20009].z0  # bottom of active fuel region
 ztop = mesh._surfaces[20010].z0  # top of active fuel
 
-mesh.lower_left = core_lat.lower_left
-print(type(core_lat.lower_left))
+mesh.lower_left = deepcopy(core_lat.lower_left)
 mesh.lower_left[-1] = zbot
-mesh.upper_right = -core_lat.lower_left
+mesh.upper_right = -deepcopy(core_lat.lower_left)
 mesh.upper_right[-1] = ztop
 mesh.type = 'regular'
-mesh.dimension = core_lat.shape
+mesh.dimension = deepcopy(core_lat.shape)
 
 mesh_lib.domains = [mesh]
 mesh_lib.build_library()
