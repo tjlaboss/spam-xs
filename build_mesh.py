@@ -22,19 +22,10 @@ mesh_lib = mgxs.Library(geom)
 mats = geom.get_all_materials()
 fuel = mats[90000]
 
-'''
-# 2-group approximation
-two_groups = mgxs.EnergyGroups()
-two_groups.group_edges = np.array([0., 0.625, 20.0e6])
-mesh_lib = mgxs.Library(geom)
-mesh_lib.energy_groups = two_groups
-'''
 # 8 Energy Groups
 groups = mgxs.EnergyGroups()
-eight_groups = energy_groups.casmo["8-group"].group_edges
 # Convert from MeV to eV
-eight_groups *= 1E6
-groups.group_edges = eight_groups
+groups.group_edges = energy_groups.casmo["8-group"].group_edges*1E6
 mesh_lib.energy_groups = groups
 
 
