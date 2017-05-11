@@ -44,6 +44,15 @@ mesh_lib.by_nuclide = True
 mesh_lib.domain_type = "mesh"
 mesh_lib.correction = None
 
+# Material
+material_lib = mgxs.Library(geom)
+material_lib.energy_groups = groups
+material_lib.mgxs_types = mesh_lib.mgxs_types
+material_lib.domain_type = "material"
+material_lib.domains = mats.values()
+material_lib.by_nuclide = False
+material_lib.build_library()
+
 # Define a mesh
 # Instantiate a tally Mesh
 mesh = Treat_Mesh(mesh_id = 1, geometry = geom)
@@ -57,6 +66,7 @@ zbot = mesh._surfaces[20009].z0  # bottom of active fuel region
 ztop = mesh._surfaces[20010].z0  # top of active fuel
 
 mesh.lower_left = core_lat.lower_left
+print(type(core_lat.lower_left))
 mesh.lower_left[-1] = zbot
 mesh.upper_right = -core_lat.lower_left
 mesh.upper_right[-1] = ztop
@@ -70,7 +80,7 @@ cnsm_mgxs = mesh_lib.get_mgxs(mesh, 'consistent nu-scatter matrix')
 cnsm_mgxs.by_nuclide = False
 
 mesh_lib.dump_to_file("treat_mesh_lib")
-
+material_lib.dump_to_file("treat_material_lib")
 
 def make_tallies():
 	# Instantiate tally Filter
@@ -91,10 +101,11 @@ def make_tallies():
 	tallies_file.extend([fission_tally, capture_tally])
 	
 	mesh_lib.add_to_tallies_file(tallies_file, merge = True)
+	material_lib.add_to_tallies_file(tallies_file, merge = True)
 	return tallies_file
 
 
-def plot_mgxs(nuc, xstype, xs_df, g, x0 = -xdist, x1 = xdist, n = mesh.dimension[1]):
+def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = mesh.dimension[1]):
 	"""Plotting a single energy group as a function of space
 	
 	Inputs:
@@ -151,6 +162,7 @@ def plot_mgxs(nuc, xstype, xs_df, g, x0 = -xdist, x1 = xdist, n = mesh.dimension
 	pylab.xlabel("Radial distance (cm)")
 	pylab.ylabel("$\Sigma$ (cm$^{-1}$)")
 	pylab.title(title_string, {"fontsize": 14})
+	pylab.suptitle("Group {} of {}".format(g, groups.num_groups))
 	pylab.show()
 
 
@@ -171,12 +183,13 @@ if __name__ == "__main__":
 			xs = mesh_lib.get_mgxs(domain, mgxs_type)
 			xs.domain = mesh
 	
+	#nuc = "C0"
+	#xstype = "capture"
 	nuc = "U235"
 	xstype = "nu-fission"
-	
 	fission_mgxs = mesh_lib.get_mgxs(mesh, xstype)
 	fission_df = fission_mgxs.get_pandas_dataframe(nuclides = [nuc])
 	
 	if PLOT:
 		# Plot stuff
-		plot_mgxs(nuc, xstype, fission_df, 1)
+		plot_mgxs(nuc, xstype, fission_df, 7, groups)
