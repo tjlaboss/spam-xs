@@ -3,7 +3,6 @@
 from openmc.mgxs import EnergyGroups
 import numpy as np
 
-
 # Create a global dictionary to store all energy group structures
 group_structures = dict()
 
@@ -99,6 +98,14 @@ group_edges = np.array([0., 0.005e-6, 0.01e-6, 0.015e-6,
                         821.e-3, 1.353, 2.231, 3.679, 6.0655, 20.])
 casmo['70-group'].group_edges = group_edges
 
-
 # Store the sub-dictionary in the global dictionary
 group_structures['CASMO'] = casmo
+
+# 11-group structure used by TREAT
+treat = dict()
+treat['11-group'] = EnergyGroups()
+treat['11-group'].group_edges = np.array(
+     [1.000E-11, 2.00100E-08, 4.73020E-08, 7.64970E-08,
+      2.09610E-07, 6.25000E-07, 8.100030E-06, 1.32700E-04,
+      3.48110E-03, 1.15620E-01, 3.32870E+00, 2.00E+01])
+group_structures['TREAT'] = treat
