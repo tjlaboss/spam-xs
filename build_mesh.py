@@ -11,9 +11,9 @@ from treat_mesh import Treat_Mesh
 from copy import deepcopy
 
 # Settings
-EXPORT = True
+EXPORT = False
 PLOT = True
-STATEPOINT = 'treat2d/statepoint_8groups.h5'
+STATEPOINT = 'treat2d/statepoint_11groups.h5'
 
 # Extract the geometry from an existing summary
 summ = openmc.Summary("summary.h5")
@@ -25,7 +25,7 @@ fuel = mats[90000]
 # 8 Energy Groups
 groups = mgxs.EnergyGroups()
 # Convert from MeV to eV
-groups.group_edges = energy_groups.casmo["8-group"].group_edges*1E6
+groups.group_edges = energy_groups.treat["11-group"].group_edges*1E6
 mesh_lib.energy_groups = groups
 
 
@@ -121,39 +121,40 @@ def plot_mgxs(nuc, xstype, xs_df, g, groups, x0 = -xdist, x1 = xdist, n = mesh.d
 	# nuc_xs = xs_lib.get_xs(order_groups = "decreasing", xs_type = xs_scale, groups = g).
 	pitch = (x1 - x0)/(n - 1)
 	
-	group_df = xs_df[xs_df["group in"] == g]
-	y_df = group_df[group_df[('mesh 1', 'y')] == row]
-	# y_at_z = y_df[y_df[("mesh 1", "z")] == row]
-	yvals = y_df['mean']
-	uncert = y_df['std. dev.']
-	
-	# plotting stuff
-	ylist = pylab.array(yvals)
-	ulist = pylab.array(uncert)
-	xtvals = pylab.linspace(x0, x1, n)
-	
-	if n % 2:
-		# Odd number: assemblies are offset by a halfwidth
-		style = "steps-mid"
-		xtvals -= pitch/2
-	else:
-		# Even: assemblies are aligned with default grid
-		style = "steps"
-	
-	pylab.grid()
-	pylab.xticks(xtvals)
-	pylab.xlim(min(xlist) - pitch, max(xlist) + pitch)
-	
-	pylab.plot(xlist, ylist + ulist, "red", drawstyle = style, alpha = 0.5, label = "+/- 1sigma")
-	pylab.plot(xlist, ylist - ulist, "red", drawstyle = style, alpha = 0.5)
-	pylab.plot(xlist, ylist, drawstyle = style, label = "$\Sigma$")
-	
-	pylab.legend(loc = "lower center")
-	title_string = "{} {}scopic Cross Section for {}".format(xstype.title(), xs_scale.title(), nuc)
-	pylab.xlabel("Radial distance (cm)")
-	pylab.ylabel("$\Sigma$ (cm$^{-1}$)")
-	pylab.title(title_string, {"fontsize": 14})
-	pylab.suptitle("Group {} of {}".format(g, groups.num_groups))
+	for g in range(1,groups.num_groups+1):
+		group_df = xs_df[xs_df["group in"] == g]
+		y_df = group_df[group_df[('mesh 1', 'y')] == row]
+		# y_at_z = y_df[y_df[("mesh 1", "z")] == row]
+		yvals = y_df['mean']
+		uncert = y_df['std. dev.']
+		
+		# plotting stuff
+		ylist = pylab.array(yvals)
+		ulist = pylab.array(uncert)
+		xtvals = pylab.linspace(x0, x1, n)
+		
+		if n % 2:
+			# Odd number: assemblies are offset by a halfwidth
+			style = "steps-mid"
+			xtvals -= pitch/2
+		else:
+			# Even: assemblies are aligned with default grid
+			style = "steps"
+		
+		pylab.grid()
+		pylab.xticks(xtvals)
+		pylab.xlim(min(xlist) - pitch, max(xlist) + pitch)
+		
+		pylab.plot(xlist, ylist + ulist, "red", drawstyle = style, alpha = 0.5, label = "+/- 1sigma")
+		pylab.plot(xlist, ylist - ulist, "red", drawstyle = style, alpha = 0.5)
+		pylab.plot(xlist, ylist, drawstyle = style, label = "$\Sigma_{" + str(g) + "}$")
+		
+		pylab.legend(loc = "best")
+		title_string = "{} {}scopic Cross Section for {}".format(xstype.title(), xs_scale.title(), nuc)
+		pylab.xlabel("Radial distance (cm)")
+		pylab.ylabel("$\Sigma$ (cm$^{-1}$)")
+		pylab.title(title_string, {"fontsize": 14})
+		pylab.suptitle("Group {} of {}".format(g, groups.num_groups))
 	pylab.show()
 
 
@@ -162,6 +163,7 @@ if __name__ == "__main__":
 	tallies_xml = make_tallies()
 	if EXPORT:
 		tallies_xml.export_to_xml("treat2d/tallies.xml")
+		print("Tallies exported to XML.")
 	
 	# Examine the data after the run
 	sp = openmc.StatePoint(STATEPOINT)
@@ -183,4 +185,4 @@ if __name__ == "__main__":
 	
 	if PLOT:
 		# Plot stuff
-		plot_mgxs(nuc, xstype, fission_df, 7, groups)
+		plot_mgxs(nuc, xstype, fission_df, 11, groups)
