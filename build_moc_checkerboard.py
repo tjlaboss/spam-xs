@@ -141,7 +141,7 @@ min_y = openmoc.YPlane(y=mesh.lower_left[1])
 max_y = openmoc.YPlane(y=mesh.upper_right[1])
 surfs = [min_x, max_x, min_y, max_y]
 for s in surfs:
-	s.setBoundaryType(openmoc.REFLECTIVE)
+	s.setBoundaryType(openmoc.VACUUM)
 root_cell.addSurface(+1, min_x)
 root_cell.addSurface(-1, max_x)
 root_cell.addSurface(+1, min_y)
