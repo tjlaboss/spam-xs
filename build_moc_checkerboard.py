@@ -120,7 +120,7 @@ for i in range(nx):
 			elif key == "fission":
 				m.setSigmaF(y_at_x['mean'].values)
 			elif key == "nu-scatter":
-					m.setSigmaS(y_at_x['mean'].values)
+				m.setSigmaS(y_at_x['mean'].values)
 				
 		
 		c.setFill(m)
@@ -177,17 +177,16 @@ if RUN:
 	# good run:
 	#track_generator = openmoc.TrackGenerator(geom, num_azim = 128, azim_spacing = 0.01)
 	# quick run:
-	# FIXME: This is where the segfault occurs
-	track_generator = openmoc.TrackGenerator(geom, num_azim = 64, azim_spacing = 0.1)
+	track_generator = openmoc.TrackGenerator(geom, num_azim = 32, azim_spacing = 0.5)
 	track_generator.generateTracks()
+	print("Tracks generated!")
 	
 	# plot the flat source region
 	plt.plot_flat_source_regions(geom)
 	
 	# Run OpenMOC
 	solver = openmoc.CPUSolver(track_generator)
-	#solver.computeEigenvalue()
-	solver.computeEigenvalue(max_iters = 10)
+	solver.computeEigenvalue()
 	
 	# Compute eigenvalue bias with OpenMC
 	keff_mc = sp.k_combined[0]
