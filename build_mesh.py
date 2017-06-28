@@ -12,11 +12,11 @@ from copy import deepcopy
 
 # Settings
 EXPORT = False
-PLOT = True
+PLOT = False
 STATEPOINT = 'treat2d/statepoint_11groups.h5'
 
 # Extract the geometry from an existing summary
-summ = openmc.Summary("summary.h5")
+summ = openmc.Summary("treat2d/summary.h5")
 geom = summ.geometry
 mesh_lib = mgxs.Library(geom)
 mats = geom.get_all_materials()

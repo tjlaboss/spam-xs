@@ -8,7 +8,6 @@ import openmoc.materialize
 import openmc.openmoc_compatible
 import openmoc.plotter as plt
 import openmc.mgxs as mgxs
-import pylab
 import numpy as np
 import energy_groups
 from build_mesh import mesh, STATEPOINT
@@ -33,12 +32,13 @@ for xstype in mesh_lib.mgxs_types:
 					
 mesh_lib.load_from_statepoint(sp)
 
+'''
 # Optional: condense energy groups
 # 2 group example
 two_groups = energy_groups.casmo['2-group']
 two_groups.group_edges *= 1E6
 mesh_lib = mesh_lib.get_condensed_library(two_groups)
-
+'''
 
 # Loading from the statepoint overrides the domain
 # Set the MGXS domains to the Treat_Mesh again.
@@ -177,6 +177,7 @@ if RUN:
 	# good run:
 	#track_generator = openmoc.TrackGenerator(geom, num_azim = 128, azim_spacing = 0.01)
 	# quick run:
+	# FIXME: This is where the segfault occurs
 	track_generator = openmoc.TrackGenerator(geom, num_azim = 64, azim_spacing = 0.1)
 	track_generator.generateTracks()
 	
