@@ -13,7 +13,11 @@ from copy import deepcopy
 # Settings
 EXPORT = False
 PLOT = False
-STATEPOINT = 'treat2d/statepoint_11groups.h5'
+MESH_DIVISIONS = 4
+
+num = MESH_DIVISIONS*19
+ROOT = 'treat2d/{0}x{0}/'.format(num)
+STATEPOINT = ROOT + 'statepoint_11groups.h5'
 
 # Extract the geometry from an existing summary
 summ = openmc.Summary("treat2d/summary.h5")
@@ -22,7 +26,7 @@ mesh_lib = mgxs.Library(geom)
 mats = geom.get_all_materials()
 fuel = mats[90000]
 
-# 8 Energy Groups
+# RattleSNake normally uses 11 energy groups
 groups = mgxs.EnergyGroups()
 # Convert from MeV to eV
 groups.group_edges = energy_groups.treat["11-group"].group_edges*1E6
@@ -47,9 +51,8 @@ material_lib.build_library()
 
 # Define a mesh
 # Instantiate a tally Mesh
-mesh = Treat_Mesh(mesh_id = 1, geometry = geom)
-mesh.mesh_size = (1, 1, 1)
-#mesh.mesh_size = (2, 2, 1)
+mesh = Treat_Mesh(1, geometry = geom)
+mesh.mesh_size = (MESH_DIVISIONS, MESH_DIVISIONS, 1)
 
 # FIXME: For some reason, in tallies.xml, the mesh gets exported 4 times!!
 core_lat = geom.get_all_lattices()[100]
