@@ -29,6 +29,7 @@ def plot_reaction_rates(eps = 1E-6):
 	fig2 = pylab.subplot(222)
 	pylab.imshow(moc_fission_rates.squeeze(), interpolation = 'none', cmap = 'jet')
 	pylab.title('OpenMOC Fission Rates')
+	pylab.colorbar()
 	
 	fig3 = pylab.subplot(223)
 	pct = pylab.imshow(errors.squeeze(), interpolation = 'none', cmap = 'jet')
@@ -50,7 +51,20 @@ def plot_montecarlo_results():
 	pylab.title('OpenMC Fission Rates')
 	pylab.colorbar()
 	pylab.show()
+	
+def plot_moc_results():
+	pylab.figure()
+	moc_fission_rates = pylab.loadtxt("moc_data/moc_fission_rates")
+	indices = moc_fission_rates <= 1E-6
+	moc_fission_rates[indices] = pylab.NaN
+	moc_fission_rates /= pylab.nanmean(moc_fission_rates)
+	pylab.imshow(moc_fission_rates.squeeze(), interpolation = 'none', cmap = 'jet')
+	pylab.title('OpenMOC Fission Rates')
+	pylab.colorbar()
+	pylab.show()
 
 
 if __name__ == "__main__":
 	plot_reaction_rates()
+	#plot_montecarlo_results()
+	#plot_moc_results()

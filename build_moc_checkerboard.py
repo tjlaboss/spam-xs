@@ -15,6 +15,7 @@ from build_mesh import mesh, STATEPOINT
 
 PLOT = True
 RUN = True
+CMFD = False
 
 # Load the Monte Carlo results
 sp = openmc.StatePoint(STATEPOINT)
@@ -162,31 +163,28 @@ if PLOT:
 	plt.plot_materials(geom)
 
 if RUN:
-	# CMFD
-	cmfd = openmoc.Cmfd()
-	cmfd.setSORRelaxationFactor(1.5)
-	cmfd.setLatticeStructure(mesh.dimension[0], mesh.dimension[1])
-	#cmfd.setGroupStructure([[1, 2, 3], [4, 5, 6, 7]])
-	cmfd.setKNearest(3)
-	
-	geom.setCmfd(cmfd)
+	if CMFD:
+		cmfd = openmoc.Cmfd()
+		cmfd.setSORRelaxationFactor(1.5)
+		cmfd.setLatticeStructure(mesh.dimension[0], mesh.dimension[1])
+		#cmfd.setGroupStructure([[1, 2, 3], [4, 5, 6, 7]])
+		cmfd.setKNearest(3)
+		geom.setCmfd(cmfd)
 	
 	# Generate tracks for OpenMOC
 	# note: increase num_azim and decrease azim_spacing for actual results (as for TREAT)
-	
+	#
 	# good run:
 	#track_generator = openmoc.TrackGenerator(geom, num_azim = 128, azim_spacing = 0.01)
 	# quick run:
-	track_generator = openmoc.TrackGenerator(geom, num_azim = 64, azim_spacing = 0.1)
+	track_generator = openmoc.TrackGenerator(geom, num_azim = 16, azim_spacing = 1)
 	track_generator.generateTracks()
 	
-	# plot the flat source region
 	plt.plot_flat_source_regions(geom)
-	
 	# Run OpenMOC
 	solver = openmoc.CPUSolver(track_generator)
 	#solver.computeEigenvalue()
-	solver.computeEigenvalue(max_iters = 10)
+	solver.computeEigenvalue(max_iters = 5000)
 	
 	# Compute eigenvalue bias with OpenMC
 	keff_mc = sp.k_combined[0]
