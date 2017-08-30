@@ -8,7 +8,6 @@ import openmoc.materialize
 import openmc.openmoc_compatible
 import openmoc.plotter as plt
 import openmc.mgxs as mgxs
-import pylab
 import numpy as np
 import energy_groups
 from build_mesh import mesh, STATEPOINT
@@ -34,12 +33,13 @@ for xstype in mesh_lib.mgxs_types:
 					
 mesh_lib.load_from_statepoint(sp)
 
+'''
 # Optional: condense energy groups
 # 2 group example
 two_groups = energy_groups.casmo['2-group']
 two_groups.group_edges *= 1E6
 mesh_lib = mesh_lib.get_condensed_library(two_groups)
-
+'''
 
 # Loading from the statepoint overrides the domain
 # Set the MGXS domains to the Treat_Mesh again.
@@ -121,7 +121,7 @@ for i in range(nx):
 			elif key == "fission":
 				m.setSigmaF(y_at_x['mean'].values)
 			elif key == "nu-scatter":
-					m.setSigmaS(y_at_x['mean'].values)
+				m.setSigmaS(y_at_x['mean'].values)
 				
 		
 		c.setFill(m)
@@ -142,7 +142,7 @@ min_y = openmoc.YPlane(y=mesh.lower_left[1])
 max_y = openmoc.YPlane(y=mesh.upper_right[1])
 surfs = [min_x, max_x, min_y, max_y]
 for s in surfs:
-	s.setBoundaryType(openmoc.REFLECTIVE)
+	s.setBoundaryType(openmoc.VACUUM)
 root_cell.addSurface(+1, min_x)
 root_cell.addSurface(-1, max_x)
 root_cell.addSurface(+1, min_y)
@@ -179,12 +179,12 @@ if RUN:
 	# quick run:
 	track_generator = openmoc.TrackGenerator(geom, num_azim = 16, azim_spacing = 1)
 	track_generator.generateTracks()
+	print("Tracks generated!")
 	
 	plt.plot_flat_source_regions(geom)
 	# Run OpenMOC
 	solver = openmoc.CPUSolver(track_generator)
-	#solver.computeEigenvalue()
-	solver.computeEigenvalue(max_iters = 5000)
+	solver.computeEigenvalue()
 	
 	# Compute eigenvalue bias with OpenMC
 	keff_mc = sp.k_combined[0]
