@@ -6,6 +6,8 @@ import openmc
 
 EXPORT = True
 DESTINATION = "treat2d/kinf/"
+ADDITIONAL_STATEPOINTS = 3
+STATEPOINT_INTERVAL = 20
 
 # Extract the fuel element geometry from an existing summary
 summ = openmc.Summary("treat2d/summary.h5")
@@ -33,7 +35,14 @@ materials_xml = openmc.Materials(mats.values())
 settings_xml = openmc.Settings()
 settings_xml.batches = 100
 settings_xml.inactive = 35
-settings_xml.particles = int(1E6)
+settings_xml.particles = int(1E7)
+if ADDITIONAL_STATEPOINTS:
+	n = ADDITIONAL_STATEPOINTS + 1
+	batch_nos = [None]*n
+	for i in range(n):
+		batch_nos[-1-i] = settings_xml.batches - i*STATEPOINT_INTERVAL
+	print(batch_nos)
+	settings_xml.statepoint = {"batches": batch_nos}
 
 plots_xml = openmc.Plots()
 for axis in ("xy", "yz"):
